@@ -1,0 +1,13 @@
+name: level-up-proxy
+
+services:
+  proxy:
+    image: caddy:2-alpine
+    container_name: level-up-proxy
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8090:80"   # local only; Tailscale Serve publishes it privately over HTTPS
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./proxy/Caddyfile:/etc/caddy/Caddyfile:ro
