@@ -52,6 +52,18 @@ test('shapeNutrition understands NutriTrace\'s real get_goals format (proteins/c
   assert.equal(s.water.target, 8000);
 });
 
+test('shapeNutrition understands NutriTrace\'s real get_daily_totals format', () => {
+  // captured from a live NutriTrace v1.4.0 instance after logging one roti
+  const totals = { date: '2026-10-22', totals: { calories: 120, fat: 2.5, carbohydrates: 22, proteins: 3.5 }, water_ml: 1000, item_count: 2 };
+  const goal = max => ({ sharedGoal: true, days: Array(7).fill(max), max });
+  const s = shapeNutrition('2026-10-22', totals, { goals: { proteins: goal(150), fat: goal(100), carbohydrates: goal(100) }, water_goal_ml: 8000 });
+  assert.deepEqual(s.calories, { eaten: 120, target: null });
+  assert.deepEqual(s.protein, { eaten: 3.5, target: 150 });
+  assert.deepEqual(s.carbs, { eaten: 22, target: 100 });
+  assert.deepEqual(s.fat, { eaten: 2.5, target: 100 });
+  assert.equal(s.items, 2);
+});
+
 /* ---- the route ---- */
 function harness(env, fetchImpl, now = () => 1_000_000) {
   const out = {};
