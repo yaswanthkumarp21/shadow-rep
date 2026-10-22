@@ -1,8 +1,8 @@
-/* Level Up Tracker — "System" skin for NutriTrace.
+﻿/* Level Up Tracker â€” "System" skin for NutriTrace.
    The same ORIGINAL sci-fi "system window" look as the OpenGym skin (near-black navy, cyan glow,
    violet secondary, thin glowing edges, corner brackets, faint scanlines). NutriTrace's own code is
    untouched: this stylesheet is added to its page by the proxy (see ../proxy-food/) and only takes
-   effect while <html data-skin="system"> is set — Classic (OpenGym -> Settings -> Theme) removes it.
+   effect while <html data-skin="system"> is set â€” Classic (OpenGym -> Settings -> Theme) removes it.
    Fonts: Orbitron + Rajdhani, SIL Open Font Licence 1.1, served from this instance. */
 
 @font-face{font-family:'Orbitron';src:url('./fonts/orbitron-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
@@ -11,7 +11,7 @@
 
 /* ------------------------------------------------------------------ tokens -- */
 /* NutriTrace themes itself with CSS variables, so most of the work is overriding them.
-   The selector outranks its [data-theme=light][data-accent=…] rules, so the skin wins
+   The selector outranks its [data-theme=light][data-accent=â€¦] rules, so the skin wins
    whatever theme/accent NutriTrace is set to. */
 html[data-skin="system"],
 html[data-skin="system"]:root[data-theme],
@@ -86,7 +86,7 @@ html[data-skin="system"] .app-topbar :is(h1,h2,[class*="title"]){
 }
 
 /* NutriTrace's big gradient page banner ("banner-gradient") is built from the accent colours, which would
-   be a loud cyan-to-violet slab here — make it dark glass with a glowing lower edge instead. */
+   be a loud cyan-to-violet slab here â€” make it dark glass with a glowing lower edge instead. */
 html[data-skin="system"] .page-header.banner-gradient,
 html[data-skin="system"] .page-header{
   background:
@@ -148,6 +148,50 @@ html[data-skin="system"] .sheet-panel{
 /* never let the display fonts touch the icon font */
 html[data-skin="system"] .material-symbols-rounded{font-family:'Material Symbols Rounded'!important;letter-spacing:normal;text-transform:none}
 
-/* -------------------------------------------------------- animation switch -- */
-@media (prefers-reduced-motion:reduce){html[data-skin="system"] *{animation:none!important;transition:none!important}}
-html[data-skin="system"][data-motion="off"] *{animation:none!important}
+/* ===================================================================== MOTION ====
+   Same rules as OpenGym's system-motion.css: only when reduced-motion is NOT requested and the
+   in-app Animations switch (<html data-motion>) is not "off"; transform/opacity only; nothing flashes. */
+@media (prefers-reduced-motion:no-preference){
+  /* ambient scan beam */
+  html[data-skin="system"]:not([data-motion="off"]) body::after{content:'';position:fixed;left:0;right:0;top:-150px;height:150px;pointer-events:none;z-index:1;
+    background:linear-gradient(180deg,rgba(56,189,248,0),rgba(56,189,248,.06) 80%,rgba(56,189,248,.15) 98%,rgba(56,189,248,0));
+    animation:sysScan 11s linear infinite}
+  /* panels rise in one after another on every screen; brackets draw on */
+  html[data-skin="system"]:not([data-motion="off"]) .page-shell .card{animation:sysRise .55s var(--ease-out) both}
+  html[data-skin="system"]:not([data-motion="off"]) .page-shell .card:nth-child(2){animation-delay:.05s}
+  html[data-skin="system"]:not([data-motion="off"]) .page-shell .card:nth-child(3){animation-delay:.10s}
+  html[data-skin="system"]:not([data-motion="off"]) .page-shell .card:nth-child(4){animation-delay:.15s}
+  html[data-skin="system"]:not([data-motion="off"]) .page-shell .card:nth-child(5){animation-delay:.20s}
+  html[data-skin="system"]:not([data-motion="off"]) .page-shell .card:nth-child(n+6){animation-delay:.25s}
+  html[data-skin="system"]:not([data-motion="off"]) .meal-col .card:nth-child(2){animation-delay:.07s}
+  html[data-skin="system"]:not([data-motion="off"]) .meal-col .card:nth-child(3){animation-delay:.14s}
+  html[data-skin="system"]:not([data-motion="off"]) .meal-col .card:nth-child(4){animation-delay:.21s}
+  html[data-skin="system"]:not([data-motion="off"]) .card::before{transform-origin:0 0;animation:sysBracket .5s .3s var(--ease-out) both}
+  html[data-skin="system"]:not([data-motion="off"]) .card::after{transform-origin:100% 100%;animation:sysBracket .5s .3s var(--ease-out) both}
+  html[data-skin="system"]:not([data-motion="off"]) .page-header h1,
+  html[data-skin="system"]:not([data-motion="off"]) .page-header h2,
+  html[data-skin="system"]:not([data-motion="off"]) .editor-header h2{animation:sysTitle .8s var(--ease-out) both}
+  /* bottom navigation: a line draws over the active tab */
+  html[data-skin="system"]:not([data-motion="off"]) .nav-tab{position:relative}
+  html[data-skin="system"]:not([data-motion="off"]) .nav-tab.active::before{content:'';position:absolute;top:0;left:22%;right:22%;height:2px;background:var(--accent);
+    box-shadow:0 0 10px var(--sys-glow);animation:sysTabLine .4s var(--ease-out) both}
+  /* primary buttons: a highlight sweeps across every few seconds */
+  html[data-skin="system"]:not([data-motion="off"]) [class*="btn-primary"]{position:relative;overflow:hidden}
+  html[data-skin="system"]:not([data-motion="off"]) [class*="btn-primary"]::after{content:'';position:absolute;top:0;bottom:0;left:0;width:45%;pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);
+    transform:translateX(-170%) skewX(-20deg);animation:sysBtnSweep 5.5s ease-in-out infinite}
+  /* the day's macro bar shimmers */
+  html[data-skin="system"]:not([data-motion="off"]) .dbb-macro-bar{position:relative;overflow:hidden}
+  html[data-skin="system"]:not([data-motion="off"]) .dbb-macro-bar::after{content:'';position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);
+    transform:translateX(-120%);animation:sysSweep 3.8s ease-in-out infinite}
+}
+
+@keyframes sysScan{from{transform:translateY(0)}to{transform:translateY(calc(100vh + 150px))}}
+@keyframes sysRise{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes sysBracket{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+@keyframes sysTitle{from{opacity:0;transform:translateX(-12px);filter:blur(4px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes sysTabLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes sysBtnSweep{0%,60%{transform:translateX(-170%) skewX(-20deg)}100%{transform:translateX(380%) skewX(-20deg)}}
+@keyframes sysSweep{0%,35%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+
