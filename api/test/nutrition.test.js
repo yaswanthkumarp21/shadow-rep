@@ -40,6 +40,18 @@ test('shapeNutrition: empty day is zeros with null targets; goals fill targets',
   assert.equal(full.items, 4);
 });
 
+test('shapeNutrition understands NutriTrace\'s real get_goals format (proteins/carbohydrates/fat with max)', () => {
+  // captured from a live NutriTrace v1.4.0 instance
+  const goal = max => ({ sharedGoal: true, isMin: false, isPercent: false, autoAdjust: false, showInDiary: true, showInStats: true, days: Array(7).fill(max), max });
+  const real = { goals: { proteins: goal(150), fat: goal(100), carbohydrates: goal(100) }, water_goal_ml: 8000 };
+  const s = shapeNutrition('2026-10-22', { totals: { calories: 300, proteins: 12, carbohydrates: 40, fat: 9 }, water_ml: 0, item_count: 1 }, real);
+  assert.deepEqual(s.protein, { eaten: 12, target: 150 });
+  assert.deepEqual(s.carbs, { eaten: 40, target: 100 });
+  assert.deepEqual(s.fat, { eaten: 9, target: 100 });
+  assert.deepEqual(s.calories, { eaten: 300, target: null }, 'no calorie goal set → target stays null, card shows no bar');
+  assert.equal(s.water.target, 8000);
+});
+
 /* ---- the route ---- */
 function harness(env, fetchImpl, now = () => 1_000_000) {
   const out = {};
