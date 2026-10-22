@@ -50,3 +50,13 @@
 - Tests: frontend 169 pass; src/lib/coach.test.js can't load locally (needs the API's @anthropic-ai/claude-agent-sdk package, not installed in api/ on this PC) - environmental, not caused by these changes.
 - The built-in browser pane blocks JS/CSS for *.ts.net (ERR_BLOCKED_BY_CLIENT); UI was verified through http://localhost:8090 instead. Real Chrome loads the ts.net address fine.
 - Open: verify card with REAL numbers (needs one logged food + goals set in NutriTrace) - the key names inside get_daily_totals/get_goals are matched loosely and still need confirming against real data. Phone tests from Phase 2 still pending.
+
+## 2026-10-22 - Phase 4 status update
+- Card/MCP link verified against real NutriTrace data EXCEPT calories/macro totals: Yash's first test food ('Roti Sabji') was saved with empty nutrition, and no calorie goal exists yet, so totals are {} (goals format confirmed: proteins/carbohydrates/fat with max). Yash deferred the final visual check ('do this later'). To finish: give a food real nutrition values, set a Calories goal if NutriTrace offers one, then open Home in real Chrome (Ctrl+Shift+R). If NutriTrace has no calorie goal, optional follow-up = a calorie-target setting in OpenGym.
+
+## 2026-10-22 - Phase 5 (Indian food usability)
+- Tested Open Food Facts name search (public API): weak for home-cooked Indian food. Results are mostly dry packet mixes/batters (e.g. 'Rava idli' = 365 kcal/100 g dry mix) or other cuisines ('sabzi' -> Persian stews). OFF also returned HTTP 503 on several queries (rate limits). Conclusion: use custom foods for home cooking; OFF for packaged/barcodes. (USDA not tested: needs a free API key, optional.)
+- NutriTrace bulk food import: Settings -> Import & Export -> Bulk Import (JSON or CSV). CSV columns (from NutriTrace's own source): name, brand, barcode, portion, unit, category + nutrient ids (calories, proteins, carbohydrates, fat, ...). 'name' and 'calories' required. Values are PER SERVING; logged quantity = number of servings.
+- Created nutritrace/indian-foods-starter.csv: 81 common Indian foods, one natural serving each (roti 40 g, katori 150 g, cup 150 ml...), brand 'approx.' on every row. Values are APPROXIMATE, written from general nutrition knowledge - NOT copied from any dataset (so no licence issue; IFCT/other tables were deliberately not used). Validated with NutriTrace's own parseCsv: 81 valid, 0 errors, 0 duplicate names, every row's calories within 25% of its macros.
+- nutritrace/INDIAN_FOODS_GUIDE.md: plain-language guide (import steps, servings, saving usual meals, recipes, copying meals).
+- NOT DONE: the import itself (needs Yash's NutriTrace login in the browser; I do not enter passwords). Yash imports via the UI.

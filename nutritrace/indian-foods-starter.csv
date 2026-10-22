@@ -1,0 +1,82 @@
+name,brand,barcode,portion,unit,category,calories,proteins,carbohydrates,fat
+Roti / Chapati (1 medium),approx.,,40,g,Indian - Breads,120,3.5,22,2.5
+Phulka (1),approx.,,30,g,Indian - Breads,85,2.7,17,0.5
+Paratha plain (1 medium),approx.,,60,g,Indian - Breads,200,4.5,28,8
+Aloo paratha (1),approx.,,100,g,Indian - Breads,260,6,38,9
+Thepla (1),approx.,,40,g,Indian - Breads,130,3.5,17,5
+Puri (1),approx.,,30,g,Indian - Breads,100,2,12,5
+Naan (1),approx.,,90,g,Indian - Breads,260,8,45,5
+Bhatura (1),approx.,,80,g,Indian - Breads,270,6,36,11
+Idli (1),approx.,,40,g,Indian - Breakfast,55,2,11,0.4
+Dosa plain (1 medium),approx.,,80,g,Indian - Breakfast,130,3,24,2.5
+Masala dosa (1),approx.,,180,g,Indian - Breakfast,310,6,46,11
+Uttapam (1),approx.,,120,g,Indian - Breakfast,190,5,32,4
+Upma (1 katori),approx.,,150,g,Indian - Breakfast,190,4,28,7
+Poha (1 katori),approx.,,150,g,Indian - Breakfast,180,3.5,30,5
+Medu vada (1),approx.,,50,g,Indian - Breakfast,135,4,13,7
+Besan chilla (1 medium),approx.,,80,g,Indian - Breakfast,140,6,16,6
+Dhokla (2 pieces),approx.,,80,g,Indian - Breakfast,150,6,24,3
+Oats porridge with milk (1 bowl),approx.,,200,g,Indian - Breakfast,200,8,30,5
+Sambar (1 katori),approx.,,150,g,Indian - Dal and legumes,85,4,13,2.5
+Coconut chutney (2 tbsp),approx.,,30,g,Indian - Sides,50,0.8,2,4.5
+Steamed rice (1 katori cooked),approx.,,150,g,Indian - Rice,195,4,42,0.5
+Jeera rice (1 katori),approx.,,150,g,Indian - Rice,230,4,42,5
+Lemon rice (1 katori),approx.,,150,g,Indian - Rice,230,4,38,7
+Veg pulao (1 katori),approx.,,150,g,Indian - Rice,240,5,38,7
+Khichdi (1 bowl),approx.,,200,g,Indian - Rice,210,8,36,4
+Curd rice (1 bowl),approx.,,200,g,Indian - Rice,220,6,35,6
+Veg biryani (1 plate),approx.,,250,g,Indian - Rice,400,9,60,13
+Chicken biryani (1 plate),approx.,,300,g,Indian - Rice,480,25,58,15
+Dal tadka (1 katori),approx.,,150,g,Indian - Dal and legumes,150,8,19,4
+Moong dal (1 katori),approx.,,150,g,Indian - Dal and legumes,130,8,18,3
+Dal makhani (1 katori),approx.,,150,g,Indian - Dal and legumes,240,9,20,14
+Rajma (1 katori),approx.,,150,g,Indian - Dal and legumes,190,9,27,5
+Chole / chana masala (1 katori),approx.,,150,g,Indian - Dal and legumes,230,10,30,8
+Sprouted moong cooked (100 g),approx.,,100,g,Indian - Dal and legumes,105,7,19,0.5
+Roasted chana (small handful),approx.,,30,g,Indian - Snacks,110,6,18,1.5
+Soya chunks dry (30 g),approx.,,30,g,Indian - Dal and legumes,104,15,9,0.5
+Mixed veg sabji (1 katori),approx.,,150,g,Indian - Vegetables,130,3,14,7
+Aloo gobi (1 katori),approx.,,150,g,Indian - Vegetables,150,3.5,18,7
+Aloo sabji dry (1 katori),approx.,,150,g,Indian - Vegetables,190,3,28,8
+Bhindi fry (1 katori),approx.,,150,g,Indian - Vegetables,140,3,12,9
+Baingan bharta (1 katori),approx.,,150,g,Indian - Vegetables,130,3,12,8
+Palak paneer (1 katori),approx.,,150,g,Indian - Vegetables,240,12,8,18
+Matar paneer (1 katori),approx.,,150,g,Indian - Vegetables,260,12,12,18
+Paneer butter masala (1 katori),approx.,,150,g,Indian - Vegetables,340,13,10,28
+Paneer plain (100 g),approx.,,100,g,Indian - Dairy,265,18,1.2,21
+Egg boiled (1 large),approx.,,50,g,Indian - Non-veg,78,6.3,0.6,5.3
+Egg bhurji (2 eggs),approx.,,120,g,Indian - Non-veg,220,13,4,17
+Omelette (2 eggs),approx.,,110,g,Indian - Non-veg,190,12,1,15
+Chicken curry (1 katori),approx.,,150,g,Indian - Non-veg,240,20,6,15
+Butter chicken (1 katori),approx.,,150,g,Indian - Non-veg,330,20,9,25
+Tandoori chicken (2 pieces),approx.,,150,g,Indian - Non-veg,250,30,4,13
+Chicken breast grilled (100 g),approx.,,100,g,Indian - Non-veg,165,31,0,3.6
+Fish curry (1 katori),approx.,,150,g,Indian - Non-veg,210,19,5,12
+Mutton curry (1 katori),approx.,,150,g,Indian - Non-veg,320,22,6,23
+Chai with milk and sugar (1 cup),approx.,,150,ml,Indian - Drinks,75,2,11,2.5
+Chai with milk no sugar (1 cup),approx.,,150,ml,Indian - Drinks,45,2,4,2
+Coffee with milk and sugar (1 cup),approx.,,150,ml,Indian - Drinks,80,2,11,3
+Milk full cream (1 glass),approx.,,250,ml,Indian - Drinks,155,8,12,8.5
+Milk toned (1 glass),approx.,,250,ml,Indian - Drinks,130,8,12,5
+Curd / dahi (1 katori),approx.,,100,g,Indian - Dairy,60,3.5,4,3.5
+Lassi sweet (1 glass),approx.,,250,ml,Indian - Drinks,190,6,30,5
+Chaas / buttermilk (1 glass),approx.,,250,ml,Indian - Drinks,40,2,4,1.5
+Samosa (1),approx.,,80,g,Indian - Snacks,260,4,26,16
+Pakora (4 pieces),approx.,,60,g,Indian - Snacks,180,4,16,11
+Vada pav (1),approx.,,130,g,Indian - Snacks,290,6,42,11
+Pav bhaji (1 plate),approx.,,300,g,Indian - Snacks,450,11,68,16
+Pani puri (6 pieces),approx.,,150,g,Indian - Snacks,175,3,30,5
+Bhel puri (1 bowl),approx.,,100,g,Indian - Snacks,160,4,28,4
+Peanuts roasted (small handful),approx.,,30,g,Indian - Snacks,170,7.5,5,14
+Makhana roasted (small handful),approx.,,30,g,Indian - Snacks,105,3,22,0.3
+Gulab jamun (1),approx.,,50,g,Indian - Sweets,150,2,22,6
+Jalebi (1),approx.,,30,g,Indian - Sweets,110,0.5,20,4
+Rasgulla (1),approx.,,40,g,Indian - Sweets,100,3,19,1.5
+Kheer (1 katori),approx.,,100,g,Indian - Sweets,150,4,22,5
+Suji halwa (1 small bowl),approx.,,50,g,Indian - Sweets,170,2,25,7
+Besan ladoo (1),approx.,,40,g,Indian - Sweets,180,3.5,22,9
+Ghee (1 tsp),approx.,,5,g,Indian - Basics,45,0,0,5
+Cooking oil (1 tsp),approx.,,5,g,Indian - Basics,45,0,0,5
+Butter (1 tsp),approx.,,5,g,Indian - Basics,36,0,0,4
+Sugar (1 tsp),approx.,,4,g,Indian - Basics,16,0,4,0
+Jaggery / gur (10 g),approx.,,10,g,Indian - Basics,38,0,9.5,0
