@@ -60,3 +60,13 @@
 - Created nutritrace/indian-foods-starter.csv: 81 common Indian foods, one natural serving each (roti 40 g, katori 150 g, cup 150 ml...), brand 'approx.' on every row. Values are APPROXIMATE, written from general nutrition knowledge - NOT copied from any dataset (so no licence issue; IFCT/other tables were deliberately not used). Validated with NutriTrace's own parseCsv: 81 valid, 0 errors, 0 duplicate names, every row's calories within 25% of its macros.
 - nutritrace/INDIAN_FOODS_GUIDE.md: plain-language guide (import steps, servings, saving usual meals, recipes, copying meals).
 - NOT DONE: the import itself (needs Yash's NutriTrace login in the browser; I do not enter passwords). Yash imports via the UI.
+
+## 2026-10-22 - Phase 6 (AI Coach)
+- Read docs/AI_COACH.md and Claude-setup-instructions.md first. Coach uses the Claude Agent SDK with a long-lived OAuth token from 'claude setup-token' (NOT an API key). Counts against Yash's Claude plan usage.
+- opengym/.env: ADMIN_UIDS=<Yash's profile id> (needed to see Settings -> Admin dashboard). API container recreated. (.env is git-ignored.)
+- No 'claude' on PATH; a bundled CLI exists at C:\Users\YASH\AppData\Local\Claude-Data\claude_pzs8sxrjxfjjc\claude-code\<version>\<hash>\claude.exe (version dir changes when the desktop app updates - re-find with: Get-ChildItem $env:LOCALAPPDATA\Claude-Data -Filter claude.exe -Recurse). Yash ran 'claude.exe setup-token' himself and pasted the token into the admin card; the token never went through chat/logs.
+- Verified server-side (non-secret fields only): data/coach.json -> enabled=true, provider=claude, caps perProfileDaily=3, instanceDaily=3, model=null (Claude Code default). Yash reports 'Connected' + test passed.
+- Policy note: Anthropic's guidance allows this for the owner's own use but not for routing OTHER people's usage through a personal subscription token -> keep the instance single-user (no invites).
+- Trace AI (NutriTrace) remains OFF/unconfigured. No paid API keys anywhere.
+- Backups now contain data/coach.json (encrypted token) + data/secret (the key): treat backup zips as credential-bearing. Token valid ~1 year (rotate: Admin -> AI Coach -> Disconnect, new setup-token, Add CLI token).
+- Open: Yash still has to consent for his own profile in the Coach area before any data is used; try a first plan/review.
