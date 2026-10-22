@@ -6,3 +6,4 @@ media/
 *.db
 backups/
 opengym/
+previews/
