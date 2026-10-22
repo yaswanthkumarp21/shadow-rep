@@ -66,9 +66,6 @@
   html[data-skin="system"]:not([data-motion="off"]) .chk.on{animation:sysPop .45s var(--ease)}
   html[data-skin="system"]:not([data-motion="off"]) #timer::before{content:'';position:absolute;inset:-1px;border:1px solid var(--sys-edge);border-radius:inherit;pointer-events:none;
     animation:sysTimer 2.2s ease-in-out infinite;}
-  /* ---------- stats screen: charts wipe in left to right ---------- */
-  html[data-skin="system"]:not([data-motion="off"]) .chart-i svg{animation:sysWipe 1.1s .15s cubic-bezier(.22,1,.36,1) both}
-  html[data-skin="system"]:not([data-motion="off"]) .hm-wrap{animation:sysWipe 1.3s .15s cubic-bezier(.22,1,.36,1) both}
   /* ---------- messages ---------- */
   html[data-skin="system"]:not([data-motion="off"]) #toast.show{animation:sysToastIn .45s var(--ease)}
   html[data-skin="system"]:not([data-motion="off"]) .sys-alert-wrap{animation:sysFade .35s ease-out both}
@@ -103,7 +100,6 @@
 }
 @keyframes sysSetDone{0%{background:rgba(56,189,248,.30)}100%{background:rgba(56,189,248,0)}}
 @keyframes sysTimer{0%,100%{opacity:.25}50%{opacity:1}}
-@keyframes sysWipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(-8px -8px -8px -8px)}}
 @keyframes sysToastIn{from{opacity:0;transform:translateX(-50%) translateY(14px) scale(.96)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
 @keyframes sysFade{from{opacity:0}to{opacity:1}}
 @keyframes sysAlertIn{
