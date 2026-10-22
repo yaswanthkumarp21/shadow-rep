@@ -1,0 +1,8 @@
+.env
+**/.env
+data/
+**/data/
+media/
+*.db
+backups/
+opengym/
