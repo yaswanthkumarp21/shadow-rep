@@ -21,7 +21,7 @@ Write-Host "`nLevel Up Tracker - health check`n" -ForegroundColor Cyan
 
 Check 'Docker is running' { $old = $ErrorActionPreference; $ErrorActionPreference = 'Continue'; docker info *> $null; $c = $LASTEXITCODE; $ErrorActionPreference = $old; $c -eq 0 } 'Start Docker Desktop and wait for "Engine running".'
 
-foreach ($c in 'opengym-api-1', 'opengym-web-1', 'nutritrace', 'level-up-proxy') {
+foreach ($c in 'opengym-api-1', 'opengym-web-1', 'nutritrace', 'level-up-proxy', 'level-up-foodtheme') {
     Check "Container $c is up" {
         $old = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
         $s = docker inspect -f '{{.State.Status}}|{{.HostConfig.RestartPolicy.Name}}' $c 2>$null
@@ -39,6 +39,13 @@ Check 'Tailscale Serve is publishing the address' { $s = (& tailscale serve stat
 Check 'OpenGym answers over HTTPS' { $r = Http "$base/api/health"; if ($r.StatusCode -ne 200) { throw "HTTP $($r.StatusCode)" }; ($r.Content | ConvertFrom-Json).ok } 'Check the containers above; then docker compose logs api  (in the opengym folder).'
 Check 'OpenGym home page loads' { (Http "$base/").StatusCode -eq 200 } 'See the line above.'
 Check 'NutriTrace answers at /food/' { $r = Http "$base/food/api/health"; if ($r.StatusCode -ne 200) { throw "HTTP $($r.StatusCode)" }; $true } 'In the nutritrace folder:  docker compose logs'
+Check 'NutriTrace System skin is being added' {
+    $h = Http "$base/food/"; if ($h.StatusCode -ne 200) { throw "HTTP $($h.StatusCode)" }
+    if ($h.Content -notmatch '/_lut/system\.css') { throw 'skin link missing from the NutriTrace page' }
+    $c = Http "$base/food/_lut/system.css"; if ($c.StatusCode -ne 200) { throw "stylesheet HTTP $($c.StatusCode)" }
+    $f = Http "$base/food/_lut/fonts/orbitron-latin-700-normal.woff2"; if ($f.StatusCode -ne 200) { throw "font HTTP $($f.StatusCode)" }
+    "page + stylesheet + fonts"
+} 'In the level-up-tracker folder run:  docker compose up -d   (starts the "foodtheme" container).'
 Check 'Nutrition link is locked to signed-in users' { (Http "$base/api/nutrition/today").StatusCode -eq 401 } 'Rebuild OpenGym:  docker compose up -d --build  (in the opengym folder).'
 
 $tok = Get-Env "$Root\opengym\.env" 'NUTRITRACE_TOKEN'

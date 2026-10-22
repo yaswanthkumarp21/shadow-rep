@@ -1,0 +1,153 @@
+/* Level Up Tracker — "System" skin for NutriTrace.
+   The same ORIGINAL sci-fi "system window" look as the OpenGym skin (near-black navy, cyan glow,
+   violet secondary, thin glowing edges, corner brackets, faint scanlines). NutriTrace's own code is
+   untouched: this stylesheet is added to its page by the proxy (see ../proxy-food/) and only takes
+   effect while <html data-skin="system"> is set — Classic (OpenGym -> Settings -> Theme) removes it.
+   Fonts: Orbitron + Rajdhani, SIL Open Font Licence 1.1, served from this instance. */
+
+@font-face{font-family:'Orbitron';src:url('./fonts/orbitron-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Rajdhani';src:url('./fonts/rajdhani-latin-500-normal.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Rajdhani';src:url('./fonts/rajdhani-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+
+/* ------------------------------------------------------------------ tokens -- */
+/* NutriTrace themes itself with CSS variables, so most of the work is overriding them.
+   The selector outranks its [data-theme=light][data-accent=…] rules, so the skin wins
+   whatever theme/accent NutriTrace is set to. */
+html[data-skin="system"],
+html[data-skin="system"]:root[data-theme],
+html[data-skin="system"]:root[data-theme][data-accent]{
+  --bg:#05070d;
+  --surface-1:#0b1224; --surface-2:#111b33; --surface-3:#1a2745;
+  --overlay:rgba(2,4,10,.80);
+  --border:rgba(56,189,248,.20); --border-strong:rgba(56,189,248,.42);
+  --text-1:#e8f3ff;
+  --text-2:rgba(184,208,245,.74);
+  --text-3:rgba(165,192,238,.72);          /* >= 4.5:1 on every panel and control (WCAG AA) */
+
+  /* cyan -> soft violet on primary buttons; the violet end is kept light enough that the dark
+     button text stays >= 4.5:1 across the whole gradient */
+  --accent:#38bdf8; --accent-2:#8b7cf6;
+  --accent-dim:rgba(56,189,248,.15); --accent-text:#04101c;
+  --success:#34d399; --warning:#fbbf24; --danger:#f87171; --info:#38bdf8;
+
+  --macro-protein:#a78bfa; --macro-carbs:#38bdf8; --macro-fat:#fb923c; --macro-calories:#fbbf24;
+  --macro-protein-dim:rgba(167,139,250,.16); --macro-carbs-dim:rgba(56,189,248,.16);
+  --macro-fat-dim:rgba(251,146,60,.16);      --macro-calories-dim:rgba(251,191,36,.16);
+
+  /* angular geometry (pills/toggles keep --radius-full) */
+  --radius-xs:2px; --radius-sm:3px; --radius-md:4px; --radius-lg:5px; --radius-xl:8px;
+
+  --sys-violet:#6d28d9; --sys-violet-text:#a78bfa;
+  --sys-edge:rgba(56,189,248,.45); --sys-glow:rgba(56,189,248,.30);
+  --font-hud:'Orbitron','Rajdhani','Segoe UI',system-ui,sans-serif;
+  --font-ui:'Rajdhani','Segoe UI',system-ui,sans-serif;
+  color-scheme:dark;
+}
+
+/* --------------------------------------------------------------- backdrop -- */
+html[data-skin="system"] body{
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(120% 60% at 50% -10%,rgba(56,189,248,.13),transparent 60%),
+    linear-gradient(rgba(56,189,248,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,189,248,.045) 1px,transparent 1px);
+  background-size:100% 100%,44px 44px,44px 44px;
+}
+
+/* ------------------------------------------------------------------ panels -- */
+html[data-skin="system"] .card{
+  position:relative;
+  background:
+    repeating-linear-gradient(0deg,rgba(56,189,248,.035) 0 1px,transparent 1px 3px),
+    linear-gradient(180deg,rgba(17,27,51,.82),rgba(8,14,28,.90));
+  border:1px solid var(--sys-edge);
+  box-shadow:0 0 0 1px rgba(56,189,248,.05) inset,0 0 22px -8px var(--sys-glow),0 10px 26px -14px rgba(0,0,0,.85);
+}
+/* corner brackets, top-left and bottom-right (top-level panels only) */
+html[data-skin="system"] .card::before,
+html[data-skin="system"] .card::after{
+  content:'';position:absolute;width:12px;height:12px;pointer-events:none;
+  border:2px solid var(--accent);filter:drop-shadow(0 0 4px var(--sys-glow));
+}
+html[data-skin="system"] .card::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+html[data-skin="system"] .card::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+html[data-skin="system"] .card .card::before,
+html[data-skin="system"] .card .card::after{display:none}
+
+/* ---------------------------------------------------------------- top bar --- */
+html[data-skin="system"] .app-topbar{
+  background:linear-gradient(180deg,rgba(14,22,44,.96),rgba(5,7,13,.94));
+  border-bottom:1px solid var(--sys-edge);
+  box-shadow:0 8px 26px -14px var(--sys-glow);
+}
+html[data-skin="system"] .app-topbar :is(h1,h2,[class*="title"]){
+  font-family:var(--font-hud);font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  text-shadow:0 0 16px var(--sys-glow);
+}
+
+/* NutriTrace's big gradient page banner ("banner-gradient") is built from the accent colours, which would
+   be a loud cyan-to-violet slab here — make it dark glass with a glowing lower edge instead. */
+html[data-skin="system"] .page-header.banner-gradient,
+html[data-skin="system"] .page-header{
+  background:
+    repeating-linear-gradient(0deg,rgba(56,189,248,.04) 0 1px,transparent 1px 3px),
+    linear-gradient(180deg,rgba(14,22,44,.97),rgba(5,7,13,.95));
+  border-bottom:1px solid var(--sys-edge);
+  box-shadow:0 8px 26px -14px var(--sys-glow);
+}
+html[data-skin="system"] :is(.page-header,.editor-header) :is(h1,h2){
+  font-family:var(--font-hud);font-weight:700;font-size:1.25rem;letter-spacing:.1em;text-transform:uppercase;
+  text-shadow:0 0 16px var(--sys-glow);
+}
+html[data-skin="system"] .editor-header{
+  background:linear-gradient(180deg,rgba(14,22,44,.97),rgba(5,7,13,.95));
+  border-bottom:1px solid var(--sys-edge);
+  box-shadow:0 8px 26px -14px var(--sys-glow);
+}
+
+/* ------------------------------------------------------------ bottom nav ---- */
+html[data-skin="system"] .bottom-nav{
+  background:rgba(5,7,13,.92);
+  border-top:1px solid var(--sys-edge);
+  box-shadow:0 -6px 24px -10px var(--sys-glow);
+}
+html[data-skin="system"] .nav-tab{border-radius:var(--radius-md)}
+html[data-skin="system"] .nav-tab > :not(.material-symbols-rounded){
+  font-family:var(--font-ui);font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+}
+html[data-skin="system"] .nav-tab.active{
+  color:var(--accent);background:var(--accent-dim);box-shadow:0 0 18px -6px var(--sys-glow) inset;
+}
+html[data-skin="system"] .nav-tab.active .material-symbols-rounded{filter:drop-shadow(0 0 6px var(--sys-glow))}
+
+/* ---------------------------------------------------------------- headings -- */
+html[data-skin="system"] :is(h1,h2){
+  font-family:var(--font-hud);font-weight:700;letter-spacing:.08em;
+}
+html[data-skin="system"] :is(h3,h4){font-family:var(--font-ui);font-weight:700;letter-spacing:.06em}
+html[data-skin="system"] :is(.meal-name,.sheet-title,.section-toggle){
+  font-family:var(--font-ui);font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+}
+html[data-skin="system"] :is(.dbb-summary-text,.dbb-summary-row){font-family:var(--font-ui);font-weight:700;letter-spacing:.04em}
+
+/* ----------------------------------------------------------------- buttons -- */
+html[data-skin="system"] .btn-icon{border:1px solid var(--border-strong)}
+html[data-skin="system"] .btn-icon.accent{border-color:var(--sys-edge);box-shadow:0 0 14px -6px var(--sys-glow)}
+html[data-skin="system"] :is(.btn-primary,.btn-primary-action,.btn-save){
+  font-family:var(--font-ui);font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  box-shadow:0 0 20px -6px var(--sys-glow);
+}
+
+/* ------------------------------------------------------------------- sheets -- */
+html[data-skin="system"] .sheet-panel{
+  border:1px solid var(--sys-edge);border-bottom:0;
+  background:linear-gradient(180deg,#0e1730,#080e1c);
+  box-shadow:0 -10px 40px -10px var(--sys-glow);
+}
+
+/* never let the display fonts touch the icon font */
+html[data-skin="system"] .material-symbols-rounded{font-family:'Material Symbols Rounded'!important;letter-spacing:normal;text-transform:none}
+
+/* -------------------------------------------------------- animation switch -- */
+@media (prefers-reduced-motion:reduce){html[data-skin="system"] *{animation:none!important;transition:none!important}}
+html[data-skin="system"][data-motion="off"] *{animation:none!important}

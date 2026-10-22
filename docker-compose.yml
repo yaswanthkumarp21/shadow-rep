@@ -5,9 +5,26 @@ services:
     image: caddy:2-alpine
     container_name: level-up-proxy
     restart: unless-stopped
+    depends_on:
+      - foodtheme
     ports:
       - "127.0.0.1:8090:80"   # local only; Tailscale Serve publishes it privately over HTTPS
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./proxy/Caddyfile:/etc/caddy/Caddyfile:ro
+
+  # Adds the "System" skin to NutriTrace: serves nutritrace/theme/ and inserts one <script>+<link>
+  # into NutriTrace's page. NutriTrace itself is not modified. Details: nutritrace/theme/nginx.conf.template
+  foodtheme:
+    image: nginx:alpine
+    container_name: level-up-foodtheme
+    restart: unless-stopped
+    environment:
+      - LUT_BASE=/food
+      - LUT_UPSTREAM=http://host.docker.internal:3001
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./nutritrace/theme/nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - ./nutritrace/theme:/theme:ro
