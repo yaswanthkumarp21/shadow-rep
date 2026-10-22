@@ -13,6 +13,7 @@ import { coachAvailable, hasConsent } from '../lib/coach.js'
 import { useCoachStatus } from '../lib/coach-api.js'
 import { DEMO } from '../lib/demo.js'
 import { MOBILE } from '../lib/mobile.js'
+import NutritionCard from '../custom/NutritionCard.jsx'   // Level Up Tracker
 
 // A job in flight or a proposal waiting is the only reason the Coach interrupts Home. When it
 // has nothing to say it renders nothing at all — and it only polls while Home is on screen.
@@ -106,6 +107,8 @@ export default function Home() {
     </div>
 
     {coachOn && <CoachCard nav={nav} />}
+
+    {!DEMO && !MOBILE && <NutritionCard nav={nav} />}{/* Level Up Tracker */}
 
     {!S.routines.length && !S.active && (
       <div className="card">

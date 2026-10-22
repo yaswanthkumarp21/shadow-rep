@@ -1,0 +1,23 @@
+/* Level Up Tracker additions (not part of upstream openGym). */
+
+/* ---- Home: Today's nutrition card ---- */
+.nut-card .nut-bar{height:8px;border-radius:99px;background:var(--surface-3);overflow:hidden;margin:8px 0 12px}
+.nut-card .nut-bar.sm{height:5px;margin:5px 0 0}
+.nut-card .nut-bar i{display:block;height:100%;border-radius:99px;background:var(--acc);transition:width var(--med,.3s) var(--ease,ease)}
+.nut-card .nut-bar.over i{background:var(--orange)}
+.nut-macros{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.nut-mlbl{font-size:11px;font-weight:500;letter-spacing:.03em;text-transform:uppercase;color:var(--label-3)}
+.nut-mval{font-size:17px;font-weight:600;letter-spacing:-.015em;margin-top:2px;white-space:nowrap}
+.nut-note{margin-top:8px}
+
+/* ---- Food tab: NutriTrace embedded above the tab bar ---- */
+.food-frame{
+  position:fixed;left:0;right:0;top:0;
+  bottom:calc(61px + var(--sab));            /* sits exactly on top of #tabbar (61px tall + safe area) */
+  width:100%;height:calc(100dvh - 61px - var(--sab));
+  border:0;background:var(--bg);
+}
+@media (min-width:1000px){
+  /* desktop: the tab bar floats 16px up and is ~72px tall */
+  .food-frame{bottom:96px;height:calc(100dvh - 96px);left:50%;right:auto;width:min(1080px,100%);transform:translateX(-50%)}
+}
