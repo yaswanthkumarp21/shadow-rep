@@ -8,15 +8,30 @@ import Icon from '../components/Icon.jsx'
 import { useSystemSkin } from './skin.js'
 import { useNutritionRange } from './useNutrition.js'
 import { playerStatus } from './levelup.js'
+import { useCountUp, useGrow } from './motion.js'
+import { LogoMark, RankSigil, RuneRing } from './Emblems.jsx'
 
 const STAT_NAMES = { STR: 'Strength', END: 'Endurance', AGI: 'Agility', VIT: 'Vitality' }
 
 function Stat({ code, value, known = true }) {
+  const shown = useCountUp(known ? value : 0, 1000)
+  const width = useGrow(known ? Math.min(100, value) : 0, 160)
   return <div className="sys-stat" aria-label={`${STAT_NAMES[code]} ${known ? value : 'unknown'}`}>
     <div className="k">{code}</div>
-    <div className="v">{known ? value : '–'}</div>
-    <div className="sys-bar sm"><i style={{ width: known ? Math.min(100, value) + '%' : '0%' }} /></div>
+    <div className="v">{known ? shown : '–'}</div>
+    <div className="sys-bar sm"><i style={{ width: width + '%' }} /></div>
   </div>
+}
+
+function XpBar({ into, need, pct }) {
+  const width = useGrow(pct, 200)
+  const shown = useCountUp(into, 1100)
+  return <>
+    <div className="sys-bar" role="progressbar" aria-valuemin={0} aria-valuemax={need} aria-valuenow={into} aria-label="XP">
+      <i style={{ width: width + '%' }} />
+    </div>
+    <div className="sys-xp">{shown.toLocaleString()} / {need.toLocaleString()} XP</div>
+  </>
 }
 
 // Home: PLAYER STATUS (level, XP, rank, stats) and DAILY QUESTS — all derived from real data.
@@ -29,6 +44,7 @@ export default function SystemHome() {
   const nut = range && range.ok ? range : null
 
   const p = useMemo(() => (sys ? playerStatus(S, nut, todayISO()) : null), [sys, S, nut])
+  const level = useCountUp(p ? p.level : 1, 800)
   if (!sys || !p) return null
 
   const st = p.stats
@@ -37,6 +53,7 @@ export default function SystemHome() {
 
   return <>
     <div className="sys-msg" role="status">
+      <LogoMark size={30} />
       <span className="sys-msg-tag">{t('SYSTEM')}</span>
       {allDone ? t('All daily quests complete. Well done.')
         : p.quests.length - doneCount === 1 ? t('1 daily quest active.')
@@ -46,17 +63,20 @@ export default function SystemHome() {
     <div className="card sys-card" aria-label={t('Player status')}>
       <div className="sys-head">
         <span className="sys-tag">{t('Player status')}</span>
-        <span className="sys-rank" title={t('Overall score {0}', st.overall)}>{t('RANK')} {st.rank}</span>
+        <span className="sys-rankbox">
+          <RankSigil rank={st.rank} size={42} />
+          <span className="sys-rank" title={t('Overall score {0}', st.overall)}>{t('RANK')} {st.rank}</span>
+        </span>
       </div>
       <div className="sys-id">
-        <div className="sys-level"><small>LV</small><b>{p.level}</b></div>
+        <div className="sys-levelwrap">
+          <RuneRing />
+          <div className="sys-level"><small>LV</small><b>{level}</b></div>
+        </div>
         <div className="sys-who">
           <div className="sys-name">{user?.name || t('Player')}</div>
           <div className="sys-title">{st.rank}-{t('Rank')} · {t(st.title)}</div>
-          <div className="sys-bar" role="progressbar" aria-valuemin={0} aria-valuemax={p.need} aria-valuenow={p.into} aria-label="XP">
-            <i style={{ width: p.pct + '%' }} />
-          </div>
-          <div className="sys-xp">{p.into.toLocaleString()} / {p.need.toLocaleString()} XP</div>
+          <XpBar into={p.into} need={p.need} pct={p.pct} />
         </div>
       </div>
       <div className="sys-stats">

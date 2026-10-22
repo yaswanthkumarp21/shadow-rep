@@ -1,0 +1,118 @@
+/* Level Up Tracker — ALL motion for the "System" skin, in one file.
+   Rules for everything in here:
+     - runs only when the phone has NOT asked for reduced motion (prefers-reduced-motion) and
+       Settings -> Theme -> Animations is on (<html data-motion> is not "off");
+     - moves transform/opacity (cheap on a phone) — no video, no images, no layout-shifting animation;
+     - nothing flashes: the fastest cycle is a slow ~2.2 s breathing glow, everything else plays once.
+   With motion off, the same elements simply sit in their final state. */
+
+@media (prefers-reduced-motion: no-preference){
+  /* ---------- ambient: a faint scan beam drifting down the screen every ~11 s ---------- */
+  html[data-skin="system"]:not([data-motion="off"]) body::after{content:'';position:fixed;left:0;right:0;top:-150px;height:150px;pointer-events:none;z-index:1;
+    background:linear-gradient(180deg,rgba(56,189,248,0),rgba(56,189,248,.06) 80%,rgba(56,189,248,.15) 98%,rgba(56,189,248,0));
+    animation:sysScan 11s linear infinite;}
+  /* ---------- every screen change: panels rise in one after another, brackets draw on ---------- */
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .card,
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .tiles .tile{animation:sysRise .55s var(--ease) both}
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .card:nth-child(2){animation-delay:.04s}
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .card:nth-child(3){animation-delay:.09s}
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .card:nth-child(4){animation-delay:.14s}
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .card:nth-child(5){animation-delay:.19s}
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .card:nth-child(6){animation-delay:.24s}
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .card:nth-child(7){animation-delay:.29s}
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .card:nth-child(n+8){animation-delay:.34s}
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .tiles .tile:nth-child(2){animation-delay:.06s}
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .tiles .tile:nth-child(3){animation-delay:.12s}
+  html[data-skin="system"]:not([data-motion="off"]) #app.vfade .tiles .tile:nth-child(4){animation-delay:.18s}
+  html[data-skin="system"]:not([data-motion="off"]) .card::before{transform-origin:0 0;animation:sysBracket .5s .3s var(--ease) both}
+  html[data-skin="system"]:not([data-motion="off"]) .card::after{transform-origin:100% 100%;animation:sysBracket .5s .3s var(--ease) both}
+  html[data-skin="system"]:not([data-motion="off"]) .hdr h1{animation:sysTitle .8s var(--ease) both}
+  /* ---------- Home: bars fill, shimmer passes, quests slide in, ticks pop ---------- */
+  html[data-skin="system"]:not([data-motion="off"]) .sys-bar i{transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-bar:not(.sm) i::after{opacity:1;transform:translateX(-120%);animation:sysSweep 3.4s ease-in-out infinite}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-rank{animation:sysPulse 3.6s ease-in-out infinite}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-level b{animation:sysBreath 3.6s ease-in-out infinite}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-quest{animation:sysSlide .5s var(--ease) both}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-quest:nth-child(1){animation-delay:.22s}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-quest:nth-child(2){animation-delay:.29s}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-quest:nth-child(3){animation-delay:.36s}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-quest:nth-child(4){animation-delay:.43s}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-quest:nth-child(5){animation-delay:.50s}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-quest:nth-child(6){animation-delay:.57s}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-quest.done .sys-check{animation:sysPop .6s .5s var(--ease) both}
+  /* ---------- original emblems ---------- */
+  html[data-skin="system"]:not([data-motion="off"]) .emb-logo .emb-ring,
+  html[data-skin="system"]:not([data-motion="off"]) .emb-rune-a,
+  html[data-skin="system"]:not([data-motion="off"]) .emb-rune-b{transform-box:fill-box;transform-origin:center}
+  html[data-skin="system"]:not([data-motion="off"]) .emb-logo .emb-ring{animation:sysSpin 22s linear infinite}
+  html[data-skin="system"]:not([data-motion="off"]) .emb-logo .emb-core{transform-box:fill-box;transform-origin:center;animation:sysCore 2.8s ease-in-out infinite}
+  html[data-skin="system"]:not([data-motion="off"]) .emb-rune-a{animation:sysSpin 30s linear infinite}
+  html[data-skin="system"]:not([data-motion="off"]) .emb-rune-b{animation:sysSpin 20s linear infinite reverse}
+  html[data-skin="system"]:not([data-motion="off"]) .emb-rank.r-B,
+  html[data-skin="system"]:not([data-motion="off"]) .emb-rank.r-A,
+  html[data-skin="system"]:not([data-motion="off"]) .emb-rank.r-S{animation:sysSigil 3.2s ease-in-out infinite}
+  html[data-skin="system"]:not([data-motion="off"]) .emb-rank .emb-wing{animation:sysWing 2.6s ease-in-out infinite alternate}
+  /* ---------- buttons, tab bar ---------- */
+  html[data-skin="system"]:not([data-motion="off"]) .btn.primary{position:relative;overflow:hidden}
+  html[data-skin="system"]:not([data-motion="off"]) .btn.primary::after{content:'';position:absolute;top:0;bottom:0;left:0;width:45%;pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);
+    transform:translateX(-170%) skewX(-20deg);animation:sysBtnSweep 5.5s ease-in-out infinite;}
+  html[data-skin="system"]:not([data-motion="off"]) #tabbar button{position:relative}
+  html[data-skin="system"]:not([data-motion="off"]) #tabbar button.on::before{content:'';position:absolute;top:-8px;left:22%;right:22%;height:2px;background:var(--acc);
+    box-shadow:0 0 10px var(--sys-glow);animation:sysTabLine .4s var(--ease) both;}
+  html[data-skin="system"]:not([data-motion="off"]) #tabbar button.start:not(.rec) .cir{animation:sysStartGlow 3.4s ease-in-out infinite}
+  /* ---------- workout screen ---------- */
+  html[data-skin="system"]:not([data-motion="off"]) .setrow.done{animation:sysSetDone .9s ease-out}
+  html[data-skin="system"]:not([data-motion="off"]) .chk.on{animation:sysPop .45s var(--ease)}
+  html[data-skin="system"]:not([data-motion="off"]) #timer::before{content:'';position:absolute;inset:-1px;border:1px solid var(--sys-edge);border-radius:inherit;pointer-events:none;
+    animation:sysTimer 2.2s ease-in-out infinite;}
+  /* ---------- stats screen: charts wipe in left to right ---------- */
+  html[data-skin="system"]:not([data-motion="off"]) .chart-i svg{animation:sysWipe 1.1s .15s cubic-bezier(.22,1,.36,1) both}
+  html[data-skin="system"]:not([data-motion="off"]) .hm-wrap{animation:sysWipe 1.3s .15s cubic-bezier(.22,1,.36,1) both}
+  /* ---------- messages ---------- */
+  html[data-skin="system"]:not([data-motion="off"]) #toast.show{animation:sysToastIn .45s var(--ease)}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-alert-wrap{animation:sysFade .35s ease-out both}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-alert{animation:sysAlertIn .65s var(--ease) both}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-alert-title{animation:sysRise .6s .25s var(--ease) both}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-alert-level{animation:sysPop .8s .35s var(--ease) both}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-alert-sigil{animation:sysPop .8s .3s var(--ease) both}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-ring{animation:sysRing 1.5s .15s ease-out both}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-ring.r2{animation-delay:.5s}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-spark{animation:sysSpark 1s .2s ease-out bot}
+}
+
+/* ----------------------------------------------------------------- keyframes -- */
+@keyframes sysScan{from{transform:translateY(0)}to{transform:translateY(calc(100vh + 150px))}}
+@keyframes sysRise{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes sysBracket{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+@keyframes sysTitle{from{opacity:0;transform:translateX(-12px);filter:blur(4px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes sysSweep{0%,35%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+@keyframes sysPulse{0%,100%{box-shadow:0 0 8px -4px var(--sys-violet)}50%{box-shadow:0 0 16px -2px var(--sys-violet)}}
+@keyframes sysBreath{0%,100%{text-shadow:0 0 10px var(--sys-glow)}50%{text-shadow:0 0 24px rgba(56,189,248,.7)}}
+@keyframes sysSlide{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
+@keyframes sysPop{0%{opacity:0;transform:scale(.55)}60%{opacity:1;transform:scale(1.22)}100%{opacity:1;transform:scale(1)}}
+@keyframes sysSpin{to{transform:rotate(360deg)}}
+@keyframes sysCore{0%,100%{opacity:.75;transform:translateY(1.6px)}50%{opacity:1;transform:translateY(-1.6px)}}
+@keyframes sysSigil{0%,100%{filter:drop-shadow(0 0 2px var(--rk))}50%{filter:drop-shadow(0 0 9px var(--rk))}}
+@keyframes sysWing{from{opacity:.55}to{opacity:1}}
+@keyframes sysBtnSweep{0%,60%{transform:translateX(-170%) skewX(-20deg)}100%{transform:translateX(380%) skewX(-20deg)}}
+@keyframes sysTabLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes sysStartGlow{
+  0%,100%{box-shadow:0 0 16px -2px var(--sys-glow),0 0 0 3px rgba(56,189,248,.12)}
+  50%{box-shadow:0 0 30px 2px var(--sys-glow),0 0 0 6px rgba(56,189,248,.22)}
+}
+@keyframes sysSetDone{0%{background:rgba(56,189,248,.30)}100%{background:rgba(56,189,248,0)}}
+@keyframes sysTimer{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes sysWipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(-8px -8px -8px -8px)}}
+@keyframes sysToastIn{from{opacity:0;transform:translateX(-50%) translateY(14px) scale(.96)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+@keyframes sysFade{from{opacity:0}to{opacity:1}}
+@keyframes sysAlertIn{
+  0%{opacity:0;transform:scale(.88) translateY(12px);clip-path:inset(46% -10px 46% -10px)}
+  60%{opacity:1;clip-path:inset(-10px)}
+  100%{opacity:1;transform:none;clip-path:inset(-10px)}
+}
+@keyframes sysRing{0%{opacity:.9;transform:scale(.3)}100%{opacity:0;transform:scale(3.4)}}
+@keyframes sysSpark{
+  0%{opacity:1;transform:rotate(var(--a)) translateX(0) scale(1)}
+  100%{opacity:0;transform:rotate(var(--a)) translateX(var(--d)) scale(.2)}
+}

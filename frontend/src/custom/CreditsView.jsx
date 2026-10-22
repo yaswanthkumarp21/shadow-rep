@@ -2,6 +2,7 @@ import './custom.css'
 import { useNavigate } from 'react-router-dom'
 import { t } from '../lib/i18n.js'
 import Icon from '../components/Icon.jsx'
+import { LogoMark } from './Emblems.jsx'
 
 const A = ({ href, children }) => <a href={href} target="_blank" rel="noopener">{children}</a>
 
@@ -18,12 +19,16 @@ export default function CreditsView() {
   const nav = useNavigate()
   return <div className="narrow">
     <div className="hdr">
-      <div><h1>{t('Credits & licences')}</h1><div className="sub">Level Up Tracker</div></div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        <LogoMark size={46} />
+        <div><h1>{t('Credits & licences')}</h1><div className="sub">Level Up Tracker</div></div>
+      </div>
       <button className="iconbtn" onClick={() => nav('/settings')} aria-label={t('Settings')}><Icon name="gear" /></button>
     </div>
 
     <Item title="Level Up Tracker">
-      A private, self-hosted setup that runs openGym (workouts) and NutriTrace (food) behind one address.
+      The logo, rank sigils and rune ring are original artwork drawn for this project (no third-party or
+      series artwork is used). A private, self-hosted setup that runs openGym (workouts) and NutriTrace (food) behind one address.
       It is modified software: its source code (the upstream projects plus the additions made here) is
       available to anyone who uses this instance — ask the person who runs it.
       No analytics or trackers are used.

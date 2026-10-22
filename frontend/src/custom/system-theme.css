@@ -7,6 +7,8 @@
    original. Animations stop with prefers-reduced-motion (global rule upstream) AND with the
    in-app switch (<html data-motion="off">). Nothing flashes faster than once every ~3 seconds. */
 
+@import './system-motion.css';   /* every animation lives in that one file */
+
 @font-face{font-family:'Orbitron';src:url('./fonts/orbitron-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:'Rajdhani';src:url('./fonts/rajdhani-latin-500-normal.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:'Rajdhani';src:url('./fonts/rajdhani-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
@@ -155,15 +157,11 @@ html[data-skin="system"] #tabbar button.start .cir{
   box-shadow:0 0 12px var(--sys-glow);
   transition:width var(--med,.3s) var(--ease,ease);
 }
-/* slow shimmer sweep across the filled part — one pass every 3.4s */
+/* shimmer highlight on the filled part (the sweep itself is animated in system-motion.css) */
 .sys-bar:not(.sm) i::after{
-  content:'';position:absolute;inset:0;
+  content:'';position:absolute;inset:0;opacity:0;
   background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.38) 50%,transparent 70%);
-  transform:translateX(-120%);animation:sysSweep 3.4s ease-in-out infinite;
 }
-@keyframes sysSweep{0%,35%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
-.sys-rank{animation:sysPulse 3.6s ease-in-out infinite}
-@keyframes sysPulse{0%,100%{box-shadow:0 0 8px -4px var(--sys-violet)}50%{box-shadow:0 0 16px -2px var(--sys-violet)}}
 
 .sys-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin-top:18px}
 .sys-stat .k{font-family:var(--font-hud);font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--label-2)}
@@ -183,7 +181,52 @@ html[data-skin="system"] #tabbar button.start .cir{
 .sys-qdetail{font-family:var(--font-ui);font-weight:500;font-size:14px;letter-spacing:.05em;color:var(--label-2);margin-top:1px}
 .sys-xpgain{font-family:var(--font-hud);font-weight:700;font-size:11px;letter-spacing:.1em;color:var(--sys-violet-text);white-space:nowrap}
 
-/* ----------------------------------------------------- animation switch ----- */
-html[data-motion="off"] .sys-bar i::after,
-html[data-motion="off"] .sys-rank{animation:none!important}
-html[data-motion="off"] .sys-bar i::after{display:none}
+/* ======================================================== emblems & rune ring ==== */
+.sys-rankbox{display:flex;align-items:center;gap:8px}
+.sys-levelwrap{position:relative;flex:none;width:92px;height:92px;display:grid;place-items:center;margin:-6px -4px -6px -6px}
+.sys-levelwrap .emb-rune{position:absolute;inset:0;width:100%;height:100%;color:var(--acc);opacity:.75;pointer-events:none}
+.sys-level{width:62px;height:62px}
+.sys-msg .emb-logo{flex:none;filter:drop-shadow(0 0 6px var(--sys-glow))}
+
+/* ============================================================== System toast == */
+html[data-skin="system"] #toast{
+  border-radius:3px;border:1px solid var(--sys-edge);background:rgba(8,14,28,.95);
+  box-shadow:0 0 24px -6px var(--sys-glow),0 10px 30px -8px rgba(0,0,0,.6);
+  font-family:var(--font-ui);font-weight:700;font-size:16px;letter-spacing:.05em;padding:11px 18px 11px 14px;
+}
+html[data-skin="system"] #toast::before{
+  content:'SYSTEM';font-family:var(--font-hud);font-size:9px;letter-spacing:.18em;font-weight:700;
+  color:var(--sys-violet-text);border:1px solid var(--sys-violet-text);padding:2px 5px;margin-right:10px;vertical-align:2px;
+}
+
+/* ============================================== record / level-up overlay ====== */
+.sys-alert-wrap{
+  position:fixed;inset:0;z-index:300;display:grid;place-items:center;cursor:pointer;
+  background:radial-gradient(circle at 50% 45%,rgba(56,189,248,.16),rgba(2,4,10,.86) 72%);
+  opacity:1;transition:opacity .45s;
+}
+.sys-alert-wrap.leaving{opacity:0}
+.sys-alert{
+  position:relative;min-width:270px;max-width:86vw;padding:24px 28px 24px;text-align:center;
+  border:1px solid var(--sys-edge);
+  background:repeating-linear-gradient(0deg,rgba(56,189,248,.04) 0 1px,transparent 1px 3px),linear-gradient(180deg,rgba(17,27,51,.96),rgba(8,14,28,.98));
+  box-shadow:0 0 70px -10px var(--sys-glow);
+}
+.sys-alert::before,.sys-alert::after{
+  content:'';position:absolute;width:16px;height:16px;pointer-events:none;border:2px solid var(--acc);filter:drop-shadow(0 0 5px var(--sys-glow));
+}
+.sys-alert::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+.sys-alert::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+.sys-alert-top{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px}
+.sys-alert-sigil{display:flex;justify-content:center;margin:4px 0 6px}
+.sys-alert-title{font-family:var(--font-hud);font-weight:700;font-size:25px;letter-spacing:.16em;text-shadow:0 0 22px var(--sys-glow)}
+.sys-alert-wrap.record .sys-alert-title{color:var(--yellow)}
+.sys-alert-wrap.level .sys-alert-title{color:var(--acc)}
+.sys-alert-level{font-family:var(--font-hud);font-weight:700;font-size:46px;line-height:1.1;color:var(--label);margin:6px 0 0;text-shadow:0 0 28px var(--sys-glow)}
+.sys-alert-sub{font-family:var(--font-ui);font-weight:500;font-size:19px;letter-spacing:.05em;color:var(--label-2);margin-top:8px;overflow-wrap:anywhere;text-transform:capitalize}
+.sys-alert-xp{font-family:var(--font-hud);font-weight:700;font-size:14px;letter-spacing:.14em;color:var(--sys-violet-text);margin-top:12px}
+.sys-ring,.sys-spark{position:absolute;pointer-events:none;opacity:0}
+.sys-ring{left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border:2px solid var(--acc);border-radius:50%}
+.sys-ring.r2{border-color:var(--sys-violet-text)}
+.sys-spark{left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
+.sys-alert-wrap .sys-spark:nth-child(3n){background:var(--sys-violet-text);box-shadow:0 0 8px var(--sys-violet-text)}
