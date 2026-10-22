@@ -29,6 +29,8 @@ import CoachIntake from './views/CoachIntake.jsx'
 import CoachProposal from './views/CoachProposal.jsx'
 import FoodView from './custom/FoodView.jsx'   // Level Up Tracker
 import CreditsView from './custom/CreditsView.jsx'   // Level Up Tracker
+import './custom/skin.js'                             // Level Up Tracker: applies the saved skin before first paint
+import './custom/system-theme.css'                    // Level Up Tracker: "System" skin (inert unless data-skin="system")
 
 bindUI(useUI)   // lets the shared controls open sheets without importing the store at module scope
 

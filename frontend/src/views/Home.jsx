@@ -14,6 +14,7 @@ import { useCoachStatus } from '../lib/coach-api.js'
 import { DEMO } from '../lib/demo.js'
 import { MOBILE } from '../lib/mobile.js'
 import NutritionCard from '../custom/NutritionCard.jsx'   // Level Up Tracker
+import SystemHome from '../custom/SystemHome.jsx'         // Level Up Tracker
 
 // A job in flight or a proposal waiting is the only reason the Coach interrupts Home. When it
 // has nothing to say it renders nothing at all — and it only polls while Home is on screen.
@@ -82,6 +83,8 @@ export default function Home() {
       <div><h1>{user ? t('Hi {0}', user.name) : 'openGym'}</h1><div className="sub">{today.toLocaleDateString(dateLocale(), { weekday: 'long', day: 'numeric', month: 'long' })}</div></div>
       <button className="iconbtn" onClick={() => nav('/settings')} aria-label={t('Settings')}><Icon name="gear" /></button>
     </div>
+
+    {!DEMO && !MOBILE && <SystemHome />}{/* Level Up Tracker: level, stats, daily quests (System skin only) */}
 
     <div className="card">
       <div className="row between" style={{ marginBottom: 8 }}>

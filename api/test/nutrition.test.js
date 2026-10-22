@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseMcpBody, toolResult, pick, shapeNutrition, nutritionRoutes } from '../custom/nutrition.js';
+import { parseMcpBody, toolResult, pick, shapeNutrition, shapeRange, nutritionRoutes } from '../custom/nutrition.js';
 
 const sse = obj => `event: message\ndata: ${JSON.stringify(obj)}\n\n`;
 const reply = structured => sse({ result: { content: [{ type: 'text', text: JSON.stringify(structured) }], structuredContent: structured }, jsonrpc: '2.0', id: 1 });
@@ -62,6 +62,44 @@ test('shapeNutrition understands NutriTrace\'s real get_daily_totals format', ()
   assert.deepEqual(s.carbs, { eaten: 22, target: 100 });
   assert.deepEqual(s.fat, { eaten: 2.5, target: 100 });
   assert.equal(s.items, 2);
+});
+
+test('shapeRange understands the real get_daily_totals_range format', () => {
+  // captured from a live NutriTrace v1.4.0 instance
+  const range = { start: '2026-09-22', end: '2026-10-22', totals: [{ date: '2026-10-22', totals: { calories: 180, fat: 6, carbohydrates: 26, proteins: 7 }, water_ml: 1000, item_count: 3 }], count: 1 };
+  const goal = max => ({ sharedGoal: true, days: Array(7).fill(max), max });
+  const s = shapeRange(range, { goals: { proteins: goal(150) }, water_goal_ml: 8000 });
+  assert.equal(s.ok, true);
+  assert.deepEqual(s.days, [{ date: '2026-10-22', calories: 180, proteins: 7, carbs: 26, fat: 6, water_ml: 1000, items: 3 }]);
+  assert.deepEqual(s.goals, { calories: null, protein: 150, water: 8000 });
+  assert.deepEqual(shapeRange({ totals: [] }, { goals: {} }).days, []);
+  assert.deepEqual(shapeRange(null, null).days, []);
+  assert.deepEqual(shapeRange({ totals: [{ date: 'junk', totals: {} }] }, {}).days, [], 'rows without a valid date are dropped');
+});
+
+test('range route: needs sign-in, validates days, builds start/end, caches', async () => {
+  const sent = [];
+  const rangeReply = reply({ start: 'x', end: 'y', totals: [{ date: '2026-10-22', totals: { proteins: 50 }, water_ml: 0, item_count: 3 }], count: 1 });
+  const fetchImpl = async (url, init) => {
+    const b = JSON.parse(init.body);
+    sent.push(b.params);
+    return { ok: true, status: 200, text: async () => (b.params.name === 'get_goals' ? reply({ goals: {}, water_goal_ml: 2000 }) : rangeReply) };
+  };
+  const out = {};
+  const routes = nutritionRoutes({ json: (res, code, body) => { out.code = code; out.body = body; }, readSession: r => r.user, env: ENV, fetchImpl, now: () => 1_000_000 });
+  const call = async req => { await routes['GET /api/nutrition/range'](req, {}); return out; };
+
+  assert.equal((await call({ url: '/api/nutrition/range' })).code, 401);
+  const r = await call({ url: '/api/nutrition/range?end=2026-10-22&days=7', user: { id: 'u' } });
+  assert.equal(r.body.ok, true);
+  assert.equal(r.body.days[0].proteins, 50);
+  const rangeCall = sent.find(p => p.name === 'get_daily_totals_range');
+  assert.deepEqual(rangeCall.arguments, { start: '2026-10-16', end: '2026-10-22' });
+  const before = sent.length;
+  await call({ url: '/api/nutrition/range?end=2026-10-22&days=7', user: { id: 'u' } });
+  assert.equal(sent.length, before, 'second identical request is served from cache');
+  await call({ url: '/api/nutrition/range?end=2026-10-22&days=9999', user: { id: 'u' } });
+  assert.equal(sent.filter(p => p.name === 'get_daily_totals_range').at(-1).arguments.start, '2026-07-25', 'days is clamped to 90');
 });
 
 /* ---- the route ---- */

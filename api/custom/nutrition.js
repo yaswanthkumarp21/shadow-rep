@@ -71,6 +71,24 @@ export function shapeNutrition(date, totalsRes, goalsRes) {
   return out;
 }
 
+/** Turn get_daily_totals_range + get_goals into per-day rows (only days with something logged) and the targets the game layer needs. */
+export function shapeRange(rangeRes, goalsRes) {
+  const goals = goalsRes?.goals || {};
+  const days = (Array.isArray(rangeRes?.totals) ? rangeRes.totals : []).map(d => ({
+    date: d.date,
+    calories: round(pick(d.totals, KEYS.calories) ?? 0),
+    proteins: round(pick(d.totals, KEYS.protein) ?? 0),
+    carbs: round(pick(d.totals, KEYS.carbs) ?? 0),
+    fat: round(pick(d.totals, KEYS.fat) ?? 0),
+    water_ml: d.water_ml ?? 0,
+    items: d.item_count ?? 0
+  })).filter(d => DATE_RE.test(d.date || ''));
+  return {
+    ok: true, days,
+    goals: { calories: round(pick(goals, KEYS.calories)), protein: round(pick(goals, KEYS.protein)), water: num(goalsRes?.water_goal_ml) }
+  };
+}
+
 export function nutritionRoutes({ json, readSession, env = process.env, fetchImpl = globalThis.fetch, now = Date.now }) {
   const base = String(env.NUTRITRACE_URL || '').replace(/\/+$/, '');
   const token = String(env.NUTRITRACE_TOKEN || '').trim();
@@ -87,7 +105,37 @@ export function nutritionRoutes({ json, readSession, env = process.env, fetchImp
     return toolResult(parseMcpBody(await res.text()));
   }
 
+  const rangeCache = new Map(); // "start|end" -> { at, data }
+  const addDays = (iso, n) => { const d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+
   return {
+    // Last N days of nutrition (default 60, max 90) for the Level-Up stats: which days had food logged,
+    // hit the protein target or the water goal. Same softness rules as /today.
+    'GET /api/nutrition/range': async (req, res) => {
+      if (!readSession(req)) return json(res, 401, { error: 'not signed in' });
+      if (!base || !token) return json(res, 200, { ok: false, reason: 'not_configured' });
+
+      const q = new URL(req.url, 'http://x').searchParams;
+      const end = DATE_RE.test(q.get('end') || '') ? q.get('end') : new Date(now()).toISOString().slice(0, 10);
+      const n = Math.min(90, Math.max(1, parseInt(q.get('days'), 10) || 60));
+      const start = addDays(end, -(n - 1));
+      const key = start + '|' + end;
+
+      const hit = rangeCache.get(key);
+      if (hit && now() - hit.at < TTL_MS) return json(res, 200, hit.data);
+      try {
+        const [range, goals] = await Promise.all([callTool('get_daily_totals_range', { start, end }), callTool('get_goals', {})]);
+        const data = shapeRange(range, goals);
+        rangeCache.set(key, { at: now(), data });
+        if (rangeCache.size > 6) rangeCache.delete(rangeCache.keys().next().value);
+        return json(res, 200, data);
+      } catch (e) {
+        console.error('nutrition range:', e.message);
+        if (hit && now() - hit.at < STALE_MS) return json(res, 200, { ...hit.data, stale: true });
+        return json(res, 200, { ok: false, reason: 'unavailable' });
+      }
+    },
+
     'GET /api/nutrition/today': async (req, res) => {
       if (!readSession(req)) return json(res, 401, { error: 'not signed in' });
       if (!base || !token) return json(res, 200, { ok: false, reason: 'not_configured' });

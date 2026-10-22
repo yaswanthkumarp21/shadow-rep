@@ -71,6 +71,12 @@ export default function CreditsView() {
       any official table — correct them when you know better.
     </Item>
 
+    <Item title={t('Fonts')}>
+      <A href="https://github.com/theleagueof/orbitron">Orbitron</A> and{' '}
+      <A href="https://github.com/itfoundry/rajdhani">Rajdhani</A> in the System look, under the SIL Open
+      Font Licence 1.1. They are served from this instance — nothing is loaded from the internet.
+    </Item>
+
     <Item title={t('Built with')}>
       <A href="https://tailscale.com">Tailscale</A> (private access) and{' '}
       <A href="https://caddyserver.com">Caddy</A> (reverse proxy, Apache-2.0), running in Docker.

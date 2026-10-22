@@ -1,0 +1,189 @@
+/* Level Up Tracker — "System" skin.
+   An ORIGINAL sci-fi "system window" look inspired by the game-UI genre: near-black navy, cyan
+   glow, violet secondary, thin glowing edges, corner brackets, faint scanlines. Everything is CSS
+   (no images, no video). Fonts are self-hosted (Orbitron + Rajdhani, SIL Open Font Licence).
+
+   Switched by <html data-skin="system"> (see skin.js); data-skin="classic" is the untouched
+   original. Animations stop with prefers-reduced-motion (global rule upstream) AND with the
+   in-app switch (<html data-motion="off">). Nothing flashes faster than once every ~3 seconds. */
+
+@font-face{font-family:'Orbitron';src:url('./fonts/orbitron-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Rajdhani';src:url('./fonts/rajdhani-latin-500-normal.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Rajdhani';src:url('./fonts/rajdhani-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+
+/* ------------------------------------------------------------------ tokens -- */
+/* Specificity is deliberately higher than upstream's :root[data-theme][data-accent] rules so the
+   skin wins over the light theme and every accent colour. */
+html[data-skin="system"]:root,
+html[data-skin="system"]:root[data-theme][data-accent]{
+  --bg:#05070d; --bg-el:#0a0f1c;
+  --surface:#0b1224; --surface-2:#111b33; --surface-3:#1a2745;
+
+  --label:#e8f3ff;
+  --label-2:rgba(184,208,245,.74);
+  --label-3:rgba(165,192,238,.66);   /* >= 4.5:1 on every panel (WCAG AA) */
+  --label-4:rgba(120,150,210,.32);
+
+  --sep:rgba(56,189,248,.22); --sep-op:rgba(56,189,248,.16);
+
+  --blue:#38bdf8; --green:#34d399; --red:#f87171; --orange:#fb923c;
+  --yellow:#fbbf24; --teal:#22d3ee; --indigo:#818cf8; --pink:#f472b6;
+  --purple:#a78bfa; --mint:#5eead4; --brown:#c4a57b; --grey:#94a3b8;
+
+  --acc:#38bdf8; --acc-2:#0284c7; --on-acc:#04101c;
+  --acc-soft:color-mix(in srgb,#38bdf8 16%,transparent);
+  --acc-line:color-mix(in srgb,#38bdf8 40%,transparent);
+
+  /* angular geometry */
+  --r-sm:3px; --r:5px; --r-lg:6px; --r-xl:8px; --r-card:4px;
+
+  /* skin-only tokens */
+  --sys-violet:#6d28d9; --sys-violet-text:#a78bfa;
+  --sys-edge:rgba(56,189,248,.45); --sys-glow:rgba(56,189,248,.30);
+  --font-hud:'Orbitron','Rajdhani','Segoe UI',system-ui,sans-serif;
+  --font-ui:'Rajdhani','Segoe UI',system-ui,sans-serif;
+}
+
+/* --------------------------------------------------------------- backdrop -- */
+html[data-skin="system"] body{
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(120% 60% at 50% -10%,rgba(56,189,248,.13),transparent 60%),
+    linear-gradient(rgba(56,189,248,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,189,248,.045) 1px,transparent 1px);
+  background-size:100% 100%,44px 44px,44px 44px;
+}
+
+/* ------------------------------------------------------------- typography -- */
+html[data-skin="system"] .hdr h1{
+  font-family:var(--font-hud);font-weight:700;font-size:22px;line-height:1.25;
+  letter-spacing:.05em;text-transform:uppercase;overflow-wrap:anywhere;
+  text-shadow:0 0 18px var(--sys-glow);
+}
+html[data-skin="system"] .hdr .sub{font-family:var(--font-ui);font-weight:500;letter-spacing:.08em;text-transform:uppercase;font-size:14px}
+html[data-skin="system"] .card h2,
+html[data-skin="system"] .sect-t{
+  font-family:var(--font-hud);font-weight:700;font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--acc);
+}
+html[data-skin="system"] .card .big{font-family:var(--font-ui);font-weight:700;font-size:38px;letter-spacing:.01em}
+html[data-skin="system"] .today-row .lbl2,
+html[data-skin="system"] .tag{
+  font-family:var(--font-ui);font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+}
+html[data-skin="system"] .today-row .ttl{font-family:var(--font-ui);font-weight:700;font-size:19px;letter-spacing:.03em}
+
+/* ------------------------------------------------------------------ panels -- */
+html[data-skin="system"] .card{
+  position:relative;
+  background:
+    repeating-linear-gradient(0deg,rgba(56,189,248,.035) 0 1px,transparent 1px 3px),
+    linear-gradient(180deg,rgba(17,27,51,.82),rgba(8,14,28,.90));
+  border:1px solid var(--sys-edge);
+  box-shadow:0 0 0 1px rgba(56,189,248,.05) inset,0 0 22px -8px var(--sys-glow),0 10px 26px -14px rgba(0,0,0,.85);
+}
+/* corner brackets, top-left and bottom-right */
+html[data-skin="system"] .card::before,
+html[data-skin="system"] .card::after{
+  content:'';position:absolute;width:14px;height:14px;pointer-events:none;
+  border:2px solid var(--acc);filter:drop-shadow(0 0 4px var(--sys-glow));
+}
+html[data-skin="system"] .card::before{top:-2px;left:-2px;border-right:0;border-bottom:0}
+html[data-skin="system"] .card::after{bottom:-2px;right:-2px;border-left:0;border-top:0}
+
+/* ----------------------------------------------------------------- buttons -- */
+html[data-skin="system"] .btn{font-family:var(--font-ui);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+html[data-skin="system"] .btn.primary{
+  background:linear-gradient(180deg,#52c8fb,#2aa7e6);
+  box-shadow:0 0 18px -4px var(--sys-glow);
+}
+html[data-skin="system"] .btn.primary:active{background:var(--acc-2)}
+html[data-skin="system"] .btn.sm,
+html[data-skin="system"] .btn.xs{border:1px solid var(--sys-edge)}
+
+/* ----------------------------------------------------------------- tab bar -- */
+html[data-skin="system"] #tabbar{
+  background:rgba(5,7,13,.90);
+  border-top:1px solid var(--sys-edge);
+  box-shadow:0 -6px 24px -10px var(--sys-glow);
+}
+html[data-skin="system"] #tabbar button{font-family:var(--font-ui);font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+html[data-skin="system"] #tabbar button.on{color:var(--acc);text-shadow:0 0 12px var(--sys-glow)}
+html[data-skin="system"] #tabbar button.on .icn{filter:drop-shadow(0 0 6px var(--sys-glow))}
+html[data-skin="system"] #tabbar button.start .cir{
+  border-radius:12px;border:1px solid #7fd9ff;
+  box-shadow:0 0 22px -2px var(--sys-glow),0 0 0 3px rgba(56,189,248,.14);
+}
+
+/* ===================================================== Home: game panels ==== */
+.sys-msg{
+  display:flex;align-items:center;gap:10px;margin:2px 0 14px;
+  font-family:var(--font-ui);font-weight:500;font-size:15px;letter-spacing:.04em;color:var(--label-2);
+}
+.sys-msg-tag{
+  font-family:var(--font-hud);font-weight:700;font-size:10px;letter-spacing:.18em;
+  color:var(--sys-violet-text);border:1px solid var(--sys-violet-text);padding:3px 7px;
+}
+
+.sys-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.sys-tag{font-family:var(--font-hud);font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc)}
+.sys-rank{
+  font-family:var(--font-hud);font-weight:700;font-size:11px;letter-spacing:.14em;
+  color:var(--sys-violet-text);border:1px solid var(--sys-violet-text);padding:3px 8px;
+  box-shadow:0 0 12px -4px var(--sys-violet);
+}
+.sys-count{font-family:var(--font-ui);font-weight:700;font-size:15px;letter-spacing:.1em;color:var(--label-2)}
+
+.sys-id{display:flex;gap:16px;align-items:center}
+.sys-level{
+  flex:none;width:68px;height:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:1px solid var(--sys-edge);background:rgba(56,189,248,.07);
+  box-shadow:0 0 20px -6px var(--sys-glow) inset,0 0 18px -6px var(--sys-glow);
+}
+.sys-level small{font-family:var(--font-hud);font-weight:700;font-size:10px;letter-spacing:.2em;color:var(--label-2)}
+.sys-level b{font-family:var(--font-hud);font-weight:700;font-size:28px;line-height:1.05;color:var(--label);text-shadow:0 0 14px var(--sys-glow)}
+.sys-who{flex:1;min-width:0}
+.sys-name{font-family:var(--font-ui);font-weight:700;font-size:21px;letter-spacing:.03em;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sys-title{font-family:var(--font-ui);font-weight:500;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--label-2);margin:1px 0 8px}
+.sys-xp{font-family:var(--font-ui);font-weight:500;font-size:14px;letter-spacing:.06em;color:var(--label-2);margin-top:5px}
+
+.sys-bar{height:10px;background:var(--surface-3);border:1px solid rgba(56,189,248,.28);position:relative;overflow:hidden}
+.sys-bar.sm{height:5px;border-width:0;margin-top:4px}
+.sys-bar i{
+  display:block;height:100%;position:relative;overflow:hidden;
+  background:linear-gradient(90deg,var(--sys-violet),var(--acc));
+  box-shadow:0 0 12px var(--sys-glow);
+  transition:width var(--med,.3s) var(--ease,ease);
+}
+/* slow shimmer sweep across the filled part — one pass every 3.4s */
+.sys-bar:not(.sm) i::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.38) 50%,transparent 70%);
+  transform:translateX(-120%);animation:sysSweep 3.4s ease-in-out infinite;
+}
+@keyframes sysSweep{0%,35%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+.sys-rank{animation:sysPulse 3.6s ease-in-out infinite}
+@keyframes sysPulse{0%,100%{box-shadow:0 0 8px -4px var(--sys-violet)}50%{box-shadow:0 0 16px -2px var(--sys-violet)}}
+
+.sys-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin-top:18px}
+.sys-stat .k{font-family:var(--font-hud);font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--label-2)}
+.sys-stat .v{font-family:var(--font-ui);font-weight:700;font-size:28px;line-height:1.1;letter-spacing:.02em}
+
+.sys-quests{display:flex;flex-direction:column;gap:2px}
+.sys-quest{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--sep)}
+.sys-quest:first-child{border-top:0;padding-top:0}
+.sys-check{
+  flex:none;width:22px;height:22px;display:grid;place-items:center;font-size:15px;
+  border:1.5px solid var(--sys-edge);color:var(--on-acc);
+}
+.sys-quest.done .sys-check{background:var(--acc);border-color:var(--acc);box-shadow:0 0 12px -2px var(--sys-glow)}
+.sys-qtext{flex:1;min-width:0}
+.sys-qlabel{font-family:var(--font-ui);font-weight:700;font-size:18px;letter-spacing:.03em;line-height:1.2}
+.sys-quest.done .sys-qlabel{color:var(--label-2);text-decoration:line-through;text-decoration-color:var(--label-4)}
+.sys-qdetail{font-family:var(--font-ui);font-weight:500;font-size:14px;letter-spacing:.05em;color:var(--label-2);margin-top:1px}
+.sys-xpgain{font-family:var(--font-hud);font-weight:700;font-size:11px;letter-spacing:.1em;color:var(--sys-violet-text);white-space:nowrap}
+
+/* ----------------------------------------------------- animation switch ----- */
+html[data-motion="off"] .sys-bar i::after,
+html[data-motion="off"] .sys-rank{animation:none!important}
+html[data-motion="off"] .sys-bar i::after{display:none}

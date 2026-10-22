@@ -16,6 +16,32 @@ export async function fetchNutrition(date = todayISO()) {
   }
 }
 
+// Last N days of food/water totals + targets, for the game layer (VIT stat, food XP, food quests).
+export async function fetchNutritionRange(days = 60, end = todayISO()) {
+  try {
+    const r = await fetch(`/api/nutrition/range?days=${days}&end=${encodeURIComponent(end)}`, { credentials: 'same-origin', cache: 'no-store' })
+    if (!r.ok) return { ok: false, reason: 'unavailable' }
+    return await r.json()
+  } catch {
+    return { ok: false, reason: 'unavailable' }
+  }
+}
+
+// null = loading; { ok:false } = unavailable / not linked; { ok:true, days, goals } = data.
+export function useNutritionRange(enabled = true, days = 60) {
+  const [data, setData] = useState(null)
+  useEffect(() => {
+    if (!enabled) return undefined
+    let alive = true
+    const load = () => { if (!document.hidden) fetchNutritionRange(days).then(d => { if (alive) setData(d) }) }
+    load()
+    const id = setInterval(load, REFRESH_MS)
+    document.addEventListener('visibilitychange', load)
+    return () => { alive = false; clearInterval(id); document.removeEventListener('visibilitychange', load) }
+  }, [enabled, days])
+  return data
+}
+
 // null = still loading. Refreshes while the screen is on and visible, and when the tab/app returns.
 export function useNutrition() {
   const [data, setData] = useState(null)

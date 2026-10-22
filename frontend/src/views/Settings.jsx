@@ -15,6 +15,7 @@ import { coachAvailable, hasConsent } from '../lib/coach.js'
 import { forgetCoach } from '../lib/coach-api.js'
 import Icon from '../components/Icon.jsx'
 import { Section, Row, SelectRow, Switch, Segmented, Button, TextField } from '../components/ui.jsx'
+import ThemeSettings from '../custom/ThemeSettings.jsx'   // Level Up Tracker
 
 export default function Settings() {
   const nav = useNavigate()
@@ -100,6 +101,8 @@ export default function Settings() {
       )}
     </Section>
     {!user && !DEMO && !MOBILE && <p className="sect-f" style={{ marginTop: -18, marginBottom: 22 }}>{t('Guest mode — data lives only in this browser.')}</p>}
+
+    {!DEMO && !MOBILE && <ThemeSettings />}{/* Level Up Tracker */}
 
     {/* ---------- general ---------- */}
     <Section title={t('General')} footer={t('Note: switching units only changes the label — logged numbers are not converted.')}>
