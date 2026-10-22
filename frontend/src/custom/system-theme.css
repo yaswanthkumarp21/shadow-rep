@@ -21,7 +21,7 @@ html[data-skin="system"]:root[data-theme][data-accent]{
 
   --label:#e8f3ff;
   --label-2:rgba(184,208,245,.74);
-  --label-3:rgba(165,192,238,.66);   /* >= 4.5:1 on every panel (WCAG AA) */
+  --label-3:rgba(165,192,238,.72);   /* >= 4.5:1 on every panel and control (WCAG AA) */
   --label-4:rgba(120,150,210,.32);
 
   --sep:rgba(56,189,248,.22); --sep-op:rgba(56,189,248,.16);
