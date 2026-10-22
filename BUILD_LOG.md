@@ -26,3 +26,11 @@
 - Free-plan terms checked: Tailscale Personal = \, personal/non-commercial use.
 - Limitation: PC must be on with Docker + Tailscale running for sync.
 - Open: Docker Desktop 'start on login' (user ticks in Docker Settings); phone tests (Tailscale on phone, passkey, add to home screen).
+
+## 2026-10-22 - Phase 3 (backups)
+- scripts/backup.ps1 (+ backup.bat double-click): stops OpenGym api + NutriTrace for a few seconds, zips OpenGym data, NutriTrace DB+uploads and both .env files into backups/levelup-<date>_<time>.zip, restarts everything, keeps newest 14. backups/ is git-ignored. Backup zips contain secrets (.env, passkey data) - keep private.
+- scripts/restore.ps1 -Zip <file>: moves current data aside as *.before-restore-<time> (never deletes), restores, restarts. -DryRun validates a zip; -TargetRoot <folder> does a practice restore elsewhere.
+- Tested: backup run, dry-run validation, practice restore into scratch folder (OpenGym db.json identical to live; NutriTrace SQLite integrity_check = ok, 89 tables). Live data untouched.
+- Scheduled task 'LevelUpTracker-Backup': daily 03:00, runs when PC next on if missed (StartWhenAvailable). Verified via Start-ScheduledTask (result 0).
+- Bugs found & fixed during testing: (1) docker's stderr progress output aborted the script under ErrorActionPreference=Stop and left opengym-api stopped once (restarted immediately; no data lost) - now wrapped in a Compose helper with try/finally restart; (2) \ empty in param defaults in restore.ps1 on PS 5.1 - now set after param().
+- Open: copy a backup to an external drive / own Google Drive occasionally (free). Docker 'start on login' ticked by Yash (AutoStart=true confirmed). Phone tests from Phase 2 still pending.
