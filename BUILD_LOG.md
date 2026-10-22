@@ -117,3 +117,5 @@
 - NutriTrace motion: stylesheet verified to parse in a real browser (7 keyframes, 19 motion rules) and the beam/bracket/button animations run on the live login page; its internal screens' motion was not visually inspected (no login available).
 - Tests: frontend 198 pass (+8), API 15 pass, contrast 65 pairs all >= AA (lowest 4.89:1), health check 19/19. Same environmental coach.test.js load failure as before.
 - Files touched upstream this step: frontend/src/App.jsx (+SystemEvents import and 1 line). Committed in opengym repo.
+
+- 2026-10-23: removed the left-to-right 'wipe' on Stats charts/heatmap at Yash's request (looked odd); all other motion unchanged. Yash continues tomorrow morning; Phase 8 not yet re-tagged (v1-before-theme remains the rollback point).
