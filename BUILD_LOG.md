@@ -70,3 +70,14 @@
 - Trace AI (NutriTrace) remains OFF/unconfigured. No paid API keys anywhere.
 - Backups now contain data/coach.json (encrypted token) + data/secret (the key): treat backup zips as credential-bearing. Token valid ~1 year (rotate: Admin -> AI Coach -> Disconnect, new setup-token, Add CLI token).
 - Open: Yash still has to consent for his own profile in the Coach area before any data is used; try a first plan/review.
+
+## 2026-10-22 - Phase 7 (polish & freeze)
+- scripts/smoke-test.ps1 (+ .bat): 18 checks (Docker, 4 containers + restart policy, Tailscale, Serve, HTTPS endpoints, nutrition route locked, MCP token, RP_ID/ORIGIN match, secure cookies, no secrets in git, backup task + recent backup, Docker autostart). All 18 PASS. Changes nothing.
+- scripts/start-all.bat, stop-all.bat: tested - stop leaves 0 containers and data byte-identical; start returns to all-healthy.
+- Fresh backup + practice restore on real current data: valid, OpenGym files identical to live (coach.json included), NutriTrace SQLite integrity_check ok, 82 foods, 1 user.
+- NutriTrace: Yash already imported the 81 Indian foods (82 foods incl. test food). Real diary totals confirmed through MCP (calories/fat/carbohydrates/proteins keys, matches code); real goals have proteins/fat/carbohydrates only, NO calorie goal -> card shows kcal without target/bar. 13 API unit tests pass (real response formats captured).
+- Added Credits & licences screen (frontend/src/custom/CreditsView.jsx, route /credits, link in Settings footer) - covers AGPL (openGym, NutriTrace), Open Food Facts (ODbL attribution), exercise media, MuscleMap, Coach, approx. food list, Tailscale/Caddy. Verified in browser. NEW upstream edits: App.jsx (route + import), Settings.jsx (one link in footer).
+- README_MY_SETUP.md written (plain language: start/stop, health check, data locations, backup/restore, reboot, troubleshooting, phone, ports, Coach, updating, rules).
+- Tag v1-before-theme set in BOTH repos (level-up-tracker and opengym) = rollback point before Phase 8.
+- STILL OPEN (need Yash): (1) phone tests (Tailscale on phone, passkey, /food/ in PWA, home-screen icons, sync both ways); (2) look at the Home nutrition card with real numbers in his Chrome (data is ready now); (3) his consent in Coach screen + first plan; (4) copy a backup off the PC. Optional: calorie target (NutriTrace has no calorie goal key); weight single-source sync not possible via documented API.
+- Phase 8 (theme) needs Yash's explicit go-ahead.
