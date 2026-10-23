@@ -1,30 +1,41 @@
-# Level Up Tracker — adds the "System" skin to NutriTrace without touching NutriTrace.
-# Sits between Caddy and NutriTrace: serves the theme files and inserts ONE <script> + <link> into
-# NutriTrace's HTML page. Everything else is passed through unchanged.
+# Shadow Rep — gives the food app (NutriTrace) its own look and name without touching NutriTrace's code.
+# Sits between Caddy and NutriTrace. It
+#   * serves the theme files (stylesheet, fonts, icons, branding script) under  <base>/_sr/
+#   * serves Shadow Rep's own web-app manifest and icons at the addresses NutriTrace uses for its own
+#   * rewrites the page title and inserts ONE <script> + the stylesheet and branding script into the HTML page
+# Everything else is passed through unchanged.
 #
 # Variables (docker-compose / docker run -e):
-#   LUT_BASE      "/food" in production, "" for a root-mounted test instance
-#   LUT_UPSTREAM  where NutriTrace listens, e.g. http://host.docker.internal:3001
+#   SR_BASE      "/food" in production, "" for a root-mounted test instance
+#   SR_UPSTREAM  where NutriTrace listens, e.g. http://host.docker.internal:3001
 #
-# The script reads the same per-device switch as OpenGym (localStorage "lut-skin"/"lut-motion";
-# both apps share one origin), so Settings -> Theme -> Classic also restores NutriTrace's own look.
+# The inline script reads the same per-device switch as the gym app (localStorage "sr-skin"/"sr-motion";
+# both apps share one origin), so Settings -> Theme -> Classic also restores the plain look here.
+#
 # For HTML page loads only, don't forward the browser's "has this changed?" headers. Otherwise NutriTrace
 # answers "304 not modified" and the browser keeps showing the copy it saved BEFORE the skin was added.
 # (Assets keep normal revalidation, so they still cache properly.)
-map $http_accept $lut_if_none_match     { default $http_if_none_match;     "~*text/html" ""; }
-map $http_accept $lut_if_modified_since { default $http_if_modified_since; "~*text/html" ""; }
+map $http_accept $sr_if_none_match     { default $http_if_none_match;     "~*text/html" ""; }
+map $http_accept $sr_if_modified_since { default $http_if_modified_since; "~*text/html" ""; }
 
 server {
     listen 80;
     client_max_body_size 50m;
 
-    location ${LUT_BASE}/_lut/ {
+    # theme files
+    location ${SR_BASE}/_sr/ {
         alias /theme/;
         add_header Cache-Control "no-cache";
     }
 
-    location ${LUT_BASE}/ {
-        proxy_pass ${LUT_UPSTREAM};
+    # Shadow Rep's own manifest + icons, at the addresses the food app already uses
+    location = ${SR_BASE}/manifest.webmanifest { alias /theme/manifest.webmanifest; default_type application/manifest+json; add_header Cache-Control "no-cache"; }
+    location = ${SR_BASE}/icons/icon-192.png   { alias /theme/icons/icon-192.png; add_header Cache-Control "no-cache"; }
+    location = ${SR_BASE}/icons/icon-512.png   { alias /theme/icons/icon-512.png; add_header Cache-Control "no-cache"; }
+    location = ${SR_BASE}/icons/logo.png       { alias /theme/icons/logo.png;     add_header Cache-Control "no-cache"; }
+
+    location ${SR_BASE}/ {
+        proxy_pass ${SR_UPSTREAM};
         proxy_http_version 1.1;
         proxy_set_header Host $http_host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -32,13 +43,14 @@ server {
         proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
         proxy_set_header Connection "";
         proxy_set_header Accept-Encoding "";   # sub_filter needs an uncompressed page
-        proxy_set_header If-None-Match $lut_if_none_match;
-        proxy_set_header If-Modified-Since $lut_if_modified_since;
+        proxy_set_header If-None-Match $sr_if_none_match;
+        proxy_set_header If-Modified-Since $sr_if_modified_since;
         proxy_buffering off;
         proxy_read_timeout 300s;
 
         sub_filter_once on;
         sub_filter_types text/html;
-        sub_filter '</head>' '<script>(function(){var d=document.documentElement;function a(){var s=null,m=null;try{s=localStorage.getItem("lut-skin");m=localStorage.getItem("lut-motion")}catch(e){}d.setAttribute("data-skin",s==="classic"?"classic":"system");d.setAttribute("data-motion",m==="off"?"off":"on")}a();addEventListener("storage",function(e){if(e.key==="lut-skin"||e.key==="lut-motion")a()})})()</script><link rel="stylesheet" href="${LUT_BASE}/_lut/system.css?v=1"></head>';
+        sub_filter '<title>NutriTrace</title>' '<title>Shadow Rep Food</title>';
+        sub_filter '</head>' '<script>(function(){var d=document.documentElement;function a(){var s=null,m=null;try{s=localStorage.getItem("sr-skin");m=localStorage.getItem("sr-motion")}catch(e){}d.setAttribute("data-skin",s==="classic"?"classic":"system");d.setAttribute("data-motion",m==="off"?"off":"on")}a();addEventListener("storage",function(e){if(e.key==="sr-skin"||e.key==="sr-motion")a()})})()</script><link rel="stylesheet" href="${SR_BASE}/_sr/system.css?v=1"><script defer src="${SR_BASE}/_sr/brand.js"></script></head>';
     }
 }

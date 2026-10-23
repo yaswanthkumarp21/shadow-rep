@@ -1,4 +1,4 @@
-# Level Up Tracker - restore from a backup zip.
+# Shadow Rep - restore from a backup zip.
 #   .\restore.ps1 -Zip ..\backups\levelup-2026-10-22_0300.zip
 # Safe by design: your CURRENT data is MOVED aside (data.before-restore-<time>), never deleted.
 # -TargetRoot lets you practise a restore into a scratch folder without touching the live apps.

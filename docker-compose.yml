@@ -1,9 +1,9 @@
-name: level-up-proxy
+﻿name: shadowrep-proxy
 
 services:
   proxy:
     image: caddy:2-alpine
-    container_name: level-up-proxy
+    container_name: shadowrep-proxy
     restart: unless-stopped
     depends_on:
       - foodtheme
@@ -18,13 +18,14 @@ services:
   # into NutriTrace's page. NutriTrace itself is not modified. Details: nutritrace/theme/nginx.conf.template
   foodtheme:
     image: nginx:alpine
-    container_name: level-up-foodtheme
+    container_name: shadowrep-foodtheme
     restart: unless-stopped
     environment:
-      - LUT_BASE=/food
-      - LUT_UPSTREAM=http://host.docker.internal:3001
+      - SR_BASE=/food
+      - SR_UPSTREAM=http://host.docker.internal:3001
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./nutritrace/theme/nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
       - ./nutritrace/theme:/theme:ro
+

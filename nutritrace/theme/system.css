@@ -1,8 +1,8 @@
-﻿/* Level Up Tracker â€” "System" skin for NutriTrace.
+/* Shadow Rep — "System" skin for NutriTrace.
    The same ORIGINAL sci-fi "system window" look as the OpenGym skin (near-black navy, cyan glow,
    violet secondary, thin glowing edges, corner brackets, faint scanlines). NutriTrace's own code is
    untouched: this stylesheet is added to its page by the proxy (see ../proxy-food/) and only takes
-   effect while <html data-skin="system"> is set â€” Classic (OpenGym -> Settings -> Theme) removes it.
+   effect while <html data-skin="system"> is set — Classic (Settings -> Theme) removes it.
    Fonts: Orbitron + Rajdhani, SIL Open Font Licence 1.1, served from this instance. */
 
 @font-face{font-family:'Orbitron';src:url('./fonts/orbitron-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
@@ -11,7 +11,7 @@
 
 /* ------------------------------------------------------------------ tokens -- */
 /* NutriTrace themes itself with CSS variables, so most of the work is overriding them.
-   The selector outranks its [data-theme=light][data-accent=â€¦] rules, so the skin wins
+   The selector outranks its [data-theme=light][data-accent=…] rules, so the skin wins
    whatever theme/accent NutriTrace is set to. */
 html[data-skin="system"],
 html[data-skin="system"]:root[data-theme],
@@ -86,7 +86,7 @@ html[data-skin="system"] .app-topbar :is(h1,h2,[class*="title"]){
 }
 
 /* NutriTrace's big gradient page banner ("banner-gradient") is built from the accent colours, which would
-   be a loud cyan-to-violet slab here â€” make it dark glass with a glowing lower edge instead. */
+   be a loud cyan-to-violet slab here — make it dark glass with a glowing lower edge instead. */
 html[data-skin="system"] .page-header.banner-gradient,
 html[data-skin="system"] .page-header{
   background:

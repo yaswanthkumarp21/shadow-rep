@@ -1,4 +1,4 @@
-Fonts bundled with the Level Up Tracker "System" skin (self-hosted, no external requests).
+Fonts bundled with the Shadow Rep "System" skin (self-hosted, no external requests).
 Both are licensed under the SIL Open Font License, Version 1.1 (https://openfontlicense.org).
 
   Orbitron  (orbitron-latin-700-normal.woff2)

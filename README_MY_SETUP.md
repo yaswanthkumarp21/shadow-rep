@@ -1,4 +1,4 @@
-# My Level Up Tracker - how it works and what to do
+# My Shadow Rep - how it works and what to do
 
 (Written for Yash. Plain language. Keep this file.)
 
@@ -47,7 +47,7 @@ what to do. It changes nothing, so run it any time something feels off.
   so keep them private.
 - **Restore** (only if something is badly broken). Pick the backup you want and run this in PowerShell:
 
-  `powershell -ExecutionPolicy Bypass -File D:\AI\level-up-tracker\scripts\restore.ps1 -Zip D:\AI\level-up-tracker\backups\<the-zip-name>.zip`
+  `powershell -ExecutionPolicy Bypass -File D:\AI\shadow-rep\scripts\restore.ps1 -Zip D:\AI\shadow-rep\backups\<the-zip-name>.zip`
 
   It moves your current data aside (as `...before-restore-<time>`) instead of deleting it, restores the backup
   and restarts the apps.

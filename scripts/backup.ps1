@@ -1,4 +1,4 @@
-# Level Up Tracker - backup. Double-click backup.bat (or run this file).
+# Shadow Rep - backup. Double-click backup.bat (or run this file).
 # Makes backups\levelup-YYYY-MM-DD_HHmm.zip containing OpenGym data, NutriTrace DB + uploads,
 # and the two .env files (they hold secrets - keep backups private). Keeps the newest 14.
 param(

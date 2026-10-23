@@ -1,4 +1,4 @@
-# Level Up Tracker
+# Shadow Rep
 
 A private, self-hosted gym + food tracker with a game-style "System" look — runs in Docker on your own PC,
 reachable from your phone over a private HTTPS address (Tailscale), free to run.
@@ -7,7 +7,7 @@ reachable from your phone over a private HTTPS address (Tailscale), free to run.
 - **Food:** [NutriTrace](https://github.com/TraceApps/nutritrace) (AGPL-3.0) — diary, foods, recipes, goals. Runs **unmodified** (prebuilt image).
 - **This repo:** the glue — one address for both apps, the NutriTrace skin, backups, health check, helper scripts, and the Indian-foods starter list.
 - **Level Up additions to OpenGym** (Food tab, "Today's nutrition" card, level/XP/stats/quests, System skin, motion, credits) live in a
-  separate repository because OpenGym keeps its own history: **`level-up-tracker-opengym`** (see below).
+  separate repository because OpenGym keeps its own history: **`shadow-rep-opengym`** (see below).
 
 > Everything here was built with Claude Code. The full story — decisions, every upstream file touched, open items — is in
 > [`BUILD_LOG.md`](BUILD_LOG.md). A plain-language guide for the person running it is in [`README_MY_SETUP.md`](README_MY_SETUP.md).
@@ -15,7 +15,7 @@ reachable from your phone over a private HTTPS address (Tailscale), free to run.
 ## Layout
 
 ```
-level-up-tracker/                 <- this repo
+shadow-rep/                 <- this repo
   docker-compose.yml              proxy (Caddy) + foodtheme (nginx that adds the skin to NutriTrace)
   proxy/Caddyfile                 one address: /  -> OpenGym,  /food/ -> NutriTrace (via foodtheme)
   nutritrace/
@@ -24,7 +24,7 @@ level-up-tracker/                 <- this repo
     theme/                        system.css + fonts + nginx template (the NutriTrace skin)
     indian-foods-starter.csv      81 approximate Indian foods for NutriTrace's Bulk Import
   scripts/                        backup / restore / smoke-test / start-all / stop-all
-  opengym/                        <- NOT in this repo: clone level-up-tracker-opengym here (git-ignored)
+  opengym/                        <- NOT in this repo: clone shadow-rep-opengym here (git-ignored)
   BUILD_LOG.md  README_MY_SETUP.md
 ```
 
@@ -32,7 +32,7 @@ level-up-tracker/                 <- this repo
 
 1. Install Docker Desktop (WSL2) and Tailscale (free personal plan; enable HTTPS certificates). Pick your private hostname **once** —
    it is baked into passkeys (`RP_ID`); changing it later invalidates them.
-2. `git clone <this repo> level-up-tracker` then, inside it: `git clone <level-up-tracker-opengym repo> opengym`
+2. `git clone <this repo> shadow-rep` then, inside it: `git clone <shadow-rep-opengym repo> opengym`
 3. `opengym/.env`: copy `.env.example`, set `RP_ID`, `ORIGIN`, `RP_NAME`, then add
    `NUTRITRACE_URL=http://host.docker.internal:3001/food`, `NUTRITRACE_TOKEN=<read-only mcp:read token>` and (optional) `ADMIN_UIDS`.
 4. `nutritrace/.env`: copy `.env.example`, set a long random `JWT_SECRET`.
@@ -48,7 +48,7 @@ level-up-tracker/                 <- this repo
 
 ## Licences
 
-- OpenGym and NutriTrace are AGPL-3.0; their notices are kept. OpenGym's modified source is the `level-up-tracker-opengym` repo.
+- OpenGym and NutriTrace are AGPL-3.0; their notices are kept. OpenGym's modified source is the `shadow-rep-opengym` repo.
 - Exercise media (hasaneyldrm/exercises-dataset), Open Food Facts data (ODbL), MuscleMap (MIT), Orbitron and Rajdhani fonts (OFL-1.1):
   see the in-app **Settings → Credits & licences** and `NOTICE.md` in the OpenGym repo.
 - Original artwork (logo, rank sigils, rune ring) was drawn for this project. No third-party or series artwork is used.

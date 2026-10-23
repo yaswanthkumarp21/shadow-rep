@@ -1,4 +1,4 @@
-# Level Up Tracker - health check. Double-click smoke-test.bat, or run this file.
+# Shadow Rep - health check. Double-click smoke-test.bat, or run this file.
 # Prints PASS / FAIL for each part and tells you what to do about a FAIL. Changes nothing.
 param([string]$Root = '')
 if (-not $Root) { $Root = Split-Path $PSScriptRoot -Parent }
@@ -17,11 +17,11 @@ function Http($url, $method = 'GET') { try { Invoke-WebRequest $url -Method $met
 $host_ = Get-Env "$Root\opengym\.env" 'RP_ID'
 $base = "https://$host_"
 
-Write-Host "`nLevel Up Tracker - health check`n" -ForegroundColor Cyan
+Write-Host "`nShadow Rep - health check`n" -ForegroundColor Cyan
 
 Check 'Docker is running' { $old = $ErrorActionPreference; $ErrorActionPreference = 'Continue'; docker info *> $null; $c = $LASTEXITCODE; $ErrorActionPreference = $old; $c -eq 0 } 'Start Docker Desktop and wait for "Engine running".'
 
-foreach ($c in 'opengym-api-1', 'opengym-web-1', 'nutritrace', 'level-up-proxy', 'level-up-foodtheme') {
+foreach ($c in 'opengym-api-1', 'opengym-web-1', 'nutritrace', 'shadowrep-proxy', 'shadowrep-foodtheme') {
     Check "Container $c is up" {
         $old = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
         $s = docker inspect -f '{{.State.Status}}|{{.HostConfig.RestartPolicy.Name}}' $c 2>$null
@@ -30,7 +30,7 @@ foreach ($c in 'opengym-api-1', 'opengym-web-1', 'nutritrace', 'level-up-proxy',
         if ($st -ne 'running') { throw "state: $st" }
         if ($rp -ne 'unless-stopped') { throw "restart policy is '$rp' (should be unless-stopped)" }
         "running, restarts automatically"
-    } "Run:  docker compose up -d   (in the opengym, nutritrace and level-up-tracker folders)"
+    } "Run:  docker compose up -d   (in the opengym, nutritrace and shadow-rep folders)"
 }
 
 Check 'Tailscale is connected' { $j = (& tailscale status --json | ConvertFrom-Json); if ($j.BackendState -ne 'Running') { throw $j.BackendState }; "as " + $j.Self.DNSName.TrimEnd('.') } 'Open Tailscale from the system tray and sign in / connect.'
@@ -41,11 +41,11 @@ Check 'OpenGym home page loads' { (Http "$base/").StatusCode -eq 200 } 'See the 
 Check 'NutriTrace answers at /food/' { $r = Http "$base/food/api/health"; if ($r.StatusCode -ne 200) { throw "HTTP $($r.StatusCode)" }; $true } 'In the nutritrace folder:  docker compose logs'
 Check 'NutriTrace System skin is being added' {
     $h = Http "$base/food/"; if ($h.StatusCode -ne 200) { throw "HTTP $($h.StatusCode)" }
-    if ($h.Content -notmatch '/_lut/system\.css') { throw 'skin link missing from the NutriTrace page' }
-    $c = Http "$base/food/_lut/system.css"; if ($c.StatusCode -ne 200) { throw "stylesheet HTTP $($c.StatusCode)" }
-    $f = Http "$base/food/_lut/fonts/orbitron-latin-700-normal.woff2"; if ($f.StatusCode -ne 200) { throw "font HTTP $($f.StatusCode)" }
+    if ($h.Content -notmatch '/_sr/system\.css') { throw 'skin link missing from the NutriTrace page' }
+    $c = Http "$base/food/_sr/system.css"; if ($c.StatusCode -ne 200) { throw "stylesheet HTTP $($c.StatusCode)" }
+    $f = Http "$base/food/_sr/fonts/orbitron-latin-700-normal.woff2"; if ($f.StatusCode -ne 200) { throw "font HTTP $($f.StatusCode)" }
     "page + stylesheet + fonts"
-} 'In the level-up-tracker folder run:  docker compose up -d   (starts the "foodtheme" container).'
+} 'In the shadow-rep folder run:  docker compose up -d   (starts the "foodtheme" container).'
 Check 'Nutrition link is locked to signed-in users' { (Http "$base/api/nutrition/today").StatusCode -eq 401 } 'Rebuild OpenGym:  docker compose up -d --build  (in the opengym folder).'
 
 $tok = Get-Env "$Root\opengym\.env" 'NUTRITRACE_TOKEN'
@@ -60,8 +60,8 @@ Check 'Passkey address matches (RP_ID / ORIGIN)' { $o = Get-Env "$Root\opengym\.
 Check 'NutriTrace secret cookies (HTTPS) are on' { -not (Get-Content "$Root\nutritrace\.env" | ? { $_ -match '^INSECURE_COOKIES=' }) } 'Remove the INSECURE_COOKIES line from nutritrace\.env.'
 Check 'No secrets are tracked by git' { Push-Location $Root; $t = git ls-files | ? { $_ -match '\.env$|\.db$|^backups/|^nutritrace/data/' }; Pop-Location; if ($t) { throw ($t -join ', ') }; $true } 'Run: git rm --cached <file>   and check .gitignore.'
 
-$task = Get-ScheduledTask -TaskName 'LevelUpTracker-Backup' -ErrorAction SilentlyContinue
-Check 'Daily backup is scheduled' { if (-not $task) { throw 'task missing' }; $i = $task | Get-ScheduledTaskInfo; "next run " + $i.NextRunTime } 'Tell Claude: re-create the LevelUpTracker-Backup scheduled task.'
+$task = Get-ScheduledTask -TaskName 'ShadowRep-Backup' -ErrorAction SilentlyContinue
+Check 'Daily backup is scheduled' { if (-not $task) { throw 'task missing' }; $i = $task | Get-ScheduledTaskInfo; "next run " + $i.NextRunTime } 'Tell Claude: re-create the ShadowRep-Backup scheduled task.'
 Check 'A recent backup exists (last 3 days)' {
     $b = Get-ChildItem "$Root\backups" -Filter 'levelup-*.zip' -ErrorAction SilentlyContinue | Sort LastWriteTime -Desc | Select -First 1
     if (-not $b) { throw 'no backups yet' }
