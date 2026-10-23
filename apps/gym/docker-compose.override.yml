@@ -1,0 +1,7 @@
+# Shadow Rep — local additions, kept out of upstream's docker-compose.yml.
+# Compose loads this file automatically next to docker-compose.yml.
+services:
+  api:
+    # lets the API container reach NutriTrace (published on the host at :3001)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
