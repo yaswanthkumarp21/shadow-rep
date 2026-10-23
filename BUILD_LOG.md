@@ -119,3 +119,11 @@
 - Files touched upstream this step: frontend/src/App.jsx (+SystemEvents import and 1 line). Committed in opengym repo.
 
 - 2026-10-23: removed the left-to-right 'wipe' on Stats charts/heatmap at Yash's request (looked odd); all other motion unchanged. Yash continues tomorrow morning; Phase 8 not yet re-tagged (v1-before-theme remains the rollback point).
+
+## 2026-10-23 - GitHub (requested by Yash, done unattended)
+- Two PRIVATE repositories under github.com/yaswanthkumarp21: level-up-tracker (this top-level setup: compose, proxy, NutriTrace skin, scripts, docs, Indian foods CSV) and level-up-tracker-opengym (OpenGym with all Level Up additions, full 160-commit history incl. upstream, tag v1-before-theme). Created through github.com/new in Yash's already-signed-in Chrome; pushed with the Git credential already stored on this PC (no new OAuth grant, no tokens read or created).
+- Before pushing: scanned both repos' FULL history for tokens/keys/.env/db/zip - zero hits; no env/db/backup files tracked. Docs do mention the private Tailscale hostname (tailnet-only) - repos are private for that reason.
+- Safety: opengym's old 'origin' (the ORIGINAL author's repo alexpcosta/opengym) was renamed 'upstream' with its push URL disabled, so nothing can be pushed there by mistake. Fetching upstream updates still works (git fetch upstream).
+- README.md + nutritrace/.env.example added for the repo. No LICENSE chosen for the setup files (add one before ever making it public; OpenGym part stays AGPL-3.0).
+- To restore on another PC: clone level-up-tracker, then clone level-up-tracker-opengym into level-up-tracker/opengym, recreate the two .env files (see README.md) - secrets/data/backups are NOT in GitHub.
+- Push later changes with: git push (in each repo; origin is set).
