@@ -57,12 +57,12 @@ export default function SystemEvents() {
   const show = useCallback(a => setQueue(q => [...q, { ...a, id: Date.now() + Math.random() }]), [])
   const next = useCallback(() => setQueue(q => q.slice(1)), [])
 
-  // anything can ask for a message:  window.dispatchEvent(new CustomEvent('lut:alert', { detail: { kind, title, sub } }))
+  // anything can ask for a message:  window.dispatchEvent(new CustomEvent('sr:alert', { detail: { kind, title, sub } }))
   useEffect(() => {
     if (!sys) { setQueue([]); return undefined }   // Classic skin: show nothing, and don't hoard messages for later
     const h = e => show(e.detail || {})
-    window.addEventListener('lut:alert', h)
-    return () => window.removeEventListener('lut:alert', h)
+    window.addEventListener('sr:alert', h)
+    return () => window.removeEventListener('sr:alert', h)
   }, [sys, show])
 
   // 1) a workout was just finished -> new record overlay, or a quiet "+N XP" toast
@@ -91,7 +91,7 @@ export default function SystemEvents() {
     const today = todayISO()
     const p = playerStatus(S, nut, today)
 
-    const lk = `lut-level:${uid}`
+    const lk = `sr-level:${uid}`
     const seen = ls.get(lk)
     const ch = levelChange(seen == null ? null : Number(seen), p.level, ls.get(lk + ':rank'), p.stats.rank)
     if (ch.kind === 'up') {
@@ -99,7 +99,7 @@ export default function SystemEvents() {
     }
     ls.set(lk, String(p.level)); ls.set(lk + ':rank', p.stats.rank)
 
-    const qk = `lut-quests:${uid}:${today}`
+    const qk = `sr-quests:${uid}:${today}`
     let prevIds = null
     try { prevIds = JSON.parse(ls.get(qk)) } catch { prevIds = null }
     const done = newlyDone(prevIds, p.quests)
@@ -109,7 +109,7 @@ export default function SystemEvents() {
     try {
       for (let i = localStorage.length - 1; i >= 0; i--) {
         const k = localStorage.key(i)
-        if (k && k.startsWith(`lut-quests:${uid}:`) && !k.endsWith(today)) ls.del(k)
+        if (k && k.startsWith(`sr-quests:${uid}:`) && !k.endsWith(today)) ls.del(k)
       }
     } catch { /* ignore */ }
   }, [sys, loaded, ready, S, range, uid]) // eslint-disable-line react-hooks/exhaustive-deps

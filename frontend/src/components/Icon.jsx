@@ -1,4 +1,4 @@
-// openGym icon set — hand-drawn on a 24×24 grid, stroke-based, single weight.
+// Shadow Rep icon set — hand-drawn on a 24×24 grid, stroke-based, single weight.
 //
 // Everything is one <svg> primitive with `currentColor`, so an icon inherits the
 // text colour and optical size of whatever it sits in. No emoji anywhere in the
@@ -43,7 +43,7 @@ const P = {
   shield: <path d="M12 3.6 5 6.2v5.5c0 4 2.9 7.5 7 8.7 4.1-1.2 7-4.7 7-8.7V6.2Z" />,
   heart: <path d="M12 20c-.4 0-.8-.1-1-.4l-6.2-6a4.6 4.6 0 0 1 0-6.6 4.4 4.4 0 0 1 6.2 0l1 1 1-1a4.4 4.4 0 0 1 6.2 0 4.6 4.6 0 0 1 0 6.6l-6.2 6c-.2.3-.6.4-1 .4Z" />,
   rocket: <><path d="M12 3.6c2.8 2.5 4.2 5.7 4.2 9.1v4.5H7.8v-4.5c0-3.4 1.4-6.6 4.2-9.1Z" /><circle cx="12" cy="10.3" r="1.8" /><path d="M7.8 14 5.2 16.6v3.8l2.6-2M16.2 14l2.6 2.6v3.8l-2.6-2" /></>,
-  // Level Up Tracker: Food tab / nutrition card icon (apple)
+  // Shadow Rep: Food tab / nutrition card icon (apple)
   food: <><path d="M12 8.2c-1.5-1.2-5.2-1-5.9 2.5-.7 3.7 1.5 8.6 3.7 8.6 1 0 1.3-.5 2.2-.5s1.2.5 2.2.5c2.2 0 4.4-4.9 3.7-8.6-.7-3.5-4.4-3.7-5.9-2.5Z" /><path d="M12 8.2c0-1.7.9-3.1 2.6-3.7" /></>,
   sparkles: <><path d="m8.4 3.8 1.1 2.9 2.9 1.1-2.9 1.1-1.1 2.9-1.1-2.9L4.4 7.8l2.9-1.1Z" /><path d="m16.2 12.4.8 2.1 2.1.8-2.1.8-.8 2.1-.8-2.1-2.1-.8 2.1-.8Z" /></>,
   lightbulb: <><path d="M9.2 16.4a5.6 5.6 0 1 1 5.6 0v1.8H9.2Z" /><path d="M10 20.6h4" /></>,

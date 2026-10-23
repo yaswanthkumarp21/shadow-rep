@@ -1,6 +1,6 @@
-// Level Up Tracker — read-only "Today's nutrition" link to a self-hosted NutriTrace.
+// Shadow Rep — read-only "Today's nutrition" link to a self-hosted NutriTrace.
 //
-// Added on top of openGym (not part of upstream). The browser never sees the NutriTrace token:
+// Added on top of Shadow Rep (not part of upstream). The browser never sees the NutriTrace token:
 // it asks GET /api/nutrition/today?date=YYYY-MM-DD here, and this module calls NutriTrace's
 // documented MCP endpoint (POST <NUTRITRACE_URL>/api/mcp, tools get_daily_totals + get_goals)
 // with a read-only `mcp:read` bearer token. Results are cached briefly and every failure

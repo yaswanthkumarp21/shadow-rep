@@ -1,4 +1,4 @@
-# Level Up Tracker — local additions, kept out of upstream's docker-compose.yml.
+# Shadow Rep — local additions, kept out of upstream's docker-compose.yml.
 # Compose loads this file automatically next to docker-compose.yml.
 services:
   api:

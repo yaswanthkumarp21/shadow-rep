@@ -1,4 +1,4 @@
-/* Level Up Tracker — ALL motion for the "System" skin, in one file.
+/* Shadow Rep — ALL motion for the "System" skin, in one file.
    Rules for everything in here:
      - runs only when the phone has NOT asked for reduced motion (prefers-reduced-motion) and
        Settings -> Theme -> Animations is on (<html data-motion> is not "off");

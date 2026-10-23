@@ -5,7 +5,7 @@ import { useSkinState, setSkin, setMotion } from './skin.js'
 // Settings -> Theme. Per device (not synced): your phone and PC can look different.
 export default function ThemeSettings() {
   const { skin, motion } = useSkinState()
-  return <Section title={t('Theme')} footer={t('Classic is the original openGym look. This setting is stored on this device only.')}>
+  return <Section title={t('Theme')} footer={t('Classic is the plain look, without the game panels and effects. This setting is stored on this device only.')}>
     <Row icon="sparkles" iconTint="var(--acc)" title={t('Look')}>
       <Segmented className="seg-inline"
         options={[{ value: 'system', label: t('System') }, { value: 'classic', label: t('Classic') }]}

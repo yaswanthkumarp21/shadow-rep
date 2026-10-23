@@ -15,7 +15,7 @@ function Macro({ label, m }) {
 }
 
 // Home card: calories + macros for today. Hidden when NutriTrace isn't linked (so a plain
-// openGym install is unaffected), and shows a quiet "unavailable" line when it can't be reached.
+// Shadow Rep install is unaffected), and shows a quiet "unavailable" line when it can't be reached.
 export default function NutritionCard({ nav }) {
   const d = useNutrition()
   if (d && d.ok === false && d.reason === 'not_configured') return null

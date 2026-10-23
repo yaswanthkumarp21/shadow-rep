@@ -1,4 +1,4 @@
-// Level Up Tracker — decides WHEN a System message should fire. Pure functions, no UI.
+// Shadow Rep — decides WHEN a System message should fire. Pure functions, no UI.
 // The screen (SystemEvents.jsx) feeds these with real data and only shows what they return.
 import { XP } from './levelup-config.js'
 import { setsDone } from '../lib/history.js'

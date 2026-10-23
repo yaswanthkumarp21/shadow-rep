@@ -1,13 +1,13 @@
-// Level Up Tracker — "System" skin switch.
+// Shadow Rep — "System" skin switch.
 //
-// The skin is a layer on top of openGym's own light/dark theme: `data-skin="system"` on <html>
+// The skin is a layer on top of Shadow Rep's own light/dark theme: `data-skin="system"` on <html>
 // restyles tokens and adds the game panels; `data-skin="classic"` is exactly the original look.
 // Stored per device (localStorage), not in the synced profile, so a phone and a PC can differ and
 // no server field is involved. Applied at import time so there is no flash of the wrong theme.
 import { useSyncExternalStore } from 'react'
 
-const SKIN_KEY = 'lut-skin'
-const MOTION_KEY = 'lut-motion'
+const SKIN_KEY = 'sr-skin'
+const MOTION_KEY = 'sr-motion'
 
 const read = (k, fallback, allowed) => {
   try { const v = localStorage.getItem(k); return allowed.includes(v) ? v : fallback } catch { return fallback }

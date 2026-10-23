@@ -4,7 +4,7 @@ import { useId } from 'react'
 // transparent, resolution-independent and a few hundred bytes; the motion lives in system-motion.css
 // (classes emb-*) and stops with the Animations switch / reduced-motion like everything else.
 
-/** The Level Up Tracker mark: a hexagon holding two stacked "level up" chevrons inside a dashed ring. */
+/** The Shadow Rep mark: a hexagon holding two stacked "level up" chevrons inside a dashed ring, with an offset "shadow" hexagon behind it. */
 export function LogoMark({ size = 32, className = '' }) {
   const g = 'lg' + useId().replace(/:/g, '')
   return <svg className={'emb-logo ' + className} viewBox="0 0 64 64" width={size} height={size} aria-hidden="true" focusable="false">
@@ -14,6 +14,8 @@ export function LogoMark({ size = 32, className = '' }) {
       </linearGradient>
     </defs>
     <g className="emb-ring"><circle cx="32" cy="32" r="30" fill="none" stroke={`url(#${g})`} strokeWidth="1.4" strokeDasharray="3 5" strokeLinecap="round" /></g>
+    {/* the "shadow": the same hexagon, offset behind */}
+    <polygon className="emb-shadow" points="32,6 54,18.5 54,45.5 32,58 10,45.5 10,18.5" transform="translate(3.4 3.4)" fill="none" stroke="#6d28d9" strokeOpacity=".75" strokeWidth="2.2" strokeLinejoin="round" />
     <polygon points="32,6 54,18.5 54,45.5 32,58 10,45.5 10,18.5" fill="rgba(56,189,248,.10)" stroke={`url(#${g})`} strokeWidth="2.2" strokeLinejoin="round" />
     <g className="emb-core" fill="none" stroke={`url(#${g})`} strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round">
       <path d="M22 32 L32 22 L42 32" /><path d="M22 43 L32 33 L42 43" />

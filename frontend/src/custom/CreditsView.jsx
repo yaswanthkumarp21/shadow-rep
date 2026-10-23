@@ -21,30 +21,34 @@ export default function CreditsView() {
     <div className="hdr">
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         <LogoMark size={46} />
-        <div><h1>{t('Credits & licences')}</h1><div className="sub">Level Up Tracker</div></div>
+        <div><h1>{t('Credits & licences')}</h1><div className="sub">Shadow Rep</div></div>
       </div>
       <button className="iconbtn" onClick={() => nav('/settings')} aria-label={t('Settings')}><Icon name="gear" /></button>
     </div>
 
-    <Item title="Level Up Tracker">
-      The logo, rank sigils and rune ring are original artwork drawn for this project (no third-party or
-      series artwork is used). A private, self-hosted setup that runs openGym (workouts) and NutriTrace (food) behind one address.
-      It is modified software: its source code (the upstream projects plus the additions made here) is
-      available to anyone who uses this instance — ask the person who runs it.
-      No analytics or trackers are used.
+    <Item title="Shadow Rep">
+      A private, self-hosted gym and food tracker with a game-style System look. It is built on two
+      open-source projects (below) and combines them into one app with its own name, artwork and features.
+      The logo, rank sigils and rune ring are original artwork drawn for this project; no third-party or
+      series artwork is used. No analytics or trackers are used.
+      It is modified software: the full source code — the foundations plus everything added here — is available
+      to anyone who uses this instance. Ask the person who runs it.
     </Item>
 
-    <Item title="openGym">
-      © 2026 Duarte Santos. Free software under the GNU Affero General Public License v3.0 (AGPL-3.0).
-      Fork used here: <A href="https://github.com/alexpcosta/opengym">alexpcosta/opengym</A>; original:
-      {' '}<A href="https://github.com/DuarteSantos8/openGym">DuarteSantos8/openGym</A>. This copy is modified
-      (Food tab, nutrition card, this screen); the licence and copyright notices are kept.
+    <Item title="Built on: OpenGym">
+      The gym half (workouts, plan, body weight, stats, passkey sign-in, AI Coach) is built on
+      {' '}<A href="https://github.com/DuarteSantos8/openGym">OpenGym</A> by Duarte Santos
+      (© 2026 Duarte Santos), via the fork <A href="https://github.com/alexpcosta/opengym">alexpcosta/opengym</A>.
+      Free software under the GNU Affero General Public License v3.0 (AGPL-3.0). It has been modified
+      here (renamed and re-skinned, Food tab, nutrition card, levels and quests); the licence and
+      copyright notices are kept.
     </Item>
 
-    <Item title="NutriTrace">
-      Food diary by TraceApps, free software under the AGPL-3.0:
-      {' '}<A href="https://github.com/TraceApps/nutritrace">TraceApps/nutritrace</A>. It runs unmodified in its
-      own container and is shown inside the Food tab.
+    <Item title="Built on: NutriTrace">
+      The food half (diary, foods, recipes, goals) is{' '}
+      <A href="https://github.com/TraceApps/nutritrace">NutriTrace</A> by TraceApps, free software under the
+      AGPL-3.0. It runs in its own container; this app re-skins it with a stylesheet and replaces its name and
+      logo, and does not change its program code.
     </Item>
 
     <Item title="Open Food Facts">

@@ -13,8 +13,8 @@ import { coachAvailable, hasConsent } from '../lib/coach.js'
 import { useCoachStatus } from '../lib/coach-api.js'
 import { DEMO } from '../lib/demo.js'
 import { MOBILE } from '../lib/mobile.js'
-import NutritionCard from '../custom/NutritionCard.jsx'   // Level Up Tracker
-import SystemHome from '../custom/SystemHome.jsx'         // Level Up Tracker
+import NutritionCard from '../custom/NutritionCard.jsx'   // Shadow Rep
+import SystemHome from '../custom/SystemHome.jsx'         // Shadow Rep
 
 // A job in flight or a proposal waiting is the only reason the Coach interrupts Home. When it
 // has nothing to say it renders nothing at all — and it only polls while Home is on screen.
@@ -80,11 +80,11 @@ export default function Home() {
 
   return <div className="narrow">
     <div className="hdr">
-      <div><h1>{user ? t('Hi {0}', user.name) : 'openGym'}</h1><div className="sub">{today.toLocaleDateString(dateLocale(), { weekday: 'long', day: 'numeric', month: 'long' })}</div></div>
+      <div><h1>{user ? t('Hi {0}', user.name) : 'Shadow Rep'}</h1><div className="sub">{today.toLocaleDateString(dateLocale(), { weekday: 'long', day: 'numeric', month: 'long' })}</div></div>
       <button className="iconbtn" onClick={() => nav('/settings')} aria-label={t('Settings')}><Icon name="gear" /></button>
     </div>
 
-    {!DEMO && !MOBILE && <SystemHome />}{/* Level Up Tracker: level, stats, daily quests (System skin only) */}
+    {!DEMO && !MOBILE && <SystemHome />}{/* Shadow Rep: level, stats, daily quests (System skin only) */}
 
     <div className="card">
       <div className="row between" style={{ marginBottom: 8 }}>
@@ -111,7 +111,7 @@ export default function Home() {
 
     {coachOn && <CoachCard nav={nav} />}
 
-    {!DEMO && !MOBILE && <NutritionCard nav={nav} />}{/* Level Up Tracker */}
+    {!DEMO && !MOBILE && <NutritionCard nav={nav} />}{/* Shadow Rep */}
 
     {!S.routines.length && !S.active && (
       <div className="card">

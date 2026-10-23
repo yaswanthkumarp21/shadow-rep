@@ -1,9 +1,10 @@
-{
-  "appId": "ch.duartesantos.opengym",
-  "appName": "openGym",
+﻿{
+  "appId": "app.shadowrep",
+  "appName": "Shadow Rep",
   "webDir": "dist",
   "backgroundColor": "#0c0e12",
   "android": {
     "allowMixedContent": false
   }
 }
+

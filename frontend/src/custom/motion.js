@@ -1,4 +1,4 @@
-// Level Up Tracker — small helpers for the JS-driven motion (number count-up, bar fill).
+// Shadow Rep — small helpers for the JS-driven motion (number count-up, bar fill).
 // Everything else that moves is plain CSS (system-motion.css). All of it is skipped when the phone
 // asks for reduced motion or when Settings -> Theme -> Animations is off: the final values just appear.
 import { useEffect, useRef, useState } from 'react'

@@ -1,6 +1,6 @@
-// Level Up Tracker — every number that drives levels, XP, stats and rank lives HERE.
+// Shadow Rep — every number that drives levels, XP, stats and rank lives HERE.
 // Change a value, rebuild (docker compose up -d --build), and the whole game layer follows.
-// Everything is derived from your real data (workouts in OpenGym, food/water in NutriTrace);
+// Everything is derived from your real data (workouts in Shadow Rep, food/water in NutriTrace);
 // nothing is stored, so changing the formula re-scores your whole history.
 
 export const XP = {

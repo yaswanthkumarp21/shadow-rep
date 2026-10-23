@@ -27,12 +27,12 @@ import Admin from './views/Admin.jsx'
 import Coach from './views/Coach.jsx'
 import CoachIntake from './views/CoachIntake.jsx'
 import CoachProposal from './views/CoachProposal.jsx'
-import FoodView from './custom/FoodView.jsx'   // Level Up Tracker
-import CreditsView from './custom/CreditsView.jsx'   // Level Up Tracker
-import './custom/skin.js'                             // Level Up Tracker: applies the saved skin before first paint
-import './custom/ntSwReset.js'                        // Level Up Tracker: one-time NutriTrace cache cleanup so it picks up the skin
-import SystemEvents from './custom/SystemEvents.jsx'   // Level Up Tracker: record / level-up overlays, quest toasts
-import './custom/system-theme.css'                    // Level Up Tracker: "System" skin (inert unless data-skin="system")
+import FoodView from './custom/FoodView.jsx'   // Shadow Rep
+import CreditsView from './custom/CreditsView.jsx'   // Shadow Rep
+import './custom/skin.js'                             // Shadow Rep: applies the saved skin before first paint
+import './custom/ntSwReset.js'                        // Shadow Rep: one-time NutriTrace cache cleanup so it picks up the skin
+import SystemEvents from './custom/SystemEvents.jsx'   // Shadow Rep: record / level-up overlays, quest toasts
+import './custom/system-theme.css'                    // Shadow Rep: "System" skin (inert unless data-skin="system")
 
 bindUI(useUI)   // lets the shared controls open sheets without importing the store at module scope
 
@@ -102,7 +102,7 @@ function Shell() {
       <RestTimer />
       <Modals />
       <Toast />
-      {authed && <SystemEvents />}{/* Level Up Tracker */}
+      {authed && <SystemEvents />}{/* Shadow Rep */}
     </>
   )
 }

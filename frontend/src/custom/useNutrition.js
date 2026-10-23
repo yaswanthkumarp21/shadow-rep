@@ -1,4 +1,4 @@
-// Level Up Tracker — fetches the "Today's nutrition" summary from OpenGym's own API
+// Shadow Rep — fetches the "Today's nutrition" summary from Shadow Rep's own API
 // (which reads NutriTrace server-side; no token in the browser).
 import { useEffect, useState } from 'react'
 import { todayISO } from '../lib/format.js'

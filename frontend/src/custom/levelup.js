@@ -1,5 +1,5 @@
-// Level Up Tracker — the game layer: level, XP, stats, rank and daily quests.
-// Pure functions of (OpenGym state, NutriTrace day totals, today's date). Nothing is stored:
+// Shadow Rep — the game layer: level, XP, stats, rank and daily quests.
+// Pure functions of (Shadow Rep state, NutriTrace day totals, today's date). Nothing is stored:
 // everything is recomputed from your real data, so the numbers can never drift from reality.
 // All tunable numbers live in levelup-config.js.
 import { XP, LEVEL, RANKS, STATS, MIN_MEAL_ITEMS, MAX_STAT } from './levelup-config.js'

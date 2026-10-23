@@ -1,6 +1,6 @@
 # The AI Coach
 
-The feature this fork adds to [openGym](https://github.com/DuarteSantos8/openGym): an optional AI
+The feature Shadow Rep adds on top of the open-source gym tracker it is built on (see [ORIGINS](../ORIGINS.md)): an optional AI
 that **designs** your training plan and **revises it from what you actually log** — running as a
 CLI on your own server, under your own provider account, off until an admin turns it on.
 
@@ -10,7 +10,7 @@ CLI on your own server, under your own provider account, off until an admin turn
 
 ## Why it exists
 
-Upstream openGym progresses a plan flawlessly and cannot write one. The engine adjusts weights
+Upstream Shadow Rep progresses a plan flawlessly and cannot write one. The engine adjusts weights
 inside whatever structure you built, and the effort ratings you log — RIR, RPE — were, by the
 app's own admission, read by nothing. Adherence, stalls and muscle gaps were all *displayed* and
 never synthesised into a decision.
@@ -36,7 +36,7 @@ provider dies, the engine carries on offline without skipping a beat.
 
 ## Principles
 
-- **Your box, your data.** The provider runs locally; openGym ships no bundled API keys.
+- **Your box, your data.** The provider runs locally; Shadow Rep ships no bundled API keys.
 - **Opt in twice.** An admin enables the feature; each profile consents separately before any of
   its data is used.
 - **Approval required.** Proposals are inert until you tap Apply, one change at a time.
@@ -52,12 +52,12 @@ provider dies, the engine carries on offline without skipping a beat.
 
 | Provider | Runtime | How you sign in | Guide |
 | --- | --- | --- | --- |
-| **Claude Code** | Claude Agent SDK | `claude setup-token` on a trusted machine, pasted into the admin card | [Claude setup guide](../Claude-setup-instructions.md) |
-| **OpenAI Codex** | Codex CLI (pinned, bundled) | ChatGPT device-code sign-in from the admin card | [ChatGPT / Codex setup guide](../ChatGPT-setup-instructions.md) |
+| **Claude Code** | Claude Agent SDK | `claude setup-token` on a trusted machine, pasted into the admin card | [Claude setup guide](coach/CLAUDE_SETUP.md) |
+| **OpenAI Codex** | Codex CLI (pinned, bundled) | ChatGPT device-code sign-in from the admin card | [ChatGPT / Codex setup guide](coach/CHATGPT_SETUP.md) |
 | **Fixture** | in-repo fake | nothing — no AI account at all | walks the whole loop for demos and CI |
 
 Both runtimes are built into the `api` image, so a self-hoster installs nothing. Neither path
-needs an API key. openGym never handles a browser OAuth callback and never asks your users for
+needs an API key. Shadow Rep never handles a browser OAuth callback and never asks your users for
 credentials.
 
 > **Note.** The design deck describes a provider-agnostic surface including Gemini and an
@@ -79,7 +79,7 @@ credentials.
 3. The card shows runtime version, sign-in state, jobs run today and the last failure. It never
    shows anyone's intake answers, payloads or proposals.
 
-Full walkthrough: [Claude](../Claude-setup-instructions.md) · [ChatGPT / Codex](../ChatGPT-setup-instructions.md) ·
+Full walkthrough: [Claude](coach/CLAUDE_SETUP.md) · [ChatGPT / Codex](coach/CHATGPT_SETUP.md) ·
 [self-hosting §8](SELF_HOSTING.md#8-the-ai-coach-optional).
 
 `COACH_DISABLED=1` is the kill switch: the Coach reports as disabled everywhere regardless of
@@ -167,7 +167,7 @@ frontend/src/views/AdminCoach.jsx  provider, sign-in, caps, health
 
 ## Design documents
 
-- **[openGym_AI_Strategy.pdf](../openGym_AI_Strategy.pdf)** — the functional description and
+- **[Shadow Rep_AI_Strategy.pdf](../Shadow Rep_AI_Strategy.pdf)** — the functional description and
   design rationale for the feature (Implementation Plan v1.3.0), as a slide deck: the problem,
   the Coach/Engine boundary, persona boundaries, both user journeys, the trust model and the
   delivery phasing. Read this first for the *why*; read this file for what shipped.
