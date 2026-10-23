@@ -6,7 +6,7 @@
 :80 {
 	redir /food /food/ permanent
 
-	# NutriTrace goes through a small nginx that adds the System skin (see nutritrace/theme/)
+	# NutriTrace goes through a small nginx that adds the System skin (see apps/food/theme/)
 	handle /food/* {
 		reverse_proxy foodtheme:80
 	}

@@ -2,12 +2,15 @@
 
 (Written for Yash. Plain language. Keep this file.)
 
+> **Why the address still says "levelup":** your private address was chosen before the app got its name. Passkeys are tied to it, so it must not change.
+> (To change it later, we first add a way to attach a new passkey to your existing profile.)
+
 ## What you have
 
 One private app for gym + food, on your own PC, free, reachable from your phone.
 
-- **OpenGym** = workouts, plan, body weight, stats, AI Coach.
-- **NutriTrace** = food diary (calories, protein, carbs, fat). It shows up inside OpenGym as the **Food** tab.
+- **The gym side** = workouts, plan, body weight, stats, levels and quests, AI Coach.
+- **The food side** ("Shadow Rep Food") = food diary (calories, protein, carbs, fat). It shows up inside the app as the **Food** tab.
 - **Your private address:** https://levelup.tail7782ec.ts.net
   Only **your own devices** that have Tailscale switched on can open it. It is not on the public internet.
 - It lives on your PC, so **the PC must be on** (with Docker and Tailscale running) for the phone to sync.
@@ -32,9 +35,9 @@ what to do. It changes nothing, so run it any time something feels off.
 
 | What | Where |
 |---|---|
-| Gym data, passkeys, Coach settings | `opengym\data\` |
-| Food diary + uploads | `nutritrace\data\` |
-| Settings and secrets | `opengym\.env` and `nutritrace\.env` (private - never share or upload) |
+| Gym data, passkeys, Coach settings | `apps\gym\data\` |
+| Food diary + uploads | `apps\food\data\` |
+| Settings and secrets | `apps\gym\.env` and `apps\food\.env` (private - never share or upload) |
 | Backups | `backups\` (a new zip every night, newest 14 kept) |
 
 ## Backups (automatic, but know how)
@@ -67,8 +70,8 @@ what to do. It changes nothing, so run it any time something feels off.
 | Page won't load on the phone | Is Tailscale switched on on the phone? Is the PC on? |
 | "Verification failed" at sign-in | Open the address exactly as above. Never change the address - passkeys are tied to it. |
 | Smoke test shows a FAIL | Do what the yellow line says; then tell Claude the FAIL line. |
-| NutriTrace won't log you in | Sign in with your NutriTrace username/password. No email reset exists. Ask Claude about the recovery option. |
-| Food card says "Food data unavailable" | NutriTrace is down or the token is wrong - run the smoke test. |
+| The food side won't log you in | Sign in with your food-app username/password. No email reset exists. Ask Claude about the recovery option. |
+| Food card says "Food data unavailable" | The food app is down or the token is wrong - run the smoke test. |
 | AI Coach "couldn't sign in" | The token expired (about a year) or was revoked. Make a new one (see below). |
 
 ## Phone (one time)
@@ -76,11 +79,11 @@ what to do. It changes nothing, so run it any time something feels off.
 1. Install **Tailscale** from the app store, sign in with the same account, switch it on.
 2. Open https://levelup.tail7782ec.ts.net in the phone browser and sign in with your fingerprint/face.
 3. Add to Home screen - Android Chrome: menu (three dots) -> Add to Home screen. iPhone Safari: Share -> Add to Home Screen.
-4. The Food tab opens NutriTrace inside the same app.
+4. The Food tab opens the food side inside the same app.
 
 ## Ports (so nothing clashes)
 
-8080 = OpenGym web, 3001 = NutriTrace, 8090 = the address proxy. **Port 3000 is yours and is never used here.**
+8080 = gym app, 3001 = food app, 8090 = the address proxy. **Port 3000 is yours and is never used here.**
 
 ## AI Coach
 
@@ -94,13 +97,13 @@ what to do. It changes nothing, so run it any time something feels off.
 
 ## Updating
 
-- **NutriTrace:** take a backup first, then in the `nutritrace` folder run `docker compose pull` then `docker compose up -d`.
-- **OpenGym:** it contains custom code (Food tab, nutrition card, credits). Don't update it yourself - ask Claude,
+- **Food app:** take a backup first, then in the `appsood` folder run `docker compose pull` then `docker compose up -d`.
+- **Gym app:** it contains custom code (Food tab, nutrition card, credits). Don't update it yourself - ask Claude,
   who knows which files were changed (listed in BUILD_LOG.md).
 
 ## Rules that keep you safe
 
-- **Cost is Rs 0.** Do not add paid services, cards or API keys. NutriTrace's own "Trace AI" stays off.
+- **Cost is Rs 0.** Do not add paid services, cards or API keys. The food app's own AI assistant stays off.
 - Never share `.env` files, backup zips or tokens. Never put them in chat.
 - The apps are free software (AGPL). Credits and licences are in the app: Settings -> Credits & licences.
 - Food numbers from Open Food Facts are crowd-sourced; foods marked "approx." are estimates. Check and correct them.

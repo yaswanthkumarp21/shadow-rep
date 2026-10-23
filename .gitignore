@@ -1,10 +1,12 @@
+# secrets and local state — never committed
 .env
 **/.env
+apps/*/data/
 data/
-**/data/
-media/
+apps/gym/media/
 *.db
 backups/
-opengym/
 previews/
+**/node_modules/
+**/dist/
 _nt-theme-test/

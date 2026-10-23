@@ -14,8 +14,8 @@ services:
     volumes:
       - ./proxy/Caddyfile:/etc/caddy/Caddyfile:ro
 
-  # Adds the "System" skin to NutriTrace: serves nutritrace/theme/ and inserts one <script>+<link>
-  # into NutriTrace's page. NutriTrace itself is not modified. Details: nutritrace/theme/nginx.conf.template
+  # Adds the "System" skin to NutriTrace: serves apps/food/theme/ and inserts one <script>+<link>
+  # into NutriTrace's page. NutriTrace itself is not modified. Details: apps/food/theme/nginx.conf.template
   foodtheme:
     image: nginx:alpine
     container_name: shadowrep-foodtheme
@@ -26,6 +26,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - ./nutritrace/theme/nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
-      - ./nutritrace/theme:/theme:ro
+      - ./apps/food/theme/nginx.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - ./apps/food/theme:/theme:ro
 

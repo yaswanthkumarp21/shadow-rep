@@ -1,6 +1,6 @@
 # The AI Coach
 
-The feature Shadow Rep adds on top of the open-source gym tracker it is built on (see [ORIGINS](../ORIGINS.md)): an optional AI
+The feature Shadow Rep adds on top of the open-source gym tracker it is built on (see [ORIGINS](../../../ORIGINS.md)): an optional AI
 that **designs** your training plan and **revises it from what you actually log** — running as a
 CLI on your own server, under your own provider account, off until an admin turns it on.
 

@@ -1,7 +1,9 @@
+name: shadowrep-food
+
 services:
   nutritrace:
     image: ghcr.io/traceapps/nutritrace:latest
-    container_name: nutritrace
+    container_name: shadowrep-food
     ports:
       - "3001:3001"
     volumes:

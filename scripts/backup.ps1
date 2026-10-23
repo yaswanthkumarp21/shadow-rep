@@ -1,5 +1,5 @@
 # Shadow Rep - backup. Double-click backup.bat (or run this file).
-# Makes backups\levelup-YYYY-MM-DD_HHmm.zip containing OpenGym data, NutriTrace DB + uploads,
+# Makes backups\shadowrep-YYYY-MM-DD_HHmm.zip containing the gym data, the food DB + uploads,
 # and the two .env files (they hold secrets - keep backups private). Keeps the newest 14.
 param(
     [string]$Root = (Split-Path $PSScriptRoot -Parent),
@@ -10,10 +10,10 @@ $env:Path += ';C:\Program Files\Docker\Docker\resources\bin'
 
 $backups = Join-Path $Root 'backups'
 $stamp   = Get-Date -Format 'yyyy-MM-dd_HHmm'
-$stage   = Join-Path $env:TEMP "levelup-stage-$stamp"
-$zip     = Join-Path $backups "levelup-$stamp.zip"
-$ogDir   = Join-Path $Root 'opengym'
-$ntDir   = Join-Path $Root 'nutritrace'
+$stage   = Join-Path $env:TEMP "shadowrep-stage-$stamp"
+$zip     = Join-Path $backups "shadowrep-$stamp.zip"
+$ogDir   = Join-Path $Root 'apps\gym'
+$ntDir   = Join-Path $Root 'apps\food'
 
 # docker writes progress to stderr, which PowerShell would treat as an error - so run it through here.
 function Compose($dir, [string[]]$cmd) {
@@ -38,11 +38,11 @@ New-Item -ItemType Directory -Force $stage   | Out-Null
 try {
     Compose $ogDir @('stop','api')
     Compose $ntDir @('stop')
-    Copy-Item (Join-Path $ogDir 'data')            (Join-Path $stage 'opengym-data')      -Recurse
-    Copy-Item (Join-Path $ntDir 'data\db')         (Join-Path $stage 'nutritrace-db')     -Recurse
-    Copy-Item (Join-Path $ntDir 'data\uploads')    (Join-Path $stage 'nutritrace-uploads') -Recurse
-    Copy-Item (Join-Path $ogDir '.env')            (Join-Path $stage 'opengym.env')
-    Copy-Item (Join-Path $ntDir '.env')            (Join-Path $stage 'nutritrace.env')
+    Copy-Item (Join-Path $ogDir 'data')            (Join-Path $stage 'gym-data')      -Recurse
+    Copy-Item (Join-Path $ntDir 'data\db')         (Join-Path $stage 'food-db')     -Recurse
+    Copy-Item (Join-Path $ntDir 'data\uploads')    (Join-Path $stage 'food-uploads') -Recurse
+    Copy-Item (Join-Path $ogDir '.env')            (Join-Path $stage 'gym.env')
+    Copy-Item (Join-Path $ntDir '.env')            (Join-Path $stage 'food.env')
 }
 finally {
     # Always bring the apps back, even if copying failed.
@@ -54,7 +54,7 @@ Compress-Archive -Path (Join-Path $stage '*') -DestinationPath $zip -Compression
 Remove-Item $stage -Recurse -Force
 
 # Rotation: delete only old backup zips made by this script, beyond the newest $Keep.
-Get-ChildItem $backups -Filter 'levelup-*.zip' | Sort-Object LastWriteTime -Descending |
+Get-ChildItem $backups -Filter 'shadowrep-*.zip' | Sort-Object LastWriteTime -Descending |
     Select-Object -Skip $Keep | Remove-Item -Force
 
 $size = '{0:N1} MB' -f ((Get-Item $zip).Length / 1MB)
