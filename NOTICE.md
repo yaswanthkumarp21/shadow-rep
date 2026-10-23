@@ -1,5 +1,17 @@
 # Third-party notices
 
+**Shadow Rep** is a modified combination of two free-software projects, both under the GNU AGPL v3.0:
+
+- **OpenGym** — © 2026 Duarte Santos (via the fork alexpcosta/opengym). The gym app in this repository is
+  derived from it and modified: renamed and re-skinned, with a Food tab, nutrition card, levels/XP/quests, and
+  new artwork. See the repository history and ORIGINS.md for what changed.
+- **NutriTrace** — TraceApps. Run unmodified in its own container; Shadow Rep re-skins and renames it with a
+  stylesheet and a small script injected by a proxy, and does not change its program code.
+
+The original notices below are kept unchanged, as the licence requires.
+
+---
+
 openGym — Copyright (C) 2026 Duarte Santos.
 openGym's own code is licensed under the **GNU AGPL v3.0** (see [LICENSE](LICENSE)).
 
