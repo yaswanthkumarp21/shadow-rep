@@ -235,3 +235,23 @@ html[data-skin="system"] :is(.pill-btn,.stats-rail-metric,.range-btn).active{
 }
 /* charts: glowing lines */
 html[data-skin="system"] .page-shell svg :is(polyline,path[stroke]:not([fill="none"][stroke="none"])){filter:drop-shadow(0 0 3px rgba(56,189,248,.55))}
+
+/* ===================================================== Hunter's rations (Diary header) ==== */
+html[data-skin="system"] .sr-rations{margin:0 0 12px;padding:14px 14px 12px}
+.sr-r-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--border)}
+.sr-r-tag{font-family:var(--font-hud);font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.sr-r-count{font-family:var(--font-ui);font-weight:700;font-size:15px;letter-spacing:.1em;color:var(--text-2)}
+.sr-r-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--border)}
+.sr-r-head + .sr-r-row{border-top:0;padding-top:0}
+.sr-r-chk{flex:none;width:22px;height:22px;display:grid;place-items:center;border:1.5px solid var(--sys-edge);color:var(--accent-text);font-size:14px;font-weight:700}
+.sr-r-row.done .sr-r-chk{background:var(--success);border-color:var(--success);box-shadow:0 0 12px -2px rgba(52,211,153,.6)}
+.sr-r-txt{flex:1;min-width:0}
+.sr-r-label{font-family:var(--font-ui);font-weight:700;font-size:17px;letter-spacing:.03em;line-height:1.2}
+.sr-r-row.done .sr-r-label{color:var(--text-2);text-decoration:line-through;text-decoration-color:rgba(120,150,210,.4)}
+.sr-r-detail{font-family:var(--font-ui);font-weight:500;font-size:14px;letter-spacing:.05em;color:var(--text-2)}
+.sr-r-bar{height:4px;background:var(--surface-3);margin-top:5px;overflow:hidden}
+.sr-r-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--sys-violet),var(--accent));box-shadow:0 0 8px var(--sys-glow);transition:width .5s ease}
+.sr-r-row.done .sr-r-bar i{background:var(--success);box-shadow:0 0 8px rgba(52,211,153,.5)}
+.sr-r-xp{font-family:var(--font-hud);font-weight:700;font-size:11px;letter-spacing:.1em;color:var(--sys-violet-text);white-space:nowrap;border:1px solid rgba(167,139,250,.55);padding:3px 7px;background:rgba(109,40,217,.14)}
+.sr-r-row.done .sr-r-xp{opacity:.7}
+.sr-r-all{margin-top:10px;padding-top:9px;border-top:1px solid var(--border);font-family:var(--font-ui);font-weight:700;font-size:15px;letter-spacing:.06em;color:var(--success)}

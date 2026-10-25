@@ -96,4 +96,6 @@
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+  // Hunter's rations header on the Diary (separate file, same folder)
+  var rs = document.createElement('script'); rs.src = BASE + '/_sr/rations.js?v=1'; rs.defer = true; document.head.appendChild(rs);
 })();

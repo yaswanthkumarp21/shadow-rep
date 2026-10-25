@@ -158,3 +158,6 @@
 
 ## 2026-10-26 - Stats and Food screens
 - Stats: new "Hunter record" panel (total XP, XP by source, next-rank gap; custom/SystemStats.jsx), coloured stat tiles, cyan-violet activity heatmap, glowing chart lines, HUD section headings. Food (apps/food/theme/system.css): richer backdrop, glowing calorie/macro/water gauges, coloured meal edges, lit metric/range pills. Verified on a throwaway NutriTrace (own secret, fake data, removed afterwards); your real food data was not touched.
+
+## 2026-10-26 - Hunter's rations (Diary header)
+- apps/food/theme/rations.js (loaded by brand.js): the Diary starts with today's three food quests (meals 3 foods, protein 90% of target, water goal) with progress bars and XP, using the food app's own /api/diary and /api/settings with the person's own session cookie - nothing sent elsewhere, nothing stored. Same rules as the gym quests. Verified on a throwaway NutriTrace: totals match the app's own panel (incl. quantity x2 items).
