@@ -230,3 +230,57 @@ html[data-skin="system"] #toast::before{
 .sys-ring.r2{border-color:var(--sys-violet-text)}
 .sys-spark{left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
 .sys-alert-wrap .sys-spark:nth-child(3n){background:var(--sys-violet-text);box-shadow:0 0 8px var(--sys-violet-text)}
+
+/* ===================================================== v2 polish (static, no new motion) ==== */
+/* richer backdrop: a violet glow low on the screen, a cyan one high */
+html[data-skin="system"] body{
+  background-image:
+    radial-gradient(120% 55% at 50% -8%,rgba(56,189,248,.16),transparent 62%),
+    radial-gradient(90% 40% at 100% 100%,rgba(109,40,217,.20),transparent 65%),
+    radial-gradient(70% 35% at 0% 70%,rgba(56,189,248,.07),transparent 70%),
+    linear-gradient(rgba(56,189,248,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,189,248,.035) 1px,transparent 1px);
+  background-size:100% 100%,100% 100%,100% 100%,44px 44px,44px 44px;
+  background-attachment:fixed;
+}
+/* panels: a brighter top edge so they read as lit glass */
+html[data-skin="system"] .card{
+  border-image:none;
+  box-shadow:0 1px 0 rgba(150,215,255,.22) inset,0 0 0 1px rgba(56,189,248,.05) inset,0 0 26px -8px var(--sys-glow),0 14px 30px -16px rgba(0,0,0,.9);
+}
+.sys-card .sys-head{padding-bottom:10px;border-bottom:1px solid var(--sep);position:relative}
+.sys-card .sys-head::after{content:'';position:absolute;left:0;bottom:-1px;width:56px;height:2px;background:linear-gradient(90deg,var(--acc),transparent);box-shadow:0 0 8px var(--sys-glow)}
+
+/* level badge: XP ring around it */
+.sys-levelwrap .emb-xpring{filter:drop-shadow(0 0 3px rgba(56,189,248,.8));transition:stroke-dashoffset .9s var(--ease,ease)}
+.sys-level{border-radius:50%;width:60px;height:60px;background:radial-gradient(circle at 50% 35%,rgba(56,189,248,.18),rgba(8,14,28,.9))}
+.sys-levelwrap .emb-rune{opacity:1}
+.sys-levelwrap .emb-rune-a,.sys-levelwrap .emb-rune-b{opacity:.55}
+
+/* stats: radar + colour-coded readouts */
+.sys-statrow{display:grid;grid-template-columns:132px 1fr;gap:6px 12px;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--sep)}
+.sys-statrow .sys-stats{margin-top:0;gap:10px 14px}
+.emb-radar{display:block;margin:-2px 0 -2px -4px;overflow:visible}
+.sys-stat{--c:var(--acc);border-left:2px solid var(--c);padding-left:9px}
+.sys-stat.s-STR{--c:#f87171} .sys-stat.s-END{--c:#34d399} .sys-stat.s-AGI{--c:#38bdf8} .sys-stat.s-VIT{--c:#a78bfa}
+.sys-stat .k{color:var(--c)}
+.sys-stat .v{font-size:24px}
+.sys-stat .sys-bar.sm i{background:linear-gradient(90deg,color-mix(in srgb,var(--c) 45%,#0a0f1c),var(--c));box-shadow:0 0 8px color-mix(in srgb,var(--c) 55%,transparent)}
+@media (max-width:360px){.sys-statrow{grid-template-columns:1fr}.emb-radar{margin:0 auto}}
+
+/* quests: progress bars + clearer done state */
+.sys-qbar{height:4px;background:var(--surface-3);margin-top:6px;overflow:hidden}
+.sys-qbar i{display:block;height:100%;background:linear-gradient(90deg,var(--sys-violet),var(--acc));box-shadow:0 0 8px var(--sys-glow)}
+.sys-quest.done .sys-qbar i{background:var(--green);box-shadow:0 0 8px rgba(52,211,153,.5)}
+.sys-quest.done .sys-check{background:var(--green);border-color:var(--green);box-shadow:0 0 12px -2px rgba(52,211,153,.6)}
+.sys-xpgain{border:1px solid color-mix(in srgb,var(--sys-violet-text) 55%,transparent);padding:3px 7px;background:rgba(109,40,217,.14)}
+.sys-quest.done .sys-xpgain{opacity:.7}
+
+/* tab bar: floating glass dock with a lit active tab */
+html[data-skin="system"] #tabbar{
+  background:linear-gradient(180deg,rgba(14,22,42,.86),rgba(5,7,13,.94));
+  -webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);
+  border-top:1px solid rgba(120,200,255,.35);
+  box-shadow:0 -10px 30px -12px var(--sys-glow),0 -1px 0 rgba(255,255,255,.04) inset;
+}
+html[data-skin="system"] #tabbar button.on{background:radial-gradient(60% 70% at 50% 0,rgba(56,189,248,.20),transparent 75%)}

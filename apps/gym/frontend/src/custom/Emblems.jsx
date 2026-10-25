@@ -41,9 +41,33 @@ export function RankSigil({ rank = 'E', size = 44, className = '' }) {
 }
 
 /** Two counter-rotating dashed rings; sits behind its parent (position it with the .emb-rune CSS). */
-export function RuneRing() {
+export function RuneRing({ pct = 0 }) {
+  const C = 2 * Math.PI * 44
+  const p = Math.max(0, Math.min(100, pct))
   return <svg className="emb-rune" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-    <g className="emb-rune-a"><circle cx="50" cy="50" r="47" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 6" strokeLinecap="round" /></g>
-    <g className="emb-rune-b"><circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="14 9 3 9" strokeLinecap="round" opacity=".7" /></g>
+    <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(56,189,248,.16)" strokeWidth="4" />
+    <circle className="emb-xpring" cx="50" cy="50" r="44" fill="none" stroke="url(#xpg)" strokeWidth="4" strokeLinecap="round"
+      strokeDasharray={C} strokeDashoffset={C * (1 - p / 100)} transform="rotate(-90 50 50)" />
+    <defs><linearGradient id="xpg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#8b7cf6" /><stop offset="1" stopColor="#38bdf8" /></linearGradient></defs>
+    <g className="emb-rune-a"><circle cx="50" cy="50" r="48.5" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 6" strokeLinecap="round" /></g>
+    <g className="emb-rune-b"><circle cx="50" cy="50" r="37" fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="14 9 3 9" strokeLinecap="round" opacity=".7" /></g>
+  </svg>
+}
+
+/** Four-axis stat radar (STR / END / AGI / VIT, 0-100 each). */
+export function StatRadar({ values, size = 132 }) {
+  const c = 50, R = 36
+  const pts = values.map((v, i) => {
+    const a = -Math.PI / 2 + i * Math.PI / 2, r = R * Math.max(0.06, Math.min(100, v) / 100)
+    return [c + r * Math.cos(a), c + r * Math.sin(a)]
+  })
+  const ring = k => [0, 1, 2, 3].map(i => { const a = -Math.PI / 2 + i * Math.PI / 2; return (c + R * k * Math.cos(a)).toFixed(1) + ',' + (c + R * k * Math.sin(a)).toFixed(1) }).join(' ')
+  const labels = ['STR', 'END', 'AGI', 'VIT']
+  return <svg className="emb-radar" viewBox="0 0 100 100" width={size} height={size} aria-hidden="true" focusable="false">
+    {[0.33, 0.66, 1].map(k => <polygon key={k} points={ring(k)} fill="none" stroke="rgba(56,189,248,.22)" strokeWidth=".7" />)}
+    <path d={`M${c} ${c - R}V${c + R}M${c - R} ${c}H${c + R}`} stroke="rgba(56,189,248,.16)" strokeWidth=".6" />
+    <polygon points={pts.map(p => p.map(n => n.toFixed(1)).join(',')).join(' ')} fill="rgba(56,189,248,.24)" stroke="#38bdf8" strokeWidth="1.4" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 3px rgba(56,189,248,.7))' }} />
+    {pts.map((p, i) => <circle key={i} cx={p[0]} cy={p[1]} r="1.8" fill="#e8f3ff" />)}
+    {labels.map((l, i) => { const a = -Math.PI / 2 + i * Math.PI / 2; return <text key={l} x={c + (R + 9) * Math.cos(a)} y={c + (R + 9) * Math.sin(a) + 2.2} textAnchor="middle" fontSize="6" fontWeight="700" fill="rgba(184,208,245,.85)" style={{ fontFamily: 'var(--font-hud)' }}>{l}</text> })}
   </svg>
 }

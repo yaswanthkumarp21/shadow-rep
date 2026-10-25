@@ -9,14 +9,14 @@ import { useSystemSkin } from './skin.js'
 import { useNutritionRange } from './useNutrition.js'
 import { playerStatus } from './levelup.js'
 import { useCountUp, useGrow } from './motion.js'
-import { LogoMark, RankSigil, RuneRing } from './Emblems.jsx'
+import { LogoMark, RankSigil, RuneRing, StatRadar } from './Emblems.jsx'
 
 const STAT_NAMES = { STR: 'Strength', END: 'Endurance', AGI: 'Agility', VIT: 'Vitality' }
 
 function Stat({ code, value, known = true }) {
   const shown = useCountUp(known ? value : 0, 1000)
   const width = useGrow(known ? Math.min(100, value) : 0, 160)
-  return <div className="sys-stat" aria-label={`${STAT_NAMES[code]} ${known ? value : 'unknown'}`}>
+  return <div className={'sys-stat s-' + code} aria-label={`${STAT_NAMES[code]} ${known ? value : 'unknown'}`}>
     <div className="k">{code}</div>
     <div className="v">{known ? shown : '–'}</div>
     <div className="sys-bar sm"><i style={{ width: width + '%' }} /></div>
@@ -70,7 +70,7 @@ export default function SystemHome() {
       </div>
       <div className="sys-id">
         <div className="sys-levelwrap">
-          <RuneRing />
+          <RuneRing pct={p.pct} />
           <div className="sys-level"><small>LV</small><b>{level}</b></div>
         </div>
         <div className="sys-who">
@@ -79,11 +79,14 @@ export default function SystemHome() {
           <XpBar into={p.into} need={p.need} pct={p.pct} />
         </div>
       </div>
-      <div className="sys-stats">
-        <Stat code="STR" value={st.STR} />
-        <Stat code="END" value={st.END} />
-        <Stat code="AGI" value={st.AGI} />
-        <Stat code="VIT" value={st.VIT} known={st.vitKnown} />
+      <div className="sys-statrow">
+        <StatRadar values={[st.STR, st.END, st.AGI, st.vitKnown ? st.VIT : 0]} />
+        <div className="sys-stats">
+          <Stat code="STR" value={st.STR} />
+          <Stat code="END" value={st.END} />
+          <Stat code="AGI" value={st.AGI} />
+          <Stat code="VIT" value={st.VIT} known={st.vitKnown} />
+        </div>
       </div>
     </div>
 
@@ -93,14 +96,16 @@ export default function SystemHome() {
         <span className="sys-count">{doneCount}/{p.quests.length}</span>
       </div>
       <div className="sys-quests">
-        {p.quests.map(q => <div key={q.id} className={'sys-quest' + (q.done ? ' done' : '')}>
+        {p.quests.map(q => { const m = /^(\d+)\/(\d+)/.exec(q.detail || ''); const frac = q.done ? 100 : m ? Math.min(100, Math.round(+m[1] / Math.max(1, +m[2]) * 100)) : 0
+          return <div key={q.id} className={'sys-quest' + (q.done ? ' done' : '')}>
           <span className="sys-check" aria-hidden="true">{q.done && <Icon name="check" />}</span>
           <div className="sys-qtext">
             <div className="sys-qlabel">{t(q.label)}</div>
             {q.detail && <div className="sys-qdetail">{q.detail}</div>}
+            {m && <div className="sys-qbar" aria-hidden="true"><i style={{ width: frac + '%' }} /></div>}
           </div>
           <span className="sys-xpgain">+{q.xp} XP</span>
-        </div>)}
+        </div>})}
       </div>
     </div>
   </>
