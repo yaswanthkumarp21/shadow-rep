@@ -176,3 +176,6 @@
 
 ## 2026-10-26 - Narrow phone pass (320-360 px)
 - No sideways overflow on Home, Workout, Stats, Plan, Library, Credits, Settings at 320 px. Fixes: header labels (Player status / Rank) no longer wrap, tighter type and spacing under 360 px, radar stacks only under 340 px, shadow army stays 4 across until 300 px, smaller gate art, result screen sized to the screen width.
+
+## 2026-10-26 - Folder renamed
+- Project folder is now D:\AI\shadow-rep (was level-up-tracker). Backup taken first, apps stopped (no data removed), renamed, restarted; backup task re-registered with scripts\install-backup-task.ps1; smoke test all PASS. Old GitHub repos level-up-tracker and level-up-tracker-opengym: deletion started but GitHub needs an email identity check from the owner first.
