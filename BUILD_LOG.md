@@ -152,3 +152,6 @@
 
 ## 2026-10-26 - Hero silhouette + shadow army (requested by Yash)
 - Home: original hooded Hunter silhouette that gains aura/gear with rank (E to S); Shadow Army card of 8 soldiers unlocked by real milestones (levelup.js ARMY, derived, nothing stored); a newly earned soldier plays a one-time summon. Art is original SVG (custom/Shadows.jsx); no series artwork or names. game-icons.net (CC BY 3.0) icons NOT added yet - credit required when they are.
+
+## 2026-10-26 - Gates and dungeons on the Workout tab
+- Start tab: "Gate detected" banner (original arch+portal SVG, rank E-S from exercise count, custom/Gate.jsx). Active workout: Dungeon floors strip (one pip per exercise/superset). Finishing a workout without a record now toasts "Gate cleared". All System-skin only; Workout.jsx gets 3 one-line additions. Art is original.

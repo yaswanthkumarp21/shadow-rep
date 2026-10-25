@@ -78,7 +78,7 @@ export default function SystemEvents() {
       const names = last.prs.map(id => (EXIDX[id] || {}).n || id)
       show({ kind: 'record', title: 'NEW RECORD', sub: names.slice(0, 2).join(' · ') + (names.length > 2 ? ` +${names.length - 2}` : ''), xp })
     } else {
-      useUI.getState().toast(t('Workout logged · +{0} XP', xp))
+      useUI.getState().toast(t('Gate cleared · +{0} XP', xp))
     }
   }, [sys, loaded, n]) // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -306,3 +306,23 @@ html[data-skin="system"] #tabbar button.on{background:radial-gradient(60% 70% at
 .sys-sol.on .sys-sol-n{color:var(--sys-violet-text)}
 .sys-army-next{margin-top:14px;padding-top:10px;border-top:1px solid var(--sep);font-family:var(--font-ui);font-weight:500;font-size:15px;letter-spacing:.05em;color:var(--label-2)}
 @media (max-width:340px){.sys-army{grid-template-columns:repeat(2,1fr)}}
+
+/* ===================================================== gates & dungeons (Workout tab) ==== */
+.sys-gate{--gc:var(--acc);display:flex;align-items:center;gap:14px;margin:0 0 14px;padding:12px 14px 12px 8px;position:relative;overflow:hidden;
+  background:radial-gradient(70% 110% at 18% 60%,color-mix(in srgb,var(--gc) 22%,transparent),transparent 70%),linear-gradient(180deg,rgba(11,18,36,.85),rgba(5,7,13,.9));
+  border:1px solid color-mix(in srgb,var(--gc) 55%,transparent);box-shadow:0 0 28px -10px var(--gc)}
+.sys-gate.r-E{--gc:#94a3b8}.sys-gate.r-D{--gc:#38bdf8}.sys-gate.r-C{--gc:#34d399}.sys-gate.r-B{--gc:#a78bfa}.sys-gate.r-A{--gc:#fbbf24}.sys-gate.r-S{--gc:#f472b6}
+.sys-gate-art{flex:none;display:block;overflow:visible;filter:drop-shadow(0 0 10px var(--gc))}
+.sys-gate-copy{min-width:0}
+.sys-gate-tag{font-family:var(--font-hud);font-weight:700;font-size:10px;letter-spacing:.22em;color:var(--gc);text-transform:uppercase}
+.sys-gate-rank{font-family:var(--font-hud);font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--label);margin:5px 0 2px}
+.sys-gate-name{font-family:var(--font-ui);font-weight:700;font-size:24px;letter-spacing:.03em;line-height:1.1;overflow-wrap:anywhere}
+.sys-gate-sub{font-family:var(--font-ui);font-weight:500;font-size:15px;letter-spacing:.05em;color:var(--label-2);margin-top:3px}
+
+.sys-floors{display:flex;align-items:center;gap:10px;margin:-6px 0 14px}
+.sys-floors-k{font-family:var(--font-hud);font-weight:700;font-size:10px;letter-spacing:.2em;color:var(--sys-violet-text);text-transform:uppercase}
+.sys-floors-pips{display:flex;flex:1;gap:4px}
+.sys-floors-pips i{flex:1;height:8px;background:var(--surface-3);border:1px solid rgba(56,189,248,.28);clip-path:polygon(0 0,calc(100% - 4px) 0,100% 100%,4px 100%)}
+.sys-floors-pips i.done{background:linear-gradient(90deg,var(--sys-violet),var(--acc));border-color:transparent;box-shadow:0 0 8px var(--sys-glow)}
+.sys-floors-pips i.now{background:rgba(56,189,248,.25);border-color:var(--acc)}
+.sys-floors-n{font-family:var(--font-hud);font-weight:700;font-size:12px;letter-spacing:.08em;color:var(--label-2)}
