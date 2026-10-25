@@ -394,3 +394,5 @@ html[data-skin="system"] h4.sec::before{content:'';width:3px;height:12px;backgro
 .sys-clear-sw{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 2px;color:var(--acc)}
 .sys-clear-sw span{width:46px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
 .sys-clear-sw span:last-child{background:linear-gradient(270deg,transparent,var(--acc))}
+
+.gi.wp{margin-right:6px;vertical-align:-.2em;color:var(--sys-violet-text)}

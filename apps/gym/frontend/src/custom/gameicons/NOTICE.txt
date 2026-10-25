@@ -6,7 +6,7 @@ Authors (see sources.txt for which icon is whose):
   Delapouite    https://delapouite.com
   DarkZaitzev   https://darkzaitzev.deviantart.com
 
-(Weapon icons: plain-dagger, checked-shield, shining-sword, spear-hook, battle-axe, broadsword by Lorc; bow-arrow, thor-hammer by Delapouite.)
+(Weapon icons: plain-dagger, checked-shield, shining-sword, spear-hook, battle-axe, broadsword, mailed-fist by Lorc; bow-arrow, thor-hammer by Delapouite.)
 
 Changes made: the black square backdrop of each SVG was removed so the icon can be recoloured; nothing else.
 Icons made by Lorc, Delapouite and DarkZaitzev. Available on https://game-icons.net

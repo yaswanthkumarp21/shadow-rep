@@ -20,3 +20,4 @@ lorc/battle-axe
 delapouite/bow-arrow
 lorc/broadsword
 delapouite/thor-hammer
+lorc/mailed-fist
