@@ -173,3 +173,6 @@
 
 ## 2026-10-26 - Weapon icons on Plan and Library
 - Library: each exercise line starts with a weapon for its equipment (barbell broadsword, dumbbell axe, cable spear, machine shield, body weight fist, kettlebell hammer, band bow). Plan: each routine shows the weapon of its most-used equipment. custom/weapons.js (+2 tests), Weapon.jsx; mailed-fist icon added (Lorc, CC BY 3.0). System skin only.
+
+## 2026-10-26 - Narrow phone pass (320-360 px)
+- No sideways overflow on Home, Workout, Stats, Plan, Library, Credits, Settings at 320 px. Fixes: header labels (Player status / Rank) no longer wrap, tighter type and spacing under 360 px, radar stacks only under 340 px, shadow army stays 4 across until 300 px, smaller gate art, result screen sized to the screen width.
