@@ -164,3 +164,6 @@
 
 ## 2026-10-26 - game-icons.net icons
 - Added 14 icons (CC BY 3.0) with credit in the app, NOTICE.md and the icon folder. Used on Home (crown, shadow-follower, scroll, stats, quests), Workout (gate/portal), Stats (trophy, crystal).
+
+## 2026-10-26 - Gate cleared result screen
+- Finishing a workout now opens a "GATE CLEARED" overlay (gate art in its rank colour, floors, sets, minutes, +XP, and any new records in amber) instead of the record overlay / quiet toast. Stays 7 s, tap to close. SystemEvents.jsx + system-theme.css only; System skin only.

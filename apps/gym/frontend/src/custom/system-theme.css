@@ -376,3 +376,13 @@ html[data-skin="system"] h4.sec::before{content:'';width:3px;height:12px;backgro
 .sys-qlabel .gi{margin-right:7px;color:var(--acc);vertical-align:-.15em}
 .sys-floors-k .gi{margin-right:6px;vertical-align:-.2em}
 .sys-rec-xp .gi{margin-right:6px;color:var(--sys-violet-text);vertical-align:-.12em}
+
+/* ======================================================= gate cleared result screen ==== */
+.sys-alert-wrap.clear .sys-alert-title{color:var(--label);text-shadow:0 0 24px var(--sys-glow)}
+.sys-alert-gate{display:flex;justify-content:center;margin:2px 0 6px}
+.sys-alert-wrap.clear .sys-alert-sub{margin-top:2px;font-family:var(--font-hud);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--sys-violet-text)}
+.sys-clear-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 2px;padding-top:12px;border-top:1px solid var(--sep)}
+.sys-clear-grid div{display:flex;flex-direction:column;align-items:center;gap:1px}
+.sys-clear-grid b{font-family:var(--font-hud);font-weight:700;font-size:24px;line-height:1.1;color:var(--label);text-shadow:0 0 14px var(--sys-glow)}
+.sys-clear-grid span{font-family:var(--font-ui);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--label-2)}
+.sys-clear-rec{margin-top:12px;padding:6px 10px;border:1px solid var(--yellow);color:var(--yellow);font-family:var(--font-ui);font-weight:700;font-size:15px;letter-spacing:.06em;background:rgba(251,191,36,.08);overflow-wrap:anywhere}

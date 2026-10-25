@@ -10,6 +10,8 @@ import { useNutritionRange } from './useNutrition.js'
 import { playerStatus } from './levelup.js'
 import { workoutXP, isFresh, newlyDone, levelChange, questToast } from './levelup-events.js'
 import { LogoMark, RankSigil } from './Emblems.jsx'
+import { GateArt, gateRank } from './Gate.jsx'
+import { setsDone } from '../lib/history.js'
 
 const ls = {
   get: k => { try { return localStorage.getItem(k) } catch { return null } },
@@ -18,12 +20,13 @@ const ls = {
 }
 
 const SHOW_MS = 3400   // how long a System message stays up (tap to close sooner)
+const CLEAR_MS = 7000  // the gate-cleared result screen stays a little longer: there are numbers to read
 const LEAVE_MS = 450
 
 function Alert({ a, onDone }) {
   const [leaving, setLeaving] = useState(false)
   const close = useCallback(() => setLeaving(true), [])
-  useEffect(() => { const id = setTimeout(close, SHOW_MS); return () => clearTimeout(id) }, [close])
+  useEffect(() => { const id = setTimeout(close, a.kind === 'clear' ? CLEAR_MS : SHOW_MS); return () => clearTimeout(id) }, [close, a.kind])
   useEffect(() => { if (!leaving) return undefined; const id = setTimeout(onDone, LEAVE_MS); return () => clearTimeout(id) }, [leaving, onDone])
 
   return <div className={`sys-alert-wrap ${a.kind || 'info'}${leaving ? ' leaving' : ''}`} role="status" aria-live="polite" onClick={close}>
@@ -32,9 +35,19 @@ function Alert({ a, onDone }) {
       {Array.from({ length: 14 }, (_, i) => <i key={i} className="sys-spark" style={{ '--a': `${(i * 360) / 14}deg`, '--d': `${74 + (i % 3) * 24}px` }} />)}
       <div className="sys-alert-top"><LogoMark size={26} /><span className="sys-msg-tag">{t('SYSTEM')}</span></div>
       {a.kind === 'level' && a.rank && <div className="sys-alert-sigil"><RankSigil rank={a.rank} size={64} /></div>}
+      {a.kind === 'clear' && <div className="sys-alert-gate"><GateArt rank={a.rank} size={92} /></div>}
       <div className="sys-alert-title">{t(a.title || 'NOTICE')}</div>
+      {a.kind === 'clear' && <>
+        <div className="sys-alert-sub">{a.rank}-{t('Rank')} {t('dungeon')}</div>
+        <div className="sys-clear-grid">
+          <div><b>{a.floors}</b><span>{t('Floors')}</span></div>
+          <div><b>{a.sets}</b><span>{t('Sets')}</span></div>
+          <div><b>{a.minutes}</b><span>{t('Minutes')}</span></div>
+        </div>
+        {a.records && a.records.length > 0 && <div className="sys-clear-rec">{t('NEW RECORD')}: {a.records.join(' · ')}</div>}
+      </>}
       {a.kind === 'level' && <div className="sys-alert-level">LV {a.level}</div>}
-      {a.sub && <div className="sys-alert-sub">{a.sub}</div>}
+      {a.sub && a.kind !== 'clear' && <div className="sys-alert-sub">{a.sub}</div>}
       {a.xp ? <div className="sys-alert-xp">+{a.xp} XP</div> : null}
     </div>
   </div>
@@ -74,12 +87,13 @@ export default function SystemEvents() {
     const last = S.workouts[n - 1]
     if (prev === null || n <= prev || !isFresh(last)) return
     const xp = workoutXP(last)
-    if (last.prs && last.prs.length) {
-      const names = last.prs.map(id => (EXIDX[id] || {}).n || id)
-      show({ kind: 'record', title: 'NEW RECORD', sub: names.slice(0, 2).join(' · ') + (names.length > 2 ? ` +${names.length - 2}` : ''), xp })
-    } else {
-      useUI.getState().toast(t('Gate cleared · +{0} XP', xp))
-    }
+    const names = (last.prs || []).map(id => (EXIDX[id] || {}).n || id)
+    const minutes = Math.max(1, Math.round(((last.end || 0) - (last.start || 0)) / 60000))
+    show({
+      kind: 'clear', title: 'GATE CLEARED', xp, rank: gateRank((last.entries || []).length),
+      floors: (last.entries || []).length, sets: setsDone(last), minutes: Math.min(minutes, 999),
+      records: names.slice(0, 2).concat(names.length > 2 ? [`+${names.length - 2}`] : [])
+    })
   }, [sys, loaded, n]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 2) level-ups and completed quests — only once food data has resolved, so a late NutriTrace response
