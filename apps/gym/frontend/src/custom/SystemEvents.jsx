@@ -11,6 +11,7 @@ import { playerStatus } from './levelup.js'
 import { workoutXP, isFresh, newlyDone, levelChange, questToast } from './levelup-events.js'
 import { LogoMark, RankSigil } from './Emblems.jsx'
 import { GateArt, gateRank } from './Gate.jsx'
+import GameIcon from './GameIcon.jsx'
 import { setsDone } from '../lib/history.js'
 
 const ls = {
@@ -37,6 +38,7 @@ function Alert({ a, onDone }) {
       {a.kind === 'level' && a.rank && <div className="sys-alert-sigil"><RankSigil rank={a.rank} size={64} /></div>}
       {a.kind === 'clear' && <div className="sys-alert-gate"><GateArt rank={a.rank} size={92} /></div>}
       <div className="sys-alert-title">{t(a.title || 'NOTICE')}</div>
+      {a.kind === 'clear' && <div className="sys-clear-sw" aria-hidden="true"><span /><GameIcon name="crossed-swords" size={20} /><span /></div>}
       {a.kind === 'clear' && <>
         <div className="sys-alert-sub">{a.rank}-{t('Rank')} {t('dungeon')}</div>
         <div className="sys-clear-grid">

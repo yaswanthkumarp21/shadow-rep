@@ -15,6 +15,8 @@ import { useCountUp, useGrow } from './motion.js'
 import { LogoMark, RankSigil, RuneRing, StatRadar } from './Emblems.jsx'
 
 const STAT_ICON = { STR: 'muscle-up', END: 'lungs', AGI: 'running-ninja', VIT: 'heart-beats' }
+// each shadow soldier carries a weapon (game-icons.net, CC BY 3.0 — credited in Settings -> Credits)
+const WEAPON = { vanguard: 'plain-dagger', ironclad: 'checked-shield', striker: 'shining-sword', sentinel: 'spear-hook', berserker: 'battle-axe', provider: 'bow-arrow', knight: 'broadsword', marshal: 'thor-hammer' }
 const QUEST_ICON = { workout: 'crossed-swords' }
 const STAT_NAMES = { STR: 'Strength', END: 'Endurance', AGI: 'Agility', VIT: 'Vitality' }
 
@@ -129,6 +131,7 @@ export default function SystemHome() {
         {army.map((a, i) => <div key={a.id} className={'sys-sol' + (a.unlocked ? ' on' : '')} title={a.unlocked ? a.name : a.hint}
           aria-label={a.unlocked ? t('{0}, summoned', a.name) : t('{0}, locked: {1}', a.name, a.hint)}>
           <ShadowSoldier on={a.unlocked} fresh={freshFrom !== null && a.unlocked && army.filter(x => x.unlocked).indexOf(a) >= freshFrom} variant={i} />
+          <span className="sys-sol-w"><GameIcon name={WEAPON[a.id] || 'crossed-swords'} size={15} /></span>
           <span className="sys-sol-n">{a.unlocked ? t(a.name) : '???'}</span>
         </div>)}
       </div>

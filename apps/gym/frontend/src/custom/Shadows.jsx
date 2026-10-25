@@ -42,11 +42,10 @@ export function HeroSilhouette({ rank = 'E', size = 150 }) {
 
 /** One shadow soldier. `on` = summoned (violet eyes lit); otherwise a faint outline. `fresh` plays the summon once. */
 export function ShadowSoldier({ on = false, fresh = false, size = 52, variant = 0 }) {
-  const horn = variant % 3 === 0, shield = variant % 3 === 1
+  const horn = variant % 3 === 0
   return <svg className={'sys-soldier' + (on ? ' on' : '') + (fresh ? ' fresh' : '')} viewBox="0 0 44 60" width={size * 44 / 60} height={size} aria-hidden="true" focusable="false">
     {horn && <path d="M15 11 L10 2 M29 11 L34 2" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" fill="none" />}
     <path d="M22 5 C16 5 13 11 14 17 L9 22 C6 36 4 48 3 58 L41 58 C40 48 38 36 35 22 L30 17 C31 11 28 5 22 5 Z" fill="currentColor" />
-    {shield && <path d="M32 30 L41 33 L40 44 L34 49 L28 44 L27 33 Z" fill="#050810" stroke="currentColor" strokeWidth="1.2" />}
     <g className="sol-eyes" fill={on ? '#a78bfa' : 'transparent'}>
       <polygon points="16.5,14.5 21,15.6 20.4,17.4 16,16.6" />
       <polygon points="27.5,14.5 23,15.6 23.6,17.4 28,16.6" />

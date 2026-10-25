@@ -167,3 +167,6 @@
 
 ## 2026-10-26 - Gate cleared result screen
 - Finishing a workout now opens a "GATE CLEARED" overlay (gate art in its rank colour, floors, sets, minutes, +XP, and any new records in amber) instead of the record overlay / quiet toast. Stays 7 s, tap to close. SystemEvents.jsx + system-theme.css only; System skin only.
+
+## 2026-10-26 - Weapon icons
+- 8 more game-icons.net weapon icons (CC BY 3.0; Lorc, Delapouite): each shadow soldier carries one; crossed swords on the gate-cleared screen. Credits updated (gameicons/NOTICE.txt). Removed the soldiers' built-in shield shape.

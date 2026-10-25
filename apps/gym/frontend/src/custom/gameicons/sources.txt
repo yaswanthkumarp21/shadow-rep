@@ -12,3 +12,11 @@ lorc/shadow-follower
 lorc/ghost-ally
 lorc/crystal-shine
 delapouite/diamond-trophy
+lorc/plain-dagger
+lorc/checked-shield
+lorc/shining-sword
+lorc/spear-hook
+lorc/battle-axe
+delapouite/bow-arrow
+lorc/broadsword
+delapouite/thor-hammer

@@ -386,3 +386,11 @@ html[data-skin="system"] h4.sec::before{content:'';width:3px;height:12px;backgro
 .sys-clear-grid b{font-family:var(--font-hud);font-weight:700;font-size:24px;line-height:1.1;color:var(--label);text-shadow:0 0 14px var(--sys-glow)}
 .sys-clear-grid span{font-family:var(--font-ui);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--label-2)}
 .sys-clear-rec{margin-top:12px;padding:6px 10px;border:1px solid var(--yellow);color:var(--yellow);font-family:var(--font-ui);font-weight:700;font-size:15px;letter-spacing:.06em;background:rgba(251,191,36,.08);overflow-wrap:anywhere}
+
+/* weapons */
+.sys-sol-w{color:var(--label-3);line-height:0;margin-top:1px}
+.sys-sol.on .sys-sol-w{color:var(--sys-violet-text);filter:drop-shadow(0 0 5px rgba(167,139,250,.7))}
+.sys-sol:not(.on) .sys-sol-w{opacity:.45}
+.sys-clear-sw{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 2px;color:var(--acc)}
+.sys-clear-sw span{width:46px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.sys-clear-sw span:last-child{background:linear-gradient(270deg,transparent,var(--acc))}
