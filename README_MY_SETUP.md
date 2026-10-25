@@ -20,6 +20,16 @@ One private app for gym + food, on your own PC, free, reachable from your phone.
 Nothing to start. When you sign in to Windows, Docker and Tailscale start by themselves and the apps come back.
 Open the address (or the home-screen icon on your phone) and use it.
 
+## One sign-in (gym + food)
+
+You sign in **once**, with your passkey. When you then open the **Food** tab, the app signs you in to the food side by itself -
+there is no second login. Signing out of Shadow Rep signs you out of the food side too.
+
+- Only profiles on the allow-list (your admin profile) get this. Anyone else sees the food app's normal login.
+- If the Food tab ever shows a food login anyway: the food account was recreated (its id/username changed - update `FOOD_SSO_USER_ID` and
+  `FOOD_SSO_USERNAME` in `apps\gym\.env`, then restart the gym app), or the food app's `JWT_SECRET` changed (update `NUTRITRACE_JWT_SECRET` to match).
+- Your food password still works if you ever open the food side on its own.
+
 ## Is everything OK? (the "health check")
 
 Double-click **scripts\smoke-test.bat**. It shows green PASS lines, or a red FAIL with a yellow line telling you

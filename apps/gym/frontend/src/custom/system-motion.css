@@ -7,10 +7,6 @@
    With motion off, the same elements simply sit in their final state. */
 
 @media (prefers-reduced-motion: no-preference){
-  /* ---------- ambient: a faint scan beam drifting down the screen every ~11 s ---------- */
-  html[data-skin="system"]:not([data-motion="off"]) body::after{content:'';position:fixed;left:0;right:0;top:-150px;height:150px;pointer-events:none;z-index:1;
-    background:linear-gradient(180deg,rgba(56,189,248,0),rgba(56,189,248,.06) 80%,rgba(56,189,248,.15) 98%,rgba(56,189,248,0));
-    animation:sysScan 11s linear infinite;}
   /* ---------- every screen change: panels rise in one after another, brackets draw on ---------- */
   html[data-skin="system"]:not([data-motion="off"]) #app.vfade .card,
   html[data-skin="system"]:not([data-motion="off"]) #app.vfade .tiles .tile{animation:sysRise .55s var(--ease) both}
@@ -79,7 +75,6 @@
 }
 
 /* ----------------------------------------------------------------- keyframes -- */
-@keyframes sysScan{from{transform:translateY(0)}to{transform:translateY(calc(100vh + 150px))}}
 @keyframes sysRise{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
 @keyframes sysBracket{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
 @keyframes sysTitle{from{opacity:0;transform:translateX(-12px);filter:blur(4px)}to{opacity:1;transform:none;filter:blur(0)}}

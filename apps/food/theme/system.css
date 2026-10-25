@@ -152,10 +152,6 @@ html[data-skin="system"] .material-symbols-rounded{font-family:'Material Symbols
    Same rules as OpenGym's system-motion.css: only when reduced-motion is NOT requested and the
    in-app Animations switch (<html data-motion>) is not "off"; transform/opacity only; nothing flashes. */
 @media (prefers-reduced-motion:no-preference){
-  /* ambient scan beam */
-  html[data-skin="system"]:not([data-motion="off"]) body::after{content:'';position:fixed;left:0;right:0;top:-150px;height:150px;pointer-events:none;z-index:1;
-    background:linear-gradient(180deg,rgba(56,189,248,0),rgba(56,189,248,.06) 80%,rgba(56,189,248,.15) 98%,rgba(56,189,248,0));
-    animation:sysScan 11s linear infinite}
   /* panels rise in one after another on every screen; brackets draw on */
   html[data-skin="system"]:not([data-motion="off"]) .page-shell .card{animation:sysRise .55s var(--ease-out) both}
   html[data-skin="system"]:not([data-motion="off"]) .page-shell .card:nth-child(2){animation-delay:.05s}
@@ -187,7 +183,6 @@ html[data-skin="system"] .material-symbols-rounded{font-family:'Material Symbols
     transform:translateX(-120%);animation:sysSweep 3.8s ease-in-out infinite}
 }
 
-@keyframes sysScan{from{transform:translateY(0)}to{transform:translateY(calc(100vh + 150px))}}
 @keyframes sysRise{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
 @keyframes sysBracket{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
 @keyframes sysTitle{from{opacity:0;transform:translateX(-12px);filter:blur(4px)}to{opacity:1;transform:none;filter:blur(0)}}

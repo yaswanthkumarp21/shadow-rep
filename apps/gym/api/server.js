@@ -1,4 +1,4 @@
-/* shadowrep-api — passkey (WebAuthn) auth + per-user state storage for Shadow Rep
+﻿/* shadowrep-api â€” passkey (WebAuthn) auth + per-user state storage for Shadow Rep
    No framework, JSON-file storage, signed session cookies.               */
 import http from 'node:http';
 import crypto from 'node:crypto';
@@ -14,6 +14,7 @@ import * as coachJobs from './coach/jobs.js';
 import { coachRoutes } from './coach/routes.js';
 import { startCadence } from './coach/cadence.js';
 import { nutritionRoutes } from './custom/nutrition.js';   // Shadow Rep: read-only NutriTrace link
+import { createFoodSso } from './custom/foodsso.js';          // Shadow Rep: one sign-in for the food app
 
 const PORT = +(process.env.PORT || 3000);
 const DATA = process.env.DATA_DIR || '/data';
@@ -26,7 +27,7 @@ const ADMIN_UIDS = (process.env.ADMIN_UIDS || '').split(',').map(s => s.trim()).
 const INVITE_ONLY = /^(1|true|yes|on)$/i.test(process.env.INVITE_ONLY || '');
 // 90 days keeps someone who trains a few times a week permanently signed in without a stolen
 // cookie staying good for a year. Overridable because a family instance and one on the open
-// internet don't want the same number. Only affects cookies minted from now on — the expiry is
+// internet don't want the same number. Only affects cookies minted from now on â€” the expiry is
 // baked into each cookie when it's issued, so lowering this never cuts an existing session short.
 const SESSION_DAYS = Math.max(1, +(process.env.SESSION_DAYS || 90) || 90);
 const MAX_BODY = 5 * 1024 * 1024;
@@ -34,11 +35,11 @@ const MAX_BODY = 5 * 1024 * 1024;
 const SECURE = /^https:/i.test(ORIGIN) ? ' Secure;' : '';
 
 fs.mkdirSync(DATA, { recursive: true });
-// 0700 is what stops the unprivileged user that Coach jobs run as from reading any of this —
+// 0700 is what stops the unprivileged user that Coach jobs run as from reading any of this â€”
 // state files, db.json, the session secret, the provider credential. The Agent SDK process gets
 // its job payload in a temp directory and nothing else. Best-effort: a bind-mounted host directory
 // may refuse the chmod, and that is not a reason to refuse to boot.
-try { fs.chmodSync(DATA, 0o700); } catch { /* host filesystem says no — carry on */ }
+try { fs.chmodSync(DATA, 0o700); } catch { /* host filesystem says no â€” carry on */ }
 
 /* ---------- secret + db ---------- */
 const secretFile = path.join(DATA, 'secret');
@@ -76,7 +77,7 @@ async function sendPush(userId, payload) {
   const body = JSON.stringify(payload);
   let dirty = false;
   await Promise.all(subs.map(async sub => {
-    // urgency 'high' is the one lever we have over delivery speed — iOS/Android throttle
+    // urgency 'high' is the one lever we have over delivery speed â€” iOS/Android throttle
     // low-urgency background push more aggressively under battery-saving modes. TTL is left
     // at the library default (long) so a briefly-offline device still gets it once reconnected,
     // rather than risking it being dropped for the sake of shaving off latency that TTL doesn't
@@ -92,7 +93,7 @@ async function sendPush(userId, payload) {
   if (dirty) saveDb();
 }
 
-// Rest-timer alerts: client schedules on start/extend, cancels on skip or on-screen completion —
+// Rest-timer alerts: client schedules on start/extend, cancels on skip or on-screen completion â€”
 // this only fires when the tab was backgrounded/suspended and never got to cancel it itself.
 const restTimers = new Map(); // userId -> Timeout
 function scheduleRestTimer(userId, sec) {
@@ -100,7 +101,7 @@ function scheduleRestTimer(userId, sec) {
   if (t) clearTimeout(t);
   restTimers.set(userId, setTimeout(() => {
     restTimers.delete(userId);
-    sendPush(userId, { title: 'Rest over 💪', body: 'Time for your next set.', tag: 'rest-timer' });
+    sendPush(userId, { title: 'Rest over ðŸ’ª', body: 'Time for your next set.', tag: 'rest-timer' });
   }, sec * 1000));
 }
 function cancelRestTimer(userId) {
@@ -108,8 +109,8 @@ function cancelRestTimer(userId) {
   if (t) { clearTimeout(t); restTimers.delete(userId); }
 }
 
-// "Workout planned today" reminder — one per user per day, at their chosen time.
-// Duplicated (not imported) from frontend/src/lib/history.js effectiveRoutineId — tiny pure helper, not worth sharing across the two runtimes.
+// "Workout planned today" reminder â€” one per user per day, at their chosen time.
+// Duplicated (not imported) from frontend/src/lib/history.js effectiveRoutineId â€” tiny pure helper, not worth sharing across the two runtimes.
 function effectiveRoutineId(S, iso) {
   const ov = S.dayPlan?.[iso];
   if (ov === 'rest') return null;
@@ -117,7 +118,7 @@ function effectiveRoutineId(S, iso) {
   const wd = new Date(iso + 'T12:00:00').getDay();
   return S.week?.[wd] || null;
 }
-// Computes "now" in an arbitrary IANA zone (e.g. "Europe/Lisbon") instead of the server's own —
+// Computes "now" in an arbitrary IANA zone (e.g. "Europe/Lisbon") instead of the server's own â€”
 // each user's reminder fires by their own clock, wherever they and their phone actually are.
 function userNow(tz) {
   try {
@@ -127,10 +128,10 @@ function userNow(tz) {
     }).formatToParts(new Date());
     const g = t => parts.find(p => p.type === t)?.value;
     const date = `${g('year')}-${g('month')}-${g('day')}`;
-    // Weekday is derived from the zone's own date, not the server's — a Sunday-evening review
+    // Weekday is derived from the zone's own date, not the server's â€” a Sunday-evening review
     // has to be Sunday where the user is, which is what the reminder already assumes for time.
     return { date, hhmm: `${g('hour')}:${g('minute')}`, weekday: new Date(date + 'T12:00:00Z').getUTCDay() };
-  } catch { return null; } // unknown/invalid tz string — skip this user rather than guess
+  } catch { return null; } // unknown/invalid tz string â€” skip this user rather than guess
 }
 setInterval(() => {
   for (const user of db.users) {
@@ -142,18 +143,18 @@ setInterval(() => {
     if (user.lastReminder === now.date) continue;
     if ((S.workouts || []).some(w => w.d === now.date)) continue;
     const rid = effectiveRoutineId(S, now.date);
-    if (!rid) continue; // rest day — nothing planned
+    if (!rid) continue; // rest day â€” nothing planned
     const routine = (S.routines || []).find(r => r.id === rid);
     console.log('reminder firing', user.id, rid);
     user.lastReminder = now.date;
     saveDb();
     sendPush(user.id, {
-      title: routine ? `${routine.emoji || '🏋️'} ${routine.name} today` : 'Workout planned today',
-      body: "It's on your plan — let's go 💪",
+      title: routine ? `${routine.emoji || 'ðŸ‹ï¸'} ${routine.name} today` : 'Workout planned today',
+      body: "It's on your plan â€” let's go ðŸ’ª",
       tag: 'day-reminder'
     });
   }
-// Checked every 10s (not 60s) — ticks aren't aligned to the top of the minute, so a 60s
+// Checked every 10s (not 60s) â€” ticks aren't aligned to the top of the minute, so a 60s
 // interval could sit on your target minute for up to 59s before noticing. 10s caps that at ~9s.
 }, 10000).unref();
 
@@ -176,7 +177,7 @@ function verifySig(token) {
 // Bumping `sv` (POST /api/logout/all) makes every cookie ever handed out for that account stop
 // verifying, which is the only revocation there was before short of deleting ./data/secret and
 // signing out the whole instance. Cookies minted before `sv` existed have no third field and are
-// read as version 0, matching a user who has never bumped — they stay valid until they expire.
+// read as version 0, matching a user who has never bumped â€” they stay valid until they expire.
 const sessionVersion = user => user.sv || 0;
 function makeSession(user) {
   const exp = Date.now() + SESSION_DAYS * 86400000;
@@ -201,7 +202,7 @@ function readSession(req) {
   if (!Number.isInteger(claimed) || claimed !== sessionVersion(user)) return null;
   return user;
 }
-// Guard for /api/admin/* — resolves the caller and 401/403s if they aren't an admin.
+// Guard for /api/admin/* â€” resolves the caller and 401/403s if they aren't an admin.
 function requireAdmin(req, res) {
   const user = readSession(req);
   if (!user) { json(res, 401, { error: 'not signed in' }); return null; }
@@ -253,9 +254,9 @@ const b64uToBuf = s => Buffer.from(s, 'base64url');
 
 /* ---------- live presence (in-memory) ---------- */
 // Clients heartbeat /api/activity while a workout is on screen; the admin dashboard reads who's
-// live. Purely ephemeral — never persisted. Expires shortly after the last ping.
+// live. Purely ephemeral â€” never persisted. Expires shortly after the last ping.
 const presence = new Map();               // uid -> { name, exIdx, exTotal, setsDone, setsTotal, startedAt, updatedAt }
-const PRESENCE_TTL = 70000;               // ~3.5× the 20s client heartbeat
+const PRESENCE_TTL = 70000;               // ~3.5Ã— the 20s client heartbeat
 function livePresence(uid) {
   const p = presence.get(uid);
   if (!p) return null;
@@ -265,11 +266,16 @@ function livePresence(uid) {
 setInterval(() => { for (const [k, v] of presence) if (Date.now() - v.updatedAt > PRESENCE_TTL) presence.delete(k); }, 30000).unref();
 
 /* ---------- routes ---------- */
+// Shadow Rep: sign-in bridge to the food app (inert unless configured; see custom/foodsso.js)
+const foodSso = createFoodSso({ readSession });
+const clearCookies = foodSso.clearCookie ? [clearCookie, foodSso.clearCookie] : clearCookie;
+console.log('food sign-in bridge:', foodSso.ready ? 'on' : 'off');
+
 const routes = {
   'GET /api/health': async (req, res) => json(res, 200, { ok: true, users: db.users.length }),
 
   // Public config the login screen needs before anyone is signed in. `coach` is absent unless
-  // the instance has both switched the Coach on and successfully connected a provider — the
+  // the instance has both switched the Coach on and successfully connected a provider â€” the
   // single flag every piece of Coach UI hangs off, so an unconfigured instance is byte-for-byte
   // the app it was before the feature existed.
   'GET /api/config': async (req, res) => {
@@ -305,7 +311,7 @@ const routes = {
   'POST /api/register/verify': async (req, res) => {
     const body = await readBody(req);
     const c = takeChallenge(body.cid);
-    if (!c || !c.uid) return json(res, 400, { error: 'challenge expired — try again' });
+    if (!c || !c.uid) return json(res, 400, { error: 'challenge expired â€” try again' });
     let verification;
     try {
       verification = await verifyRegistrationResponse({
@@ -323,7 +329,7 @@ const routes = {
     let invite = null;
     if (INVITE_ONLY) {
       invite = db.invites.find(i => i.code === c.code && !i.usedBy && !i.revoked);
-      if (!invite) return json(res, 403, { error: 'invite code is no longer valid — ask for a new one' });
+      if (!invite) return json(res, 403, { error: 'invite code is no longer valid â€” ask for a new one' });
     }
     const user = { id: c.uid, name: c.name, created: new Date().toISOString() };
     if (invite) { user.invitedBy = invite.code; invite.usedBy = user.id; invite.usedAt = user.created; }
@@ -349,9 +355,9 @@ const routes = {
   'POST /api/login/verify': async (req, res) => {
     const body = await readBody(req);
     const c = takeChallenge(body.cid);
-    if (!c) return json(res, 400, { error: 'challenge expired — try again' });
+    if (!c) return json(res, 400, { error: 'challenge expired â€” try again' });
     const cred = db.creds.find(x => x.id === body.credential?.id);
-    if (!cred) return json(res, 404, { error: 'unknown passkey — create a profile first' });
+    if (!cred) return json(res, 404, { error: 'unknown passkey â€” create a profile first' });
     let verification;
     try {
       verification = await verifyAuthenticationResponse({
@@ -377,9 +383,9 @@ const routes = {
     json(res, 200, { user: { id: user.id, name: user.name, admin: isAdmin(user) } }, { 'Set-Cookie': sessionCookie(user) });
   },
 
-  'POST /api/logout': async (req, res) => json(res, 200, { ok: true }, { 'Set-Cookie': clearCookie }),
+  'POST /api/logout': async (req, res) => json(res, 200, { ok: true }, { 'Set-Cookie': clearCookies }),
 
-  // "Sign out everywhere" — bumps this user's session version, which invalidates every cookie
+  // "Sign out everywhere" â€” bumps this user's session version, which invalidates every cookie
   // ever issued for the account, on every device, including a copy someone else walked off with.
   // The caller's own cookie is cleared here too, so the browser doing it doesn't sit on a token
   // it no longer accepts. Passkeys are untouched: signing back in works immediately.
@@ -388,7 +394,7 @@ const routes = {
     if (!user) return json(res, 401, { error: 'not signed in' });
     user.sv = sessionVersion(user) + 1;
     saveDb();
-    json(res, 200, { ok: true }, { 'Set-Cookie': clearCookie });
+    json(res, 200, { ok: true }, { 'Set-Cookie': clearCookies });
   },
 
   'GET /api/data': async (req, res) => {
@@ -436,7 +442,7 @@ const routes = {
   'POST /api/push/test': async (req, res) => {
     const user = readSession(req);
     if (!user) return json(res, 401, { error: 'not signed in' });
-    await sendPush(user.id, { title: 'Shadow Rep', body: 'Test notification ✅ — this is what alerts look like.', tag: 'test' });
+    await sendPush(user.id, { title: 'Shadow Rep', body: 'Test notification âœ… â€” this is what alerts look like.', tag: 'test' });
     json(res, 200, { ok: true });
   },
 
@@ -526,7 +532,7 @@ const routes = {
 
   'GET /api/admin/invites': async (req, res) => {
     if (!requireAdmin(req, res)) return;
-    // resolve usedBy uid → name for display
+    // resolve usedBy uid â†’ name for display
     const invites = db.invites.map(i => ({
       ...i, usedByName: i.usedBy ? (db.users.find(u => u.id === i.usedBy) || {}).name || null : null
     }));
@@ -540,7 +546,7 @@ const routes = {
     // 16 hex chars = 64 bits, up from 8 chars / 32 bits. The app has no rate limiting by design
     // (that's the reverse proxy's job) and /api/register/options tells a caller whether a code is
     // good, so the code itself has to be the thing that isn't worth guessing. Codes already in
-    // db.json keep working — validation is an exact string compare, never a length or format check.
+    // db.json keep working â€” validation is an exact string compare, never a length or format check.
     do { code = crypto.randomBytes(8).toString('hex').toUpperCase(); } while (db.invites.some(i => i.code === code));
     const invite = { code, note: String(body.note || '').slice(0, 60), createdBy: admin.id, created: new Date().toISOString() };
     db.invites.push(invite);
@@ -553,7 +559,7 @@ const routes = {
     const body = await readBody(req);
     const inv = db.invites.find(i => i.code === String(body.code || '').toUpperCase());
     if (!inv) return json(res, 404, { error: 'no such code' });
-    if (inv.usedBy) return json(res, 400, { error: 'already used — cannot revoke' });
+    if (inv.usedBy) return json(res, 400, { error: 'already used â€” cannot revoke' });
     db.invites = db.invites.filter(i => i.code !== inv.code);
     saveDb();
     json(res, 200, { ok: true });
@@ -566,7 +572,8 @@ const routes = {
   ...coachRoutes({ json, readBody, readSession, requireAdmin }),
 
   /* ---------- Shadow Rep: "Today's nutrition" (inert unless NUTRITRACE_* is set) ---------- */
-  ...nutritionRoutes({ json, readSession })
+  ...nutritionRoutes({ json, readSession }),
+  ...foodSso.routes
 };
 
 /* ---------- Coach: boot recovery, notifications, scheduled reviews ---------- */
@@ -597,3 +604,4 @@ http.createServer(async (req, res) => {
     if (!res.headersSent) json(res, 500, { error: 'server error' });
   }
 }).listen(PORT, () => console.log(`gym-api on :${PORT} (rpID=${RP_ID}, origin=${ORIGIN})`));
+
