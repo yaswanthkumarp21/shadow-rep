@@ -155,3 +155,6 @@
 
 ## 2026-10-26 - Gates and dungeons on the Workout tab
 - Start tab: "Gate detected" banner (original arch+portal SVG, rank E-S from exercise count, custom/Gate.jsx). Active workout: Dungeon floors strip (one pip per exercise/superset). Finishing a workout without a record now toasts "Gate cleared". All System-skin only; Workout.jsx gets 3 one-line additions. Art is original.
+
+## 2026-10-26 - Stats and Food screens
+- Stats: new "Hunter record" panel (total XP, XP by source, next-rank gap; custom/SystemStats.jsx), coloured stat tiles, cyan-violet activity heatmap, glowing chart lines, HUD section headings. Food (apps/food/theme/system.css): richer backdrop, glowing calorie/macro/water gauges, coloured meal edges, lit metric/range pills. Verified on a throwaway NutriTrace (own secret, fake data, removed afterwards); your real food data was not touched.

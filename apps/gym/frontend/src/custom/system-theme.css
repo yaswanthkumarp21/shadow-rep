@@ -326,3 +326,44 @@ html[data-skin="system"] #tabbar button.on{background:radial-gradient(60% 70% at
 .sys-floors-pips i.done{background:linear-gradient(90deg,var(--sys-violet),var(--acc));border-color:transparent;box-shadow:0 0 8px var(--sys-glow)}
 .sys-floors-pips i.now{background:rgba(56,189,248,.25);border-color:var(--acc)}
 .sys-floors-n{font-family:var(--font-hud);font-weight:700;font-size:12px;letter-spacing:.08em;color:var(--label-2)}
+
+/* ============================================================ Stats screen ==== */
+.sys-rec-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.sys-rec-main{min-width:0}
+.sys-rec-xp{font-family:var(--font-hud);font-weight:700;font-size:26px;letter-spacing:.04em;color:var(--label);text-shadow:0 0 16px var(--sys-glow);line-height:1.1}
+.sys-rec-xp small{font-family:var(--font-ui);font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--label-2);text-shadow:none;margin-left:4px}
+.sys-rec-next{font-family:var(--font-ui);font-weight:500;font-size:15px;letter-spacing:.04em;color:var(--label-2);margin-top:3px}
+.sys-src{display:flex;flex-direction:column;gap:9px;padding-top:12px;border-top:1px solid var(--sep)}
+.sys-src-row{--c:var(--acc);display:grid;grid-template-columns:86px 1fr auto;align-items:center;gap:10px}
+.sys-src-k{font-family:var(--font-ui);font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.sys-src-bar{height:6px;background:var(--surface-3);position:relative;overflow:hidden}
+.sys-src-bar i{display:block;height:100%;background:linear-gradient(90deg,color-mix(in srgb,var(--c) 40%,#0a0f1c),var(--c));box-shadow:0 0 8px color-mix(in srgb,var(--c) 55%,transparent)}
+.sys-src-v{font-family:var(--font-hud);font-weight:700;font-size:12px;letter-spacing:.06em;color:var(--label);min-width:44px;text-align:right}
+
+/* stat tiles: a coloured top edge per tile, readouts in the HUD face */
+html[data-skin="system"] .tiles .tile{
+  position:relative;border:1px solid var(--sys-edge);border-top:2px solid var(--tc,var(--acc));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--tc,var(--acc)) 12%,rgba(17,27,51,.85)),rgba(8,14,28,.92));
+  box-shadow:0 0 20px -10px var(--tc,var(--acc));
+}
+html[data-skin="system"] .tiles .tile:nth-child(1){--tc:#38bdf8}
+html[data-skin="system"] .tiles .tile:nth-child(2){--tc:#8b7cf6}
+html[data-skin="system"] .tiles .tile:nth-child(3){--tc:#fb923c}
+html[data-skin="system"] .tiles .tile:nth-child(4){--tc:#34d399}
+html[data-skin="system"] .tile .l{font-family:var(--font-ui);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--label-2)}
+html[data-skin="system"] .tile .l .icn{color:var(--tc,var(--acc))}
+html[data-skin="system"] .tile .v{font-family:var(--font-hud);font-weight:700;letter-spacing:.04em;font-size:24px;text-shadow:0 0 14px color-mix(in srgb,var(--tc,var(--acc)) 55%,transparent)}
+
+/* activity heatmap: cool cyan to violet, with a faint glow on busy days */
+html[data-skin="system"] .hm-c{border-radius:2px;background:rgba(26,39,69,.8)}
+html[data-skin="system"] .hm-c.l1{background:#17406b}
+html[data-skin="system"] .hm-c.l2{background:#1d6fa8}
+html[data-skin="system"] .hm-c.l3{background:#38bdf8}
+html[data-skin="system"] .hm-c.l4{background:#a78bfa;box-shadow:0 0 6px rgba(167,139,250,.8)}
+html[data-skin="system"] .hm-c.today{box-shadow:0 0 0 1.5px #e8f3ff}
+
+/* charts: glowing lines */
+html[data-skin="system"] .chart svg polyline{filter:drop-shadow(0 0 4px currentColor)}
+html[data-skin="system"] .chart svg circle{filter:drop-shadow(0 0 3px var(--acc))}
+html[data-skin="system"] h4.sec{font-family:var(--font-hud);font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--label-2);display:flex;align-items:center;gap:8px}
+html[data-skin="system"] h4.sec::before{content:'';width:3px;height:12px;background:var(--acc);box-shadow:0 0 8px var(--sys-glow)}

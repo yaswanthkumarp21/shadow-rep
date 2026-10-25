@@ -190,3 +190,48 @@ html[data-skin="system"] .material-symbols-rounded{font-family:'Material Symbols
 @keyframes sysBtnSweep{0%,60%{transform:translateX(-170%) skewX(-20deg)}100%{transform:translateX(380%) skewX(-20deg)}}
 @keyframes sysSweep{0%,35%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
 
+
+/* ================================================== v2 polish (static, no new motion) ==== */
+/* richer backdrop, same as the gym app */
+html[data-skin="system"] body{
+  background-image:
+    radial-gradient(120% 55% at 50% -8%,rgba(56,189,248,.16),transparent 62%),
+    radial-gradient(90% 40% at 100% 100%,rgba(109,40,217,.20),transparent 65%),
+    radial-gradient(70% 35% at 0% 70%,rgba(56,189,248,.07),transparent 70%),
+    linear-gradient(rgba(56,189,248,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,189,248,.035) 1px,transparent 1px);
+  background-size:100% 100%,100% 100%,100% 100%,44px 44px,44px 44px;
+  background-attachment:fixed;
+}
+html[data-skin="system"] .card{box-shadow:0 1px 0 rgba(150,215,255,.22) inset,0 0 0 1px rgba(56,189,248,.05) inset,0 0 26px -8px var(--sys-glow),0 14px 30px -16px rgba(0,0,0,.9)}
+
+/* the day's bars at the bottom of the diary: calories / macros / water read as three glowing gauges */
+html[data-skin="system"] .diary-bottom-bar{
+  background:linear-gradient(180deg,rgba(14,22,42,.92),rgba(5,7,13,.96));
+  border-top:1px solid rgba(120,200,255,.35);box-shadow:0 -10px 30px -12px var(--sys-glow);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+}
+html[data-skin="system"] .dbb-progress,
+html[data-skin="system"] .dbb-macro-bar,
+html[data-skin="system"] .dbb-water-strip{height:5px;margin:0 12px 4px;border-radius:0;background:var(--surface-3);overflow:hidden}
+html[data-skin="system"] .dbb-progress-fill{background:linear-gradient(90deg,#b45309,var(--macro-calories));box-shadow:0 0 10px rgba(251,191,36,.6)}
+html[data-skin="system"] .dbb-water-strip-fill{background:linear-gradient(90deg,#0e7490,#22d3ee);box-shadow:0 0 10px rgba(34,211,238,.55)}
+html[data-skin="system"] .dbb-mb-p{box-shadow:0 0 8px -1px var(--macro-protein)}
+html[data-skin="system"] .dbb-mb-c{box-shadow:0 0 8px -1px var(--macro-carbs)}
+html[data-skin="system"] .dbb-mb-f{box-shadow:0 0 8px -1px var(--macro-fat)}
+
+/* meal cards: a lit edge on the left, HUD headings */
+html[data-skin="system"] .meal-col .card{border-left:3px solid var(--accent)}
+html[data-skin="system"] .meal-col .card:nth-child(2){border-left-color:#34d399}
+html[data-skin="system"] .meal-col .card:nth-child(3){border-left-color:#a78bfa}
+html[data-skin="system"] .meal-col .card:nth-child(4){border-left-color:#fb923c}
+
+/* Statistics: metric and range pills */
+html[data-skin="system"] :is(.pill-btn,.stats-rail-metric,.range-btn){
+  font-family:var(--font-ui);font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--border-strong);
+}
+html[data-skin="system"] :is(.pill-btn,.stats-rail-metric,.range-btn).active{
+  color:var(--accent);background:var(--accent-dim);border-color:var(--accent);box-shadow:0 0 14px -4px var(--sys-glow),0 0 0 1px rgba(56,189,248,.2) inset;
+}
+/* charts: glowing lines */
+html[data-skin="system"] .page-shell svg :is(polyline,path[stroke]:not([fill="none"][stroke="none"])){filter:drop-shadow(0 0 3px rgba(56,189,248,.55))}
