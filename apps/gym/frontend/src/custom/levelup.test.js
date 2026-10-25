@@ -165,3 +165,18 @@ describe('playerStatus', () => {
     expect(Array.isArray(p.quests)).toBe(true)
   })
 })
+
+describe('shadow army', () => {
+  it('starts empty and summons soldiers as milestones are reached', async () => {
+    const { shadowArmy } = await import('./levelup.js')
+    const empty = base()
+    const p0 = playerStatus(empty, null, today)
+    const a0 = shadowArmy(empty, null, p0)
+    expect(a0.length).toBe(8)
+    expect(a0.filter(a => a.unlocked)).toHaveLength(0)
+    const S = base({ workouts: [workout(today, { prs: ['bench'] })] })
+    const a1 = shadowArmy(S, null, playerStatus(S, null, today))
+    const on = a1.filter(a => a.unlocked).map(a => a.id)
+    expect(on).toContain('vanguard'); expect(on).toContain('striker'); expect(on).not.toContain('ironclad')
+  })
+})

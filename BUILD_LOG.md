@@ -149,3 +149,6 @@
 - VERIFIED: 10 new unit tests; INTEGRATION against a real throwaway NutriTrace (own secret + a test user): the minted cookie is recognised by /api/auth/me, the CSRF value is accepted for writes, a write without CSRF is refused (403), a tampered cookie is rejected, no cookie gives 401. Production: bridge reports "on"; the endpoint without a session redirects to /food/ with no cookie; a hostile next= is ignored. NOT verified by me: the real signed-in click-through (needs Yash's passkey). Expected: Shadow Rep -> Food opens the diary with no login screen.
 - Tests: API 81 total / 76 pass (the same 5 old date-sensitive review/payload tests fail as on the original code); frontend 198 pass.
 - TAILSCALE: researched options only, nothing changed. Decision pending from Yash.
+
+## 2026-10-26 - Hero silhouette + shadow army (requested by Yash)
+- Home: original hooded Hunter silhouette that gains aura/gear with rank (E to S); Shadow Army card of 8 soldiers unlocked by real milestones (levelup.js ARMY, derived, nothing stored); a newly earned soldier plays a one-time summon. Art is original SVG (custom/Shadows.jsx); no series artwork or names. game-icons.net (CC BY 3.0) icons NOT added yet - credit required when they are.

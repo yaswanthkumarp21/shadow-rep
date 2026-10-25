@@ -107,3 +107,17 @@
   0%{opacity:1;transform:rotate(var(--a)) translateX(0) scale(1)}
   100%{opacity:0;transform:rotate(var(--a)) translateX(var(--d)) scale(.2)}
 }
+
+/* ---------- hero eyes breathe slowly; a newly summoned soldier rises out of the shadows (plays once) ---------- */
+@media (prefers-reduced-motion: no-preference){
+  html[data-skin="system"]:not([data-motion="off"]) .hero-eyes{animation:sysEyes 3.2s ease-in-out infinite}
+  html[data-skin="system"]:not([data-motion="off"]) .hero-aura{transform-origin:50% 55%;animation:sysAura 4.4s ease-in-out infinite}
+  html[data-skin="system"]:not([data-motion="off"]) .sys-soldier.fresh{animation:sysArise 1.3s var(--ease) both}
+}
+@keyframes sysEyes{0%,100%{opacity:.75}50%{opacity:1}}
+@keyframes sysAura{0%,100%{opacity:.8;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+@keyframes sysArise{
+  0%{opacity:0;transform:translateY(14px) scale(.6);filter:drop-shadow(0 0 0 #a78bfa) blur(3px)}
+  55%{opacity:1;transform:translateY(-2px) scale(1.12);filter:drop-shadow(0 0 16px #a78bfa) blur(0)}
+  100%{opacity:1;transform:none}
+}

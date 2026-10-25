@@ -131,3 +131,31 @@ export function playerStatus(S, nut, today) {
   const { total, parts } = breakdownXP(S, nut)
   return { ...levelFor(total), parts, stats: computeStats(S, nut, today), quests: dailyQuests(S, nut, today) }
 }
+
+/* ------------------------------------------------------------- shadow army -- */
+// Milestones that "summon" a shadow soldier. Pure functions of the same real data, so nothing is stored:
+// a soldier is simply there once its milestone has been reached.
+export const ARMY = [
+  { id: 'vanguard', name: 'Vanguard', hint: 'Finish your first workout', test: c => c.workouts >= 1 },
+  { id: 'ironclad', name: 'Ironclad', hint: 'Finish 10 workouts', test: c => c.workouts >= 10 },
+  { id: 'striker', name: 'Striker', hint: 'Set a personal record', test: c => c.prs >= 1 },
+  { id: 'sentinel', name: 'Sentinel', hint: 'Train 2 weeks in a row', test: c => c.streak >= 2 },
+  { id: 'berserker', name: 'Berserker', hint: 'Complete 100 sets', test: c => c.sets >= 100 },
+  { id: 'provider', name: 'Provider', hint: 'Log food on 7 days', test: c => c.foodDays >= 7 },
+  { id: 'knight', name: 'Knight', hint: 'Reach level 10', test: c => c.level >= 10 },
+  { id: 'marshal', name: 'Marshal', hint: 'Reach rank B', test: c => 'BAS'.includes(c.rank) }
+]
+
+/** The army for this player: every soldier with whether it has been summoned. */
+export function shadowArmy(S, nut, p) {
+  const workouts = S.workouts || []
+  const ctx = {
+    workouts: workouts.length,
+    prs: workouts.reduce((n, w) => n + ((w.prs || []).length), 0),
+    sets: workouts.reduce((n, w) => n + setsDone(w), 0),
+    streak: streakWeeks(S),
+    foodDays: (nut?.days || []).filter(d => (d.items || 0) >= MIN_MEAL_ITEMS).length,
+    level: p.level, rank: p.stats.rank
+  }
+  return ARMY.map(a => ({ id: a.id, name: a.name, hint: a.hint, unlocked: !!a.test(ctx) }))
+}
