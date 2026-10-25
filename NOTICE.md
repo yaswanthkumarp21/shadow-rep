@@ -8,7 +8,7 @@ Shadow Rep is a modified combination of two free-software projects, both under t
   geometry and the bundled AI-provider CLI).
 - **NutriTrace** — TraceApps. Run unmodified from its published container image; Shadow Rep re-skins and renames it from the outside.
 
-Other third-party material: Open Food Facts data (ODbL, © Open Food Facts contributors), MuscleMap (MIT, Melih Colpan), the Orbitron
+Other third-party material: Open Food Facts data (ODbL, © Open Food Facts contributors), MuscleMap (MIT, Melih Colpan), icons from game-icons.net by Lorc, Delapouite and DarkZaitzev (CC BY 3.0; backdrop removed; see `apps/gym/frontend/src/custom/gameicons/NOTICE.txt`), the Orbitron
 and Rajdhani fonts (SIL OFL-1.1; see `apps/gym/frontend/src/custom/fonts/NOTICE.txt`). The Shadow Rep logo, rank sigils and rune ring
 are original artwork.
 

@@ -29,8 +29,8 @@ export default function CreditsView() {
     <Item title="Shadow Rep">
       A private, self-hosted gym and food tracker with a game-style System look. It is built on two
       open-source projects (below) and combines them into one app with its own name, artwork and features.
-      The logo, rank sigils and rune ring are original artwork drawn for this project; no third-party or
-      series artwork is used. No analytics or trackers are used.
+      The logo, rank sigils, rune ring, hero, shadow soldiers and gates are original artwork drawn for this project; no
+      series artwork is used (the small icons are credited below). No analytics or trackers are used.
       It is modified software: the full source code — the foundations plus everything added here — is available
       to anyone who uses this instance. Ask the person who runs it.
     </Item>
@@ -49,6 +49,13 @@ export default function CreditsView() {
       <A href="https://github.com/TraceApps/nutritrace">NutriTrace</A> by TraceApps, free software under the
       AGPL-3.0. It runs in its own container; this app re-skins it with a stylesheet and replaces its name and
       logo, and does not change its program code.
+    </Item>
+
+    <Item title="Icons: game-icons.net">
+      Small icons (crown, swords, scroll, muscle, lungs and others) are from{' '}
+      <A href="https://game-icons.net">game-icons.net</A> by Lorc, Delapouite and DarkZaitzev, under the{' '}
+      <A href="https://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0</A> licence. Only their
+      black backdrop was removed so they can be recoloured.
     </Item>
 
     <Item title="Open Food Facts">

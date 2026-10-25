@@ -44,3 +44,5 @@ The product's own name, logo and interface are Shadow Rep's.
 Because the gym app's history is part of this repository, upstream changes can be merged with
 `git subtree pull --prefix=apps/gym <upstream-repo-url> main`. Expect conflicts around the renamed strings and the Shadow Rep
 additions; the files that were modified upstream-side are listed in `BUILD_LOG.md`.
+
+- Icons: 14 small icons from game-icons.net (CC BY 3.0; Lorc, Delapouite, DarkZaitzev) in apps/gym/frontend/src/custom/gameicons/, backdrop removed, shown as recolourable masks. Credit: in-app Credits, NOTICE.md, gameicons/NOTICE.txt.

@@ -8,6 +8,7 @@ import { useNutritionRange } from './useNutrition.js'
 import { playerStatus } from './levelup.js'
 import { RANKS } from './levelup-config.js'
 import { RankSigil } from './Emblems.jsx'
+import GameIcon from './GameIcon.jsx'
 
 // Stats screen: the "Hunter record" panel — where your XP comes from, and how far the next rank is.
 // Derived from the same real data as Home; renders nothing in the Classic skin.
@@ -43,13 +44,13 @@ export default function SystemStats() {
 
   return <div className="card sys-card sys-record" aria-label={t('Hunter record')}>
     <div className="sys-head">
-      <span className="sys-tag">{t('Hunter record')}</span>
+      <span className="sys-tag"><GameIcon name="diamond-trophy" />{t('Hunter record')}</span>
       <span className="sys-count">{t('LV')} {p.level}</span>
     </div>
     <div className="sys-rec-top">
       <RankSigil rank={st.rank} size={54} />
       <div className="sys-rec-main">
-        <div className="sys-rec-xp">{total.toLocaleString()} <small>{t('total XP')}</small></div>
+        <div className="sys-rec-xp"><GameIcon name="crystal-shine" size={22} />{total.toLocaleString()} <small>{t('total XP')}</small></div>
         <div className="sys-rec-next">{nr
           ? t('{0} more overall score to reach rank {1}', Math.max(0, nr.min - st.overall), nr.rank)
           : t('Top rank reached')}</div>

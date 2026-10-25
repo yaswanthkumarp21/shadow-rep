@@ -367,3 +367,12 @@ html[data-skin="system"] .chart svg polyline{filter:drop-shadow(0 0 4px currentC
 html[data-skin="system"] .chart svg circle{filter:drop-shadow(0 0 3px var(--acc))}
 html[data-skin="system"] h4.sec{font-family:var(--font-hud);font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--label-2);display:flex;align-items:center;gap:8px}
 html[data-skin="system"] h4.sec::before{content:'';width:3px;height:12px;background:var(--acc);box-shadow:0 0 8px var(--sys-glow)}
+
+/* game-icons.net icons (CC BY 3.0): masked, so they take the text colour */
+.gi{display:inline-block;flex:none;vertical-align:-.18em;background:currentColor;
+  -webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center}
+.sys-tag .gi,.sys-gate-tag .gi,.sys-hero-k .gi{margin-right:7px;vertical-align:-.2em}
+.sys-stat .k .gi{margin-right:5px;vertical-align:-.15em}
+.sys-qlabel .gi{margin-right:7px;color:var(--acc);vertical-align:-.15em}
+.sys-floors-k .gi{margin-right:6px;vertical-align:-.2em}
+.sys-rec-xp .gi{margin-right:6px;color:var(--sys-violet-text);vertical-align:-.12em}

@@ -2,6 +2,7 @@ import './system-theme.css'
 import { useId } from 'react'
 import { t } from '../lib/i18n.js'
 import { useSystemSkin } from './skin.js'
+import GameIcon from './GameIcon.jsx'
 
 // Gates & dungeons for the Workout tab (System skin only). Original artwork — an arch of stone with a swirling
 // portal inside — drawn here as inline SVG; the slow swirl lives in system-motion.css and stops with the
@@ -47,7 +48,7 @@ export function GateBanner({ name, exercises }) {
   return <div className={'sys-gate r-' + rank} role="note" aria-label={t('Gate rank {0}: {1}', rank, name)}>
     <GateArt rank={rank} />
     <div className="sys-gate-copy">
-      <div className="sys-gate-tag">{t('Gate detected')}</div>
+      <div className="sys-gate-tag"><GameIcon name="dungeon-gate" size={13} />{t('Gate detected')}</div>
       <div className="sys-gate-rank">{rank}-{t('Rank')} {t('dungeon')}</div>
       <div className="sys-gate-name">{name}</div>
       <div className="sys-gate-sub">{t('{0} floors to clear', exercises)}</div>
@@ -60,7 +61,7 @@ export function DungeonFloors({ floor, floors }) {
   const sys = useSystemSkin()
   if (!sys || !floors) return null
   return <div className="sys-floors" aria-label={t('Floor {0} of {1}', floor, floors)}>
-    <span className="sys-floors-k">{t('Dungeon')}</span>
+    <span className="sys-floors-k"><GameIcon name="magic-portal" size={13} />{t('Dungeon')}</span>
     <span className="sys-floors-pips" aria-hidden="true">
       {Array.from({ length: floors }, (_, i) => <i key={i} className={i + 1 < floor ? 'done' : i + 1 === floor ? 'now' : ''} />)}
     </span>

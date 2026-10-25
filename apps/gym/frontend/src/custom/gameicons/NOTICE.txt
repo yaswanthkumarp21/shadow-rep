@@ -1,0 +1,10 @@
+Icons in this folder come from game-icons.net (https://game-icons.net) and are licensed under
+Creative Commons Attribution 3.0 (CC BY 3.0): https://creativecommons.org/licenses/by/3.0/
+
+Authors (see sources.txt for which icon is whose):
+  Lorc          https://lorcblog.blogspot.com
+  Delapouite    https://delapouite.com
+  DarkZaitzev   https://darkzaitzev.deviantart.com
+
+Changes made: the black square backdrop of each SVG was removed so the icon can be recoloured; nothing else.
+Icons made by Lorc, Delapouite and DarkZaitzev. Available on https://game-icons.net

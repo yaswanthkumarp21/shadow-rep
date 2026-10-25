@@ -161,3 +161,6 @@
 
 ## 2026-10-26 - Hunter's rations (Diary header)
 - apps/food/theme/rations.js (loaded by brand.js): the Diary starts with today's three food quests (meals 3 foods, protein 90% of target, water goal) with progress bars and XP, using the food app's own /api/diary and /api/settings with the person's own session cookie - nothing sent elsewhere, nothing stored. Same rules as the gym quests. Verified on a throwaway NutriTrace: totals match the app's own panel (incl. quantity x2 items).
+
+## 2026-10-26 - game-icons.net icons
+- Added 14 icons (CC BY 3.0) with credit in the app, NOTICE.md and the icon folder. Used on Home (crown, shadow-follower, scroll, stats, quests), Workout (gate/portal), Stats (trophy, crystal).

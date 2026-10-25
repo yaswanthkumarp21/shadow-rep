@@ -10,16 +10,19 @@ import { useNutritionRange } from './useNutrition.js'
 import { playerStatus, shadowArmy } from './levelup.js'
 import { HeroSilhouette, ShadowSoldier } from './Shadows.jsx'
 import { useUI } from '../store/useUI.js'
+import GameIcon from './GameIcon.jsx'
 import { useCountUp, useGrow } from './motion.js'
 import { LogoMark, RankSigil, RuneRing, StatRadar } from './Emblems.jsx'
 
+const STAT_ICON = { STR: 'muscle-up', END: 'lungs', AGI: 'running-ninja', VIT: 'heart-beats' }
+const QUEST_ICON = { workout: 'crossed-swords' }
 const STAT_NAMES = { STR: 'Strength', END: 'Endurance', AGI: 'Agility', VIT: 'Vitality' }
 
 function Stat({ code, value, known = true }) {
   const shown = useCountUp(known ? value : 0, 1000)
   const width = useGrow(known ? Math.min(100, value) : 0, 160)
   return <div className={'sys-stat s-' + code} aria-label={`${STAT_NAMES[code]} ${known ? value : 'unknown'}`}>
-    <div className="k">{code}</div>
+    <div className="k"><GameIcon name={STAT_ICON[code]} size={14} />{code}</div>
     <div className="v">{known ? shown : '–'}</div>
     <div className="sys-bar sm"><i style={{ width: width + '%' }} /></div>
   </div>
@@ -81,7 +84,7 @@ export default function SystemHome() {
 
     <div className="card sys-card" aria-label={t('Player status')}>
       <div className="sys-head">
-        <span className="sys-tag">{t('Player status')}</span>
+        <span className="sys-tag"><GameIcon name="crown" />{t('Player status')}</span>
         <span className="sys-rankbox">
           <RankSigil rank={st.rank} size={42} />
           <span className="sys-rank" title={t('Overall score {0}', st.overall)}>{t('RANK')} {st.rank}</span>
@@ -90,7 +93,7 @@ export default function SystemHome() {
       <div className="sys-hero">
         <HeroSilhouette rank={st.rank} />
         <div className="sys-hero-copy">
-          <div className="sys-hero-k">{t('Hunter')}</div>
+          <div className="sys-hero-k"><GameIcon name="ghost-ally" size={13} />{t('Hunter')}</div>
           <div className="sys-hero-v">{t(st.title)}</div>
           <div className="sys-hero-n">{t('{0} of {1} shadows summoned', have, army.length)}</div>
         </div>
@@ -119,7 +122,7 @@ export default function SystemHome() {
 
     <div className="card sys-card" aria-label={t('Shadow army')}>
       <div className="sys-head">
-        <span className="sys-tag">{t('Shadow army')}</span>
+        <span className="sys-tag"><GameIcon name="shadow-follower" />{t('Shadow army')}</span>
         <span className="sys-count">{have}/{army.length}</span>
       </div>
       <div className="sys-army">
@@ -134,7 +137,7 @@ export default function SystemHome() {
 
     <div className="card sys-card" aria-label={t('Daily quests')}>
       <div className="sys-head">
-        <span className="sys-tag">{t('Daily quests')}</span>
+        <span className="sys-tag"><GameIcon name="scroll-unfurled" />{t('Daily quests')}</span>
         <span className="sys-count">{doneCount}/{p.quests.length}</span>
       </div>
       <div className="sys-quests">
@@ -142,7 +145,7 @@ export default function SystemHome() {
           return <div key={q.id} className={'sys-quest' + (q.done ? ' done' : '')}>
           <span className="sys-check" aria-hidden="true">{q.done && <Icon name="check" />}</span>
           <div className="sys-qtext">
-            <div className="sys-qlabel">{t(q.label)}</div>
+            <div className="sys-qlabel"><GameIcon name={QUEST_ICON[q.id] || 'rune-stone'} size={15} />{t(q.label)}</div>
             {q.detail && <div className="sys-qdetail">{q.detail}</div>}
             {m && <div className="sys-qbar" aria-hidden="true"><i style={{ width: frac + '%' }} /></div>}
           </div>

@@ -1,0 +1,14 @@
+lorc/crown
+lorc/crossed-swords
+lorc/scroll-unfurled
+lorc/rune-stone
+lorc/magic-portal
+delapouite/dungeon-gate
+lorc/muscle-up
+delapouite/lungs
+darkzaitzev/running-ninja
+delapouite/heart-beats
+lorc/shadow-follower
+lorc/ghost-ally
+lorc/crystal-shine
+delapouite/diamond-trophy
